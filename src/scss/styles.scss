@@ -1,5 +1,14 @@
 @import "~bootstrap/scss/bootstrap";
 
+* {
+    font-family: sans-serif;
+}
+
+.ico {
+    filter: invert(1);
+    height: 32px;
+}
+
 .score {
     position: absolute;
     color: #fff;

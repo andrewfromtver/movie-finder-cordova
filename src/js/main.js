@@ -4,9 +4,12 @@ import * as bootstrap from "bootstrap";
 
 import logo from "../assets/logo.jpeg"
 import noImage from "../assets/no-image.png"
+import trailerIco from "../assets/trailer.svg"
+import recommendationsIco from "../assets/recommendations.svg"
+import searchIco from "../assets/search.svg"
 
 import { getTrending, getFullInfo, getRecommendations, getItemsByPerson, searchEngine, getTrailers} from './api'
-
+import { lang, translate } from "./config";
 
 const renderTrendingCards = (type, time) => {
     container.innerHTML = `
@@ -54,14 +57,14 @@ const showItem = (type, id) => {
         </div>
     `
     getFullInfo(type, id, (data) => {
-        let showButtonText = "Show recommendations"
+        let showButtonText = `<img class="ico" src="${recommendationsIco}">`
         let similarButton = '' 
         if (type !== 'person') {
-            showButtonText = "Show trailers"
+            showButtonText = `<img class="ico" src="${trailerIco}">`
             similarButton = `
                 <button id="showSimilar" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
                     <i class="bi-cart-fill me-1"></i>
-                    Show similar
+                    <img class="ico" src="${recommendationsIco}">
                 </button>
             `
         }
@@ -417,6 +420,13 @@ const renderSearchResults = (query) => {
 }
 
 window.onload = () => {
+    let i = 0
+    if (lang === 'ru') i = 1
+    movies.innerText = translate[i].data[0]
+    tvs.innerText = translate[i].data[1]
+    mixed.innerText = translate[i].data[2]
+    persons.innerText = translate[i].data[3]
+    searchImg.src = searchIco
     brand.src = logo
     window.addEventListener('popstate', stateListener);
     stateListener()
