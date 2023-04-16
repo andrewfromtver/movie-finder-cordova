@@ -87,7 +87,6 @@ const showItem = (type, id) => {
                     <div class="row gx-4 gx-lg-5 align-items-center">
                         <div class="col-md-6"><img class="shadow-sm card-img-top mb-5 mb-md-0" src="${imgSrc}" alt="" /></div>
                         <div class="col-md-6">
-                            <div class="small mb-1">IMDB ID: ${data.imdb_id || " - "}</div>
                             <h1 class="display-5 fw-bolder">${data.title || data.name}</h1>
                             <div class="fs-5 mb-2">
                                 <span id="itemTag">${data.tagline || ""}</span>
@@ -95,10 +94,11 @@ const showItem = (type, id) => {
                             <div class="fs-5 mb-3">
                                 <span style="color: #13795b;" class="fw-bolder" id="itemGenres">${genList || ""}</span>
                             </div>
-                            <div class="fs-5 mb-3">
+                            <div class="fs-5 mb-4">
                                 <span style="padding: 8px; color: #fff; background-color: ${scoreColor}; width: ${scoreWidth};">${data.vote_average || data.birthday}</span>
                             </div>
                             <p class="lead">${data.overview || data.biography || ""}</p>
+                            <div  style="color: #dc3545;" class="pb-4">${data.release_date || data.last_air_date || ""}</div>
                             <div class="d-flex">
                                 <button id="showRecommendations" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
                                     <i class="bi-cart-fill me-1"></i>
@@ -128,6 +128,7 @@ const showItem = (type, id) => {
 }
 
 const stateListener = () => {
+    closeSideBarBtn.click()
     let href = window.location.href
     if (href.includes('trending')) {
         let type = href.split('_')[1]
@@ -137,6 +138,9 @@ const stateListener = () => {
         let type = href.split('_')[1]
         let id = href.split('_')[2]
         showItem(type, id)
+    } else if (href.includes('search')) {
+        let query = href.split('_')[1]
+        renderSearchResults(query)
     }
 }
 
@@ -164,7 +168,7 @@ const renderAddons = (type, id) => {
                             </button>
                             </h2>
                             <div id="panelsStayOpen-collapse-${counter}" class="accordion-collapse collapse ${showToggle}">
-                            <div style="margin-bottom: 56px;">
+                            <div>
                                 <iframe src="https://www.youtube.com/embed/${element.key}" frameborder="0"></iframe>
                             </div>
                             </div>
@@ -188,7 +192,7 @@ const renderAddons = (type, id) => {
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-8">
-                        <div id="recommendationsMovieId" class="small mb-1"></div>
+                    <div id="recommendationsMovieDate" style="color: #dc3545;" class="pb-1"></div>
                         <h1 id="recommendationsMovieName" class="display-5 fw-bolder"></h1>
                         <div class="fs-5 mb-2">
                             <span id="recommendationsMovieTag"></span>
@@ -242,7 +246,7 @@ const renderAddons = (type, id) => {
         indicatorsMovies.innerHTML = buttonsInner
 
         getFullInfo('movie', recMovieId, (data) => {
-            recommendationsMovieId.innerText = `IMDB ID: ${data.imdb_id || " --- "}`
+            recommendationsMovieDate.innerText = data.release_date || data.last_air_date || ""
             recommendationsMovieName.innerText = data.title || data.name
             recommendationsMovieTag.innerText = data.tagline || ""
             let genList = ''
@@ -256,7 +260,7 @@ const renderAddons = (type, id) => {
             setTimeout( () => {
             let id = document.querySelector(".movierec.active").id
             getFullInfo('movie', id, (data) => {
-                recommendationsMovieId.innerText = `IMDB ID: ${data.imdb_id || " --- "}`
+                recommendationsMovieDate.innerText = data.release_date || data.last_air_date || ""
                 recommendationsMovieName.innerText = data.title || data.name
                 recommendationsMovieTag.innerText = data.tagline || ""
                 let genList = ''
@@ -270,7 +274,7 @@ const renderAddons = (type, id) => {
             setTimeout( () => {
             let id = document.querySelector(".movierec.active").id
             getFullInfo('movie', id, (data) => {
-                recommendationsMovieId.innerText = `IMDB ID: ${data.imdb_id || " --- "}`
+                recommendationsMovieDate.innerText = data.release_date || data.last_air_date || ""
                 recommendationsMovieName.innerText = data.title || data.name
                 recommendationsMovieTag.innerText = data.tagline || ""
                 let genList = ''
@@ -294,7 +298,7 @@ const renderRecommendations = (type, id) => {
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-8">
-                        <div id="recommendationsMovieId" class="small mb-1"></div>
+                        <div id="recommendationsMovieDate" style="color: #dc3545;" class="pb-1"></div>
                         <h1 id="recommendationsMovieName" class="display-5 fw-bolder"></h1>
                         <div class="fs-5 mb-2">
                             <span id="recommendationsMovieTag"></span>
@@ -348,7 +352,7 @@ const renderRecommendations = (type, id) => {
         indicatorsMovies.innerHTML = buttonsInner
 
         getFullInfo(type, recMovieId, (data) => {
-            recommendationsMovieId.innerText = `IMDB ID: ${data.imdb_id || " --- "}`
+            recommendationsMovieDate.innerText = data.release_date || data.last_air_date || ""
             recommendationsMovieName.innerText = data.title || data.name
             recommendationsMovieTag.innerText = data.tagline || ""
             let genList = ''
@@ -362,7 +366,7 @@ const renderRecommendations = (type, id) => {
             setTimeout( () => {
             let id = document.querySelector(".movierec.active").id
             getFullInfo(type, id, (data) => {
-                recommendationsMovieId.innerText = `IMDB ID: ${data.imdb_id || " --- "}`
+                recommendationsMovieDate.innerText = data.release_date || data.last_air_date || ""
                 recommendationsMovieName.innerText = data.title || data.name
                 recommendationsMovieTag.innerText = data.tagline || ""
                 let genList = ''
@@ -376,7 +380,7 @@ const renderRecommendations = (type, id) => {
             setTimeout( () => {
             let id = document.querySelector(".movierec.active").id
             getFullInfo(type, id, (data) => {
-                recommendationsMovieId.innerText = `IMDB ID: ${data.imdb_id || " --- "}`
+                recommendationsMovieDate.innerText = data.release_date || data.last_air_date || ""
                 recommendationsMovieName.innerText = data.title || data.name
                 recommendationsMovieTag.innerText = data.tagline || ""
                 let genList = ''
@@ -427,6 +431,7 @@ window.onload = () => {
     tvs.innerText = translate[i].data[1]
     mixed.innerText = translate[i].data[2]
     persons.innerText = translate[i].data[3]
+    queryString.placeholder = translate[i].data[4]
     menuImg.src = menuIco
     searchImg.src = searchIco
     brand.src = logo
@@ -434,6 +439,6 @@ window.onload = () => {
     stateListener()
     searchForm.onsubmit = () => {
         event.preventDefault()
-        renderSearchResults(queryString.value)
+        window.location.href = `#search_${queryString.value}`
     }
 }
