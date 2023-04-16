@@ -4,9 +4,13 @@
     font-family: sans-serif;
 }
 
+button, input {
+    border-radius: 0 !important;
+}
+
 .ico {
     filter: invert(1);
-    height: 32px;
+    height: 24px;
 }
 
 .score {
@@ -55,7 +59,7 @@
 }
 
 #container {
-    margin: 56px auto 24px auto; display: 
+    margin: 12px auto 24px auto; display: 
     flex; flex-direction: row; 
     flex-wrap: wrap; 
     justify-content: center;

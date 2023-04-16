@@ -7,6 +7,7 @@ import noImage from "../assets/no-image.png"
 import trailerIco from "../assets/trailer.svg"
 import recommendationsIco from "../assets/recommendations.svg"
 import searchIco from "../assets/search.svg"
+import menuIco from "../assets/menu.svg"
 
 import { getTrending, getFullInfo, getRecommendations, getItemsByPerson, searchEngine, getTrailers} from './api'
 import { lang, translate } from "./config";
@@ -426,6 +427,7 @@ window.onload = () => {
     tvs.innerText = translate[i].data[1]
     mixed.innerText = translate[i].data[2]
     persons.innerText = translate[i].data[3]
+    menuImg.src = menuIco
     searchImg.src = searchIco
     brand.src = logo
     window.addEventListener('popstate', stateListener);
