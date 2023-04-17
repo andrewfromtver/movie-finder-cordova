@@ -9,6 +9,9 @@ import recommendationsIco from "../assets/recommendations.svg"
 import searchIco from "../assets/search.svg"
 import menuIco from "../assets/menu.svg"
 import noContent from "../assets/404.gif"
+import homeIco from "../assets/home.svg"
+import favoritesIco from "../assets/favorites.svg"
+import settingsIco from "../assets/settings.svg"
 
 import { getTrending, getFullInfo, getRecommendations, getItemsByPerson, searchEngine, getTrailers} from './api'
 import { lang, translate } from "./config";
@@ -136,15 +139,56 @@ const stateListener = () => {
         let type = href.split('_')[1]
         let time = href.split('_')[2]
         renderTrendingCards(type, time)
+
+        homeLink.classList = 'nav-link active'
+        randomfindmachineLink.classList = 'nav-link'
+        favoritesLink.classList = 'nav-link'
+        settingsLink.classList = 'nav-link'
     } else if (href.includes('show')) {
         let type = href.split('_')[1]
         let id = href.split('_')[2]
         showItem(type, id)
+
+        homeLink.classList = 'nav-link'
+        randomfindmachineLink.classList = 'nav-link'
+        favoritesLink.classList = 'nav-link'
+        settingsLink.classList = 'nav-link'
     } else if (href.includes('search')) {
         let query = href.split('_')[1]
         renderSearchResults(query)
+
+        homeLink.classList = 'nav-link'
+        randomfindmachineLink.classList = 'nav-link'
+        favoritesLink.classList = 'nav-link'
+        settingsLink.classList = 'nav-link'
+    } else if (href.includes('randomfindmachine')) {
+        container.innerHTML = ''
+
+        homeLink.classList = 'nav-link'
+        randomfindmachineLink.classList = 'nav-link active'
+        favoritesLink.classList = 'nav-link'
+        settingsLink.classList = 'nav-link'
+    } else if (href.includes('favorites')) {
+        container.innerHTML = ''
+
+        homeLink.classList = 'nav-link'
+        randomfindmachineLink.classList = 'nav-link'
+        favoritesLink.classList = 'nav-link active'
+        settingsLink.classList = 'nav-link'
+    } else if (href.includes('settings')) {
+        container.innerHTML = ''
+
+        homeLink.classList = 'nav-link'
+        randomfindmachineLink.classList = 'nav-link'
+        favoritesLink.classList = 'nav-link'
+        settingsLink.classList = 'nav-link active'
     } else {
         renderTrendingCards('all', 'week')
+
+        homeLink.classList = 'nav-link active'
+        randomfindmachineLink.classList = 'nav-link'
+        favoritesLink.classList = 'nav-link'
+        settingsLink.classList = 'nav-link active'
     }
 }
 
@@ -493,6 +537,10 @@ const renderSearchResults = (query) => {
 window.onload = () => {
     let i = 0
     if (lang === 'ru') i = 1
+    home.src = homeIco
+    search.src = searchIco
+    favorites.src = favoritesIco
+    settings.src = settingsIco
     movies.innerText = translate[i].data[0]
     tvs.innerText = translate[i].data[1]
     mixed.innerText = translate[i].data[2]
