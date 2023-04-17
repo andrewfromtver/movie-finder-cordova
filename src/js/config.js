@@ -1,6 +1,19 @@
 export const apiUrl = 'https://api.themoviedb.org'
 export const apiKey = 'dcaf7f5ea224596464b7714bac28142f'
-export const lang = 'en'
+
+import ruIco from "../assets/ru.png"
+import usaIco from "../assets/usa.png"
+
+export let lang = 'en'
+if (sessionStorage.getItem('lang') == 1) {
+    lang = 'ru'
+    langIcon.src = ruIco
+    langSwitch.checked = true
+} else {
+    lang = 'en'
+    langIcon.src = usaIco
+    langSwitch.checked = false
+}
 
 export const translate = [
     {

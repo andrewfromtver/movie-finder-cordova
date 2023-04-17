@@ -159,7 +159,9 @@ const renderAddons = (type, id) => {
         let showToggle = 'show'
         let showClasslist = 'accordion-button'
         data.reverse().slice(0, 5).forEach(element => {
-            if (element.official) {
+            let noOfficialTrailers = true
+            if (lang === 'en') noOfficialTrailers = element.official
+            if (noOfficialTrailers) {
                 if (counter !== 1) {
                     showToggle = ''
                     showClasslist = 'accordion-button collapsed'
@@ -489,7 +491,6 @@ const renderSearchResults = (query) => {
 }
 
 window.onload = () => {
-    app.hidden = false
     let i = 0
     if (lang === 'ru') i = 1
     movies.innerText = translate[i].data[0]
@@ -506,4 +507,9 @@ window.onload = () => {
         event.preventDefault()
         window.location.href = `#search_${queryString.value}`
     }
+    langSwitch.onchange = () => {
+        langSwitch.checked ? sessionStorage.setItem('lang', 1) : sessionStorage.setItem('lang', 0)
+        window.location.reload()
+    }
+    app.hidden = false
 }
