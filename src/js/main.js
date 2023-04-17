@@ -16,6 +16,8 @@ import settingsIco from "../assets/settings.svg"
 import { getTrending, getFullInfo, getRecommendations, getItemsByPerson, searchEngine, getTrailers} from './api'
 import { lang, translate } from "./config";
 
+import { getTorrentByMagnet } from "./torrent"
+
 const renderTrendingCards = (type, time) => {
     container.innerHTML = `
         <div class="d-flex justify-content-center" style="margin-top: 40vh;">
