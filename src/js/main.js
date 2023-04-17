@@ -8,6 +8,7 @@ import trailerIco from "../assets/trailer.svg"
 import recommendationsIco from "../assets/recommendations.svg"
 import searchIco from "../assets/search.svg"
 import menuIco from "../assets/menu.svg"
+import noContent from "../assets/404.gif"
 
 import { getTrending, getFullInfo, getRecommendations, getItemsByPerson, searchEngine, getTrailers} from './api'
 import { lang, translate } from "./config";
@@ -34,7 +35,7 @@ const renderTrendingCards = (type, time) => {
                 imgSrc = `https://image.tmdb.org/t/p/w500/${element.poster_path || element.profile_path}`
             }
             inner += `
-                <div class="card shadow-sm" style="max-width: 256px; width: calc(100% - 32px); margin: 48px 16px 0 16px;">
+                <div class="card shadow-sm" style="max-width: 320px; width: calc(100% - 16px); margin: 48px 8px 0 8px;">
                     <a href="#show_${element.media_type || type}_${id}">
                         <img src="${imgSrc}" class="card-img-top" alt="${element.original_title}">
                     </a>
@@ -70,9 +71,10 @@ const showItem = (type, id) => {
             `
         }
         let scoreColor = '#dc3545'
-        let scoreWidth = 'auto'
+        let scorePadding = 'auto'
         if (data.vote_average > 5) scoreColor = '#fd7e14'
         if (data.vote_average > 7.5) scoreColor = '#13795b'
+        if (data.vote_average || data.birthday) scorePadding = '8px'
         let genList = ''
         if (type !== 'person') data.genres.forEach(element => {
             genList += `${element.name} `
@@ -95,7 +97,7 @@ const showItem = (type, id) => {
                                 <span style="color: #13795b;" class="fw-bolder" id="itemGenres">${genList || ""}</span>
                             </div>
                             <div class="fs-5 mb-4">
-                                <span style="padding: 8px; color: #fff; background-color: ${scoreColor}; width: ${scoreWidth};">${data.vote_average || data.birthday}</span>
+                                <span style="padding: ${scorePadding}; color: #fff; background-color: ${scoreColor};">${data.vote_average || data.birthday || ""}</span>
                             </div>
                             <p class="lead">${data.overview || data.biography || ""}</p>
                             <div  style="color: #dc3545;" class="pb-4">${data.release_date || data.last_air_date || ""}</div>
@@ -141,6 +143,8 @@ const stateListener = () => {
     } else if (href.includes('search')) {
         let query = href.split('_')[1]
         renderSearchResults(query)
+    } else {
+        renderTrendingCards('all', 'week')
     }
 }
 
@@ -154,8 +158,8 @@ const renderAddons = (type, id) => {
         let counter = 1
         let showToggle = 'show'
         let showClasslist = 'accordion-button'
-        data.forEach(element => {
-            if (true) { //element.official
+        data.reverse().slice(0, 5).forEach(element => {
+            if (element.official) {
                 if (counter !== 1) {
                     showToggle = ''
                     showClasslist = 'accordion-button collapsed'
@@ -182,6 +186,13 @@ const renderAddons = (type, id) => {
         if (document.getElementById('panelsStayOpen-collapse-1')) {
             setTimeout( () => {document.getElementById('panelsStayOpen-collapse-1').scrollIntoView({ behavior: 'smooth', block: 'center'}) }, 250);
         }
+    },
+    () => {
+        const message = new bootstrap.Toast(toast);
+        let i = 0
+        if (lang === 'ru') i = 1
+        toastMsg.innerText = translate[i].data[6]
+        message.show();
     })
     if (type === 'person') getItemsByPerson('movie', id, 1, (data) => {
         let recMovieId
@@ -244,7 +255,6 @@ const renderAddons = (type, id) => {
         `
         recommendations.innerHTML = inner
         indicatorsMovies.innerHTML = buttonsInner
-
         getFullInfo('movie', recMovieId, (data) => {
             recommendationsMovieDate.innerText = data.release_date || data.last_air_date || ""
             recommendationsMovieName.innerText = data.title || data.name
@@ -255,7 +265,6 @@ const renderAddons = (type, id) => {
             });
             recommendationsMovieGenres.innerText = genList || ""
         })
-
         recSwitchPrev.onclick = () => {
             setTimeout( () => {
             let id = document.querySelector(".movierec.active").id
@@ -285,6 +294,20 @@ const renderAddons = (type, id) => {
             }) }, 1050)
         }
         loadingTrigger[0].onload = () => { recommendations.scrollIntoView({ behavior: 'smooth', block: 'center'}) }  
+    },
+    () => {
+        const message = new bootstrap.Toast(toast);
+        let i = 0
+        if (lang === 'ru') i = 1
+        toastMsg.innerText = translate[i].data[5]
+        message.show();
+    },
+    () => {
+        const message = new bootstrap.Toast(toast);
+        let i = 0
+        if (lang === 'ru') i = 1
+        toastMsg.innerText = translate[i].data[5]
+        message.show();
     })
 }
 
@@ -390,7 +413,16 @@ const renderRecommendations = (type, id) => {
                 recommendationsMovieGenres.innerText = genList || ""
             }) }, 1050)
         }
-        loadingTrigger[0].onload = () => { recommendations.scrollIntoView({ behavior: 'smooth', block: 'center'}) }
+        loadingTrigger[0].onload = () => { 
+            recommendations.scrollIntoView({ behavior: 'smooth', block: 'center'})
+        }
+    },
+    () => {
+        const message = new bootstrap.Toast(toast);
+        let i = 0
+        if (lang === 'ru') i = 1
+        toastMsg.innerText = translate[i].data[5]
+        message.show();
     })
 }
 
@@ -421,10 +453,43 @@ const renderSearchResults = (query) => {
             `
         });
         container.innerHTML = inner
+    },
+    () => {
+        let i = 0
+        if (lang === 'ru') i = 1
+        container.innerHTML = `
+            <section>
+                <div class="container px-4 px-lg-5 my-5">
+                    <div class="row gx-4 gx-lg-5 align-items-center">
+                        <div class="col-md-6">
+                            <img class="card-img-top mb-5 mb-md-0" src="${noContent}">
+                        </div>
+                        <div class="col-md-6">
+                            <h1 class="display-5 fw-bolder">
+                                404
+                            </h1>
+                            <div class="fs-5 mb-2">
+                                <span id="itemTag">
+                                    ${translate[i].data[7]}
+                                </span>
+                            </div>
+                            <div class="fs-5 mb-2">
+                                <button style="width: 128px;" type="button" class="btn btn-success m-0 p-0">
+                                    <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#trending_all_week">
+                                        ${translate[i].data[8]}
+                                    </a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `
     })
 }
 
 window.onload = () => {
+    app.hidden = false
     let i = 0
     if (lang === 'ru') i = 1
     movies.innerText = translate[i].data[0]

@@ -48,16 +48,18 @@ export const getFullInfo = (type, id, callback = (data) => {console.log(data);})
 // id = Integer
 // page = Integer
 // output = Array
-export const getRecommendations = (type, id, page = 1, callback = (data) => {console.log(data);}) => {
+export const getRecommendations = (type, id, page = 1, callback = (data) => {console.log(data);}, errorHandler = () => {}) => {
     fetch(`${apiUrl}/3/${type}/${id}/recommendations?api_key=${apiKey}&language=${lang}&page=${page}`)
         .then(value => {
             if(value.status !== 200){
+                errorHandler()
                 return Promise.reject(new Error('Internal API error.'));
             }
             return value.json();
         })
         .then(output => {
             if(output.results.length === 0){
+                errorHandler()
                 return Promise.reject(new Error('Empty API response.'));
             }
             callback(output.results);
@@ -71,16 +73,18 @@ export const getRecommendations = (type, id, page = 1, callback = (data) => {con
 // id = Integer
 // page = Integer
 // output = Array
-export const getItemsByPerson = (type, id, page = 1, callback = (data) => {console.log(data);}) => {
+export const getItemsByPerson = (type, id, page = 1, callback = (data) => {console.log(data);}, errorHandler = () => {}) => {
     fetch(`${apiUrl}/3/discover/${type}?api_key=${apiKey}&language=${lang}&page=${page}&with_people=${id}&sort_by=popularity.desc`)
         .then(value => {
             if(value.status !== 200){
+                errorHandler()
                 return Promise.reject(new Error('Internal API error.'));
             }
             return value.json();
         })
         .then(output => {
             if(output.results.length === 0){
+                errorHandler()
                 return Promise.reject(new Error('Empty API response.'));
             }
             callback(output.results);
@@ -94,16 +98,18 @@ export const getItemsByPerson = (type, id, page = 1, callback = (data) => {conso
 // query = String
 // page = Integer
 // output = Array
-export const searchEngine = (type, query, page, callback = (data) => {console.log(data);}) => {
+export const searchEngine = (type, query, page, callback = (data) => {console.log(data);}, errorHandler = () => {}) => {
     fetch(`${apiUrl}/3/search/${type}?api_key=${apiKey}&language=${lang}&page=${page}&query=${query}&sort_by=popularity.desc`)
         .then(value => {
             if(value.status !== 200){
+                errorHandler()
                 return Promise.reject(new Error('Internal API error.'));
             }
             return value.json();
         })
         .then(output => {
             if(output.results.length === 0){
+                errorHandler()
                 return Promise.reject(new Error('Empty API response.'));
             }
             callback(output.results);
@@ -116,16 +122,18 @@ export const searchEngine = (type, query, page, callback = (data) => {console.lo
 // type = ['movie', 'tv']
 // id = Integer
 // output = Array
-export const getTrailers = (type, id, callback = (data) => {console.log(data);}) => {
+export const getTrailers = (type, id, callback = (data) => {console.log(data);}, errorHandler = () => {}) => {
     fetch(`${apiUrl}/3/${type}/${id}/videos?api_key=${apiKey}&language=${lang}`)
         .then(value => {
             if(value.status !== 200){
+                errorHandler()
                 return Promise.reject(new Error('Internal API error.'));
             }
             return value.json();
         })
         .then(output => {
             if(output.results.length === 0){
+                errorHandler()
                 return Promise.reject(new Error('Empty API response.'));
             }
             callback(output.results);
