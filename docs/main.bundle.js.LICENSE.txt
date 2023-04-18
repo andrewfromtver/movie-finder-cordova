@@ -18,18 +18,9 @@
  * @license  MIT
  */
 
-/*!
- * range-parser
- * Copyright(c) 2012-2014 TJ Holowaychuk
- * Copyright(c) 2015-2016 Douglas Christopher Wilson
- * MIT Licensed
- */
-
 /*! bittorrent-protocol. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
 
 /*! blob-to-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
-
-/*! cache-chunk-store. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
 /*! create-torrent. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
 
@@ -39,11 +30,11 @@
 
 /*! immediate-chunk-store. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
-/*! lt_donthave. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
-
 /*! magnet-uri. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
 
 /*! mediasource. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/*! multistream. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
 /*! parse-torrent. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
 

@@ -12,11 +12,12 @@ import noContent from "../assets/404.gif"
 import homeIco from "../assets/home.svg"
 import favoritesIco from "../assets/favorites.svg"
 import settingsIco from "../assets/settings.svg"
+import playIco from "../assets/play.svg"
 
 import { getTrending, getFullInfo, getRecommendations, getItemsByPerson, searchEngine, getTrailers} from './api'
 import { lang, translate } from "./config";
 
-import { getTorrentByMagnet } from "./torrent"
+import { file, getTorrentByMagnet } from "./torrent"
 
 const renderTrendingCards = (type, time) => {
     container.innerHTML = `
@@ -163,22 +164,102 @@ const stateListener = () => {
         randomfindmachineLink.classList = 'nav-link'
         favoritesLink.classList = 'nav-link'
         settingsLink.classList = 'nav-link'
-    } else if (href.includes('randomfindmachine')) {
-        container.innerHTML = ''
+    } else if (href.includes('webtorrent')) {
+        container.innerHTML = `
+            <section>
+                <div class="container px-4 px-lg-5 my-5">
+                    <div class="row gx-4 gx-lg-5 align-items-center">
+                        <div class="col-md-12">
+                            <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
+                                Web Torrent Player
+                            </h1>
+                            <div class="fs-5 mb-2">
+                                <span id="torrentPlayerDescription">
+                                    Pre alpha feature test
+                                </span>
+                            </div>
+                        </div>            
+                    </div>
+                    <div class="mt-4 row gx-4 gx-lg-5 align-items-center">
+                        <div class="col-md-12">
+                            <div id="output">
+                                <div id="progressBar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <form id="webTorrentForm" class="mt-4 row align-items-center">
+                                <div class="col-md-10 mt-4">
+                                    <label for="inputPassword2" class="visually-hidden">Magnet URL</label>
+                                    <input type="text" value="magnet:?xt=urn:btih:08ada5a7a6183aae1e09d831df6748d566095a10&dn=Sintel&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F&xs=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fsintel.torrent" class="form-control" id="magnetUrl" placeholder="Magnet URL">
+                                </div>
+                                <div class="col-md-2 mt-4">
+                                    <button style="width: 100%; min-width: 96px;" type="submit" class="btn btn-success">Confirm</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `
+        
+        webTorrentForm.onsubmit = () => {
+            event.preventDefault()
+            getTorrentByMagnet(magnetUrl.value)
+        }
+
+        if (file) {
+            file.appendTo('#output')
+        }
 
         homeLink.classList = 'nav-link'
         randomfindmachineLink.classList = 'nav-link active'
         favoritesLink.classList = 'nav-link'
         settingsLink.classList = 'nav-link'
     } else if (href.includes('favorites')) {
-        container.innerHTML = ''
+        container.innerHTML = `
+            <section>
+                <div class="container px-4 px-lg-5 my-5">
+                    <div class="row gx-4 gx-lg-5 align-items-center">
+                        <div class="col-md-12">
+                            <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
+                                Section under development
+                            </h1>
+                            <div class="fs-5 mb-2">
+                                <span id="torrentPlayerDescription">
+                                    Pre alpha feature test
+                                </span>
+                            </div>
+                        </div>            
+                    </div>
+                </div>
+            </section>
+        `
 
         homeLink.classList = 'nav-link'
         randomfindmachineLink.classList = 'nav-link'
         favoritesLink.classList = 'nav-link active'
         settingsLink.classList = 'nav-link'
     } else if (href.includes('settings')) {
-        container.innerHTML = ''
+        container.innerHTML = `
+            <section>
+                <div class="container px-4 px-lg-5 my-5">
+                    <div class="row gx-4 gx-lg-5 align-items-center">
+                        <div class="col-md-12">
+                            <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
+                                Section under development
+                            </h1>
+                            <div class="fs-5 mb-2">
+                                <span id="torrentPlayerDescription">
+                                    Pre alpha feature test
+                                </span>
+                            </div>
+                        </div>            
+                    </div>
+                </div>
+            </section>
+        `
 
         homeLink.classList = 'nav-link'
         randomfindmachineLink.classList = 'nav-link'
@@ -540,7 +621,7 @@ window.onload = () => {
     let i = 0
     if (lang === 'ru') i = 1
     home.src = homeIco
-    search.src = searchIco
+    play.src = playIco
     favorites.src = favoritesIco
     settings.src = settingsIco
     movies.innerText = translate[i].data[0]
