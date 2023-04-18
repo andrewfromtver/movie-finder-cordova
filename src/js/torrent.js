@@ -2,10 +2,11 @@ import WebTorrent from 'webtorrent'
 
 export let file
 
-export const getTorrentByMagnet = async (magnet) => {
+export const getTorrentByMagnet = async (torFile) => {
+    
     const client = new WebTorrent()
 
-    client.add(magnet, torrent => {
+    client.add(torFile, torrent => {
         // Got torrent metadata!
         console.log('Client is downloading:', torrent.infoHash)
 
@@ -21,4 +22,5 @@ export const getTorrentByMagnet = async (magnet) => {
             } else return
         }, 500)
     })
+
 }

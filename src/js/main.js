@@ -190,12 +190,9 @@ const stateListener = () => {
                     <div>
                         <div>
                             <form id="webTorrentForm" class="mt-4 row align-items-center">
-                                <div class="col-md-10 mt-4">
+                                <div class="col-md-12 mt-4">
                                     <label for="inputPassword2" class="visually-hidden">Magnet URL</label>
-                                    <input type="text" value="magnet:?xt=urn:btih:08ada5a7a6183aae1e09d831df6748d566095a10&dn=Sintel&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F&xs=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fsintel.torrent" class="form-control" id="magnetUrl" placeholder="Magnet URL">
-                                </div>
-                                <div class="col-md-2 mt-4">
-                                    <button style="width: 100%; min-width: 96px;" type="submit" class="btn btn-success">Confirm</button>
+                                    <input type="file" class="form-control" id="magnetUrl" placeholder="Magnet URL">
                                 </div>
                             </form>
                         </div>
@@ -203,10 +200,32 @@ const stateListener = () => {
                 </div>
             </section>
         `
+
+        magnetUrl.addEventListener('change', (event) => {
+            const fileList = event.target.files;
+            function readFile(file) {
+                // Check if the file is an image.
+                if (file && file.type && file.type.startsWith('application/x-bittorrent')) {
+                    const reader = new FileReader();
+                    reader.addEventListener('load', (event) => {
+                        fetch(event.target.result)
+                            .then(res => {
+                                return res.blob()
+                            })
+                            .then(blob => {
+                                getTorrentByMagnet(blob);
+                            })
+                    });
+                    reader.readAsDataURL(file)
+                } else {
+                    return;
+                }
+            }
+            readFile(fileList[0])
+        });
         
         webTorrentForm.onsubmit = () => {
             event.preventDefault()
-            getTorrentByMagnet(magnetUrl.value)
         }
 
         if (file) {
@@ -643,4 +662,5 @@ window.onload = () => {
         window.location.reload()
     }
     app.hidden = false
+
 }

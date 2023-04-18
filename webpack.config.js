@@ -2,8 +2,8 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
-const {InjectManifest} = require('workbox-webpack-plugin');
 
+ 
 module.exports = {
   entry: path.resolve(__dirname, "./src/js/main.js"),
   module: {
@@ -69,9 +69,5 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new NodePolyfillPlugin(),
-    new InjectManifest({
-      maximumFileSizeToCacheInBytes: 5000000,
-      swSrc: './src/js/sw.min.js',
-    }),
   ],
 };
