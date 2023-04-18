@@ -27,7 +27,11 @@ export const translate = [
             'No recommendations at this time', 
             'No trailers found',
             'Nothing was found on your query',
-            'Home page'
+            'Home page',
+            'No "wss://" support',
+            'Web Torrent player',
+            'Pre alpha feature',
+            'Load'
         ]
     },
     {
@@ -41,7 +45,11 @@ export const translate = [
             'Рекомендаций ещё нет', 
             'Трейлеры не найдены',
             'По вашему запросу ничего не найдено',
-            'На главную'
+            'На главную',
+            'Нет поддержки "wss://"',
+            'Web Torrent проигрыватель',
+            'Тестовый режим',
+            'Загрузить'
         ]
     }
 ]

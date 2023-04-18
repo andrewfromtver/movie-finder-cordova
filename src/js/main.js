@@ -165,17 +165,19 @@ const stateListener = () => {
         favoritesLink.classList = 'nav-link'
         settingsLink.classList = 'nav-link'
     } else if (href.includes('webtorrent')) {
+        let i = 0
+        if (lang === 'ru') i = 1
         container.innerHTML = `
             <section>
                 <div class="container px-4 px-lg-5 my-5">
                     <div class="row gx-4 gx-lg-5 align-items-center">
                         <div class="col-md-12">
                             <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
-                                Web Torrent Player
+                                ${translate[i].data[10]}
                             </h1>
                             <div class="fs-5 mb-2">
                                 <span id="torrentPlayerDescription">
-                                    Pre alpha feature test
+                                    ${translate[i].data[11]}
                                 </span>
                             </div>
                         </div>            
@@ -195,7 +197,9 @@ const stateListener = () => {
                                     <label for="inputPassword2" class="visually-hidden">Magnet URL</label>
                                 </div>
                                 <div class="col-md-12 mt-4">
-                                    <button style="width: 100%;" type="submit" class="btn btn-success">Confirm</button>
+                                    <button style="width: 100%;" type="submit" class="btn btn-success">
+                                        ${translate[i].data[12]}
+                                    </button>
                                 </div>
                             </form>
                         </div>

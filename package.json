@@ -39,6 +39,7 @@
         "sass": "^1.58.3",
         "sass-loader": "^13.2.0",
         "stream": "^0.0.2",
+        "torrent-search-api": "^2.1.4",
         "webtorrent": "^0.114.1",
         "workbox-webpack-plugin": "^6.5.4"
     }
