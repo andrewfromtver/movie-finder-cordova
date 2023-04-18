@@ -209,11 +209,9 @@ const stateListener = () => {
         input.id = 'magnetUrl'
         let userAgent = window.navigator.userAgent;
         let iphoneIpad = false
+        input.accept = ".torrent"
         if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
             iphoneIpad = true
-        }
-        else {
-            input.accept = "application/x-bittorrent"
         }
         
         inputPlaceholder.appendChild(input)
@@ -243,7 +241,7 @@ const stateListener = () => {
         }
 
         if (file) {
-            file.appendTo('#output')
+            file.renderTo('#outputVideo')
         }
 
         homeLink.classList = 'nav-link'
@@ -300,10 +298,10 @@ const stateListener = () => {
         settingsLink.classList = 'nav-link active'
     } else {
         
-        homeLink.classList = 'nav-link active'
+        homeLink.classList = 'nav-link'
         randomfindmachineLink.classList = 'nav-link'
         favoritesLink.classList = 'nav-link'
-        settingsLink.classList = 'nav-link active'
+        settingsLink.classList = 'nav-link'
     }
 }
 
