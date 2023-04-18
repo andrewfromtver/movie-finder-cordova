@@ -14,7 +14,7 @@ export const getTorrentByMagnet = async (torFile) => {
             return file.name.endsWith('.mp4')
         })
 
-        if (file) file.appendTo('#output')
+        if (file) file.renderTo('#outputVideo')
         setInterval(() => {
             if (window.location.href.includes("webtorrent")) {
                 const percent = Math.round(torrent.progress * 100 * 100) / 100

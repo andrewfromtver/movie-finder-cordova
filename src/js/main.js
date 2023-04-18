@@ -184,6 +184,7 @@ const stateListener = () => {
                         <div class="col-md-12">
                             <div id="output">
                                 <div id="progressBar"></div>
+                                <video id="outputVideo" controls></video>
                             </div>
                         </div>
                     </div>
@@ -298,8 +299,7 @@ const stateListener = () => {
         favoritesLink.classList = 'nav-link'
         settingsLink.classList = 'nav-link active'
     } else {
-        renderTrendingCards('all', 'week')
-
+        
         homeLink.classList = 'nav-link active'
         randomfindmachineLink.classList = 'nav-link'
         favoritesLink.classList = 'nav-link'
