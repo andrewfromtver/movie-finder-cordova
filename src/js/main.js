@@ -190,9 +190,11 @@ const stateListener = () => {
                     <div>
                         <div>
                             <form id="webTorrentForm" class="mt-4 row align-items-center">
-                                <div class="col-md-12 mt-4">
+                                <div id="inputPlaceholder" class="col-md-12 mt-4">
                                     <label for="inputPassword2" class="visually-hidden">Magnet URL</label>
-                                    <input type="file" class="form-control" id="magnetUrl" placeholder="Magnet URL">
+                                </div>
+                                <div class="col-md-12 mt-4">
+                                    <button style="width: 100%;" type="submit" class="btn btn-success">Confirm</button>
                                 </div>
                             </form>
                         </div>
@@ -200,12 +202,27 @@ const stateListener = () => {
                 </div>
             </section>
         `
+        let input = document.createElement("input")
+        input.classList = 'form-control'
+        input.type = 'file'
+        input.id = 'magnetUrl'
+        let userAgent = window.navigator.userAgent;
+        let iphoneIpad = false
+        if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
+            iphoneIpad = true
+        }
+        else {
+            input.accept = "application/x-bittorrent"
+        }
+        
+        inputPlaceholder.appendChild(input)
 
-        magnetUrl.addEventListener('change', (event) => {
-            const fileList = event.target.files;
+        webTorrentForm.onsubmit = () => {
+            event.preventDefault()
+
+            const fileList = magnetUrl.files;
             function readFile(file) {
-                // Check if the file is an image.
-                if (file && file.type && file.type.startsWith('application/x-bittorrent')) {
+                if (iphoneIpad || file && file.type && file.type.startsWith('application/x-bittorrent')) {
                     const reader = new FileReader();
                     reader.addEventListener('load', (event) => {
                         fetch(event.target.result)
@@ -222,10 +239,6 @@ const stateListener = () => {
                 }
             }
             readFile(fileList[0])
-        });
-        
-        webTorrentForm.onsubmit = () => {
-            event.preventDefault()
         }
 
         if (file) {
