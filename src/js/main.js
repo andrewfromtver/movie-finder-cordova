@@ -776,6 +776,11 @@ const renderFavorites = (data) => {
 }
 
 window.onload = () => {
+    if (localStorage.getItem('favorites')) {
+        // add counters to settings tab ['movies qty', 'tvs qty', 'persons qty']
+    } else {
+        localStorage.setItem('favorites', '[]')
+    }
     let i = 0
     if (lang === 'ru') i = 1
     home.src = homeIco
