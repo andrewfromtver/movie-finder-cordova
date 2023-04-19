@@ -13,6 +13,7 @@ import homeIco from "../assets/home.svg"
 import favoritesIco from "../assets/favorites.svg"
 import settingsIco from "../assets/settings.svg"
 import playIco from "../assets/play.svg"
+import deleteIco from "../assets/delete.svg"
 
 import { getTrending, getFullInfo, getRecommendations, getItemsByPerson, searchEngine, getTrailers} from './api'
 import { lang, translate } from "./config";
@@ -93,9 +94,9 @@ const showItem = (type, id) => {
             <section>
                 <div class="container px-4 px-lg-5 my-5">
                     <div class="row gx-4 gx-lg-5 align-items-center">
-                        <div class="col-md-6"><img class="shadow-sm card-img-top mb-5 mb-md-0" src="${imgSrc}" alt="" /></div>
+                        <div class="col-md-6"><img id="itemImg"class="shadow-sm card-img-top mb-5 mb-md-0" src="${imgSrc}" alt="" /></div>
                         <div class="col-md-6">
-                            <h1 class="display-5 fw-bolder">${data.title || data.name}</h1>
+                            <h1 id="itemTitle" class="display-5 fw-bolder">${data.title || data.name}</h1>
                             <div class="fs-5 mb-2">
                                 <span id="itemTag">${data.tagline || ""}</span>
                             </div>
@@ -103,7 +104,7 @@ const showItem = (type, id) => {
                                 <span style="color: #13795b;" class="fw-bolder" id="itemGenres">${genList || ""}</span>
                             </div>
                             <div class="fs-5 mb-4">
-                                <span style="padding: ${scorePadding}; color: #fff; background-color: ${scoreColor};">${data.vote_average || data.birthday || ""}</span>
+                                <span id="itemDate" style="padding: ${scorePadding}; color: #fff; background-color: ${scoreColor};">${data.vote_average || data.birthday || ""}</span>
                             </div>
                             <p class="lead">${data.overview || data.biography || ""}</p>
                             <div  style="color: #dc3545;" class="pb-4">${data.release_date || data.last_air_date || ""}</div>
@@ -113,6 +114,10 @@ const showItem = (type, id) => {
                                     ${showButtonText}
                                 </button>
                                 ${similarButton}
+                                <button id="${data.id}" class="addToFavorites m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
+                                    <i class="bi-cart-fill me-1"></i>
+                                    <img class="ico" src="${favoritesIco}">
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -132,6 +137,48 @@ const showItem = (type, id) => {
                 renderRecommendations(type, id)
             }
         }
+        const addItemToFavorites = (id, type, tytle, subtytle, img) => {
+            const message = new bootstrap.Toast(toast);
+            let i = 0
+            if (lang === 'ru') i = 1
+            if (localStorage.getItem('favorites')) {
+                let userData = JSON.parse(localStorage.getItem('favorites'))
+                let newObj = {
+                    id: id,
+                    type: type,
+                    title: tytle,
+                    subtitle: subtytle,
+                    img_path: img
+                }
+                let unique = true
+                userData.forEach(element => {
+                    if (element.id + element.type == id + type) {
+                        unique = false
+                    }
+                });
+                if (unique) {
+                    userData.push(newObj)
+                    localStorage.setItem('favorites', JSON.stringify(userData))
+                    toastMsg.innerText = translate[i].data[14]
+                } else {
+                    toastMsg.innerText = translate[i].data[15]
+                }
+            } else {
+                toastMsg.innerText = translate[i].data[16]
+            }
+            message.show();
+        }
+        document.querySelectorAll('.addToFavorites').forEach(element => {
+            element.onclick = () => {
+                addItemToFavorites(
+                    element.id,
+                    window.location.href.split('_')[1],
+                    itemTitle.innerText,
+                    itemTag.innerText || itemDate.innerText,
+                    itemImg.src
+                )
+            }
+        });
     })
 }
 
@@ -253,24 +300,7 @@ const stateListener = () => {
         favoritesLink.classList = 'nav-link'
         settingsLink.classList = 'nav-link'
     } else if (href.includes('favorites')) {
-        container.innerHTML = `
-            <section>
-                <div class="container px-4 px-lg-5 my-5">
-                    <div class="row gx-4 gx-lg-5 align-items-center">
-                        <div class="col-md-12">
-                            <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
-                                Section under development
-                            </h1>
-                            <div class="fs-5 mb-2">
-                                <span id="torrentPlayerDescription">
-                                    Pre alpha feature test
-                                </span>
-                            </div>
-                        </div>            
-                    </div>
-                </div>
-            </section>
-        `
+        renderFavorites(localStorage.getItem('favorites'))
 
         homeLink.classList = 'nav-link'
         randomfindmachineLink.classList = 'nav-link'
@@ -649,6 +679,100 @@ const renderSearchResults = (query) => {
             </section>
         `
     })
+}
+
+const renderFavorites = (data) => {
+    let i = 0
+    if (lang === 'ru') i = 1
+    container.innerHTML = `
+        <section>
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
+                            ${translate[i].data[13]}
+                        </h1>
+                    </div>            
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-wrap">
+                            <table class="table">
+                                <thead class="thead-primary">
+                                    <tr>
+                                        <th>&nbsp;</th>
+                                        <th>&nbsp;</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                            <tbody id="favoritesInner">
+                                <tr class="alert" role="alert">
+                                    <td colspan="4">
+                                        <h1 style="text-align: center;">
+                                            ¯\\_(ツ)_/¯
+                                        </h1>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    `
+    let inner = ''
+    if (data) {
+        if (JSON.parse(data).length > 0) {
+            JSON.parse(data).forEach(element => {
+                inner += `
+                    <tr class="alert" role="alert">
+                        <td>
+                            <div class="favoritesImg" style="background-image: url(${element.img_path});"></div>
+                        </td>
+                        <td>
+                            <div>
+                                <a href="#show_${element.type}_${element.id}">
+                                    <span>${element.title}</span>
+                                    <br>
+                                    <span>${element.subtitle}</span>
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <button id="${element.type}_${element.id}" type="button" class="delFavoriteBtn btn btn-danger">
+                                <img class="ico" src="${deleteIco}">
+                            </button>
+                        </td>
+                    </tr>
+                `
+            });
+            favoritesInner.innerHTML = inner
+            const delItem = (element) => {
+                let params = element.id
+                let type = params.split('_')[0]
+                let id = params.split('_')[1]
+                let userData
+                if (localStorage.getItem('favorites')) {
+                    userData = JSON.parse(localStorage.getItem('favorites'))
+                    let netArray = []
+                    userData.forEach(element => {
+                        if (element.id + element.type == id + type) {
+                            return
+                        } else {
+                            netArray.push(element)
+                        }
+                    });
+                    localStorage.setItem('favorites', JSON.stringify(netArray))
+                    window.location.reload()
+                }
+            }
+            document.querySelectorAll('.delFavoriteBtn').forEach(element => {
+                element.onclick = () => {
+                    delItem(element)
+                }
+            });
+        }
+    }
 }
 
 window.onload = () => {

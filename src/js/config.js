@@ -31,7 +31,11 @@ export const translate = [
             'No "wss://" support',
             'Web Torrent player',
             'Pre alpha feature',
-            'Load'
+            'Load',
+            'Favorites',
+            'Item added to "Favorites" list',
+            'Item already exists in "Favorites" list',
+            'An error occurred, try again later'
         ]
     },
     {
@@ -49,7 +53,11 @@ export const translate = [
             'Нет поддержки "wss://"',
             'Web Torrent проигрыватель',
             'Тестовый режим',
-            'Загрузить'
+            'Загрузить',
+            'Избранное',
+            'Элемент добавлен в избранное',
+            'Элемент уже в избранном',
+            'Произошла ошибка, попробуйте позже'
         ]
     }
 ]

@@ -9,6 +9,15 @@ footer {
     background: #fff;
 }
 
+.favoritesImg {
+    height: 128px;
+    width: 96px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 .nav-icon {
     height: 32px;
     width: 32px;
@@ -75,6 +84,15 @@ button, input {
     flex-wrap: wrap; 
     justify-content: center;
     max-width: 1088px;
+}
+
+section {
+    width: 100%;
+}
+
+.table-wrap {
+    width: 100%;
+    max-width: 992px;
 }
 
 #output video {
