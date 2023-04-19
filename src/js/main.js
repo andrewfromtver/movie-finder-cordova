@@ -170,11 +170,13 @@ const showItem = (type, id) => {
         }
         document.querySelectorAll('.addToFavorites').forEach(element => {
             element.onclick = () => {
+                let tag = itemTag.innerText
+                if (window.location.href.split('_')[1] === 'person') tag = itemDate.innerText
                 addItemToFavorites(
                     element.id,
                     window.location.href.split('_')[1],
                     itemTitle.innerText,
-                    itemTag.innerText || itemDate.innerText,
+                    tag,
                     itemImg.src
                 )
             }
