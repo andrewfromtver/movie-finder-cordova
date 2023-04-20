@@ -1030,10 +1030,10 @@ window.onload = () => {
         !playerSwitch.checked ? sessionStorage.setItem('player', 'native') : sessionStorage.setItem('player', 'webtorrent')
         window.location.reload()
     }
-    if (sessionStorage.getItem('player') && sessionStorage.getItem('player') === 'native') {
-        playerSwitch.checked = false
-    } else {
+    if (sessionStorage.getItem('player') && sessionStorage.getItem('player') === 'webtorrent') {
         playerSwitch.checked = true
+    } else {
+        playerSwitch.checked = false
     }
     app.hidden = false
 }
