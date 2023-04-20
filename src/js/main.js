@@ -184,163 +184,6 @@ const showItem = (type, id) => {
     })
 }
 
-const stateListener = () => {
-    closeSideBarBtn.click()
-    let href = window.location.href
-    if (href.includes('trending')) {
-        let type = href.split('_')[1]
-        let time = href.split('_')[2]
-        renderTrendingCards(type, time)
-
-        homeLink.classList = 'nav-link active'
-        randomfindmachineLink.classList = 'nav-link'
-        favoritesLink.classList = 'nav-link'
-        settingsLink.classList = 'nav-link'
-    } else if (href.includes('show')) {
-        let type = href.split('_')[1]
-        let id = href.split('_')[2]
-        showItem(type, id)
-
-        homeLink.classList = 'nav-link'
-        randomfindmachineLink.classList = 'nav-link'
-        favoritesLink.classList = 'nav-link'
-        settingsLink.classList = 'nav-link'
-    } else if (href.includes('search')) {
-        let query = href.split('_')[1]
-        renderSearchResults(query)
-
-        homeLink.classList = 'nav-link'
-        randomfindmachineLink.classList = 'nav-link'
-        favoritesLink.classList = 'nav-link'
-        settingsLink.classList = 'nav-link'
-    } else if (href.includes('webtorrent')) {
-        let i = 0
-        if (lang === 'ru') i = 1
-        container.innerHTML = `
-            <section>
-                <div class="container px-4 px-lg-5 my-5">
-                    <div class="row gx-4 gx-lg-5 align-items-center">
-                        <div class="col-md-12">
-                            <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
-                                ${translate[i].data[10]}
-                            </h1>
-                            <div class="fs-5 mb-2">
-                                <span id="torrentPlayerDescription">
-                                    ${translate[i].data[11]}
-                                </span>
-                            </div>
-                        </div>            
-                    </div>
-                    <div class="mt-4 row gx-4 gx-lg-5 align-items-center">
-                        <div class="col-md-12">
-                            <div id="output">
-                                <div id="progressBar"></div>
-                                <video id="outputVideo" controls></video>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            <form id="webTorrentForm" class="mt-4 row align-items-center">
-                                <div id="inputPlaceholder" class="col-md-12 mt-4">
-                                    <label for="inputPassword2" class="visually-hidden">Magnet URL</label>
-                                </div>
-                                <div class="col-md-12 mt-4">
-                                    <button style="width: 100%;" type="submit" class="btn btn-success">
-                                        ${translate[i].data[12]}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        `
-        let input = document.createElement("input")
-        input.classList = 'form-control'
-        input.type = 'file'
-        input.id = 'magnetUrl'
-        let userAgent = window.navigator.userAgent;
-        let iphoneIpad = false
-        input.accept = ".torrent"
-        if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
-            iphoneIpad = true
-        }
-        
-        inputPlaceholder.appendChild(input)
-
-        webTorrentForm.onsubmit = () => {
-            event.preventDefault()
-
-            const fileList = magnetUrl.files;
-            function readFile(file) {
-                if (iphoneIpad || file && file.type && file.type.startsWith('application/x-bittorrent')) {
-                    const reader = new FileReader();
-                    reader.addEventListener('load', (event) => {
-                        fetch(event.target.result)
-                            .then(res => {
-                                return res.blob()
-                            })
-                            .then(blob => {
-                                getTorrentByMagnet(blob);
-                            })
-                    });
-                    reader.readAsDataURL(file)
-                } else {
-                    return;
-                }
-            }
-            readFile(fileList[0])
-        }
-
-        if (file) {
-            file.renderTo('#outputVideo')
-        }
-
-        homeLink.classList = 'nav-link'
-        randomfindmachineLink.classList = 'nav-link active'
-        favoritesLink.classList = 'nav-link'
-        settingsLink.classList = 'nav-link'
-    } else if (href.includes('favorites')) {
-        renderFavorites(localStorage.getItem('favorites'))
-
-        homeLink.classList = 'nav-link'
-        randomfindmachineLink.classList = 'nav-link'
-        favoritesLink.classList = 'nav-link active'
-        settingsLink.classList = 'nav-link'
-    } else if (href.includes('settings')) {
-        container.innerHTML = `
-            <section>
-                <div class="container px-4 px-lg-5 my-5">
-                    <div class="row gx-4 gx-lg-5 align-items-center">
-                        <div class="col-md-12">
-                            <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
-                                Section under development
-                            </h1>
-                            <div class="fs-5 mb-2">
-                                <span id="torrentPlayerDescription">
-                                    Pre alpha feature test
-                                </span>
-                            </div>
-                        </div>            
-                    </div>
-                </div>
-            </section>
-        `
-
-        homeLink.classList = 'nav-link'
-        randomfindmachineLink.classList = 'nav-link'
-        favoritesLink.classList = 'nav-link'
-        settingsLink.classList = 'nav-link active'
-    } else {
-        
-        homeLink.classList = 'nav-link'
-        randomfindmachineLink.classList = 'nav-link'
-        favoritesLink.classList = 'nav-link'
-        settingsLink.classList = 'nav-link'
-    }
-}
-
 const renderAddons = (type, id) => {
     if (['movie', 'tv', 'all'].includes(type)) getTrailers(type, id, (data) => {
         let inner = `
@@ -777,9 +620,296 @@ const renderFavorites = (data) => {
     }
 }
 
+const userData = (callbac = (data) => { console.log(data); }) => {
+    let Url = "https://" + "cloudflare.com/cdn-cgi/trace";
+    let AjaxUrl = new XMLHttpRequest();
+    AjaxUrl.open("get", Url);
+    AjaxUrl.send();
+
+    AjaxUrl.onreadystatechange = function () {
+        if (AjaxUrl.readyState === 4 && AjaxUrl.status === 200) {
+            let resultUrl = AjaxUrl.responseText;
+            let mapUrlStart = resultUrl.indexOf("ip") + 3;
+            let mapUrlEnd = resultUrl.indexOf("ts") - 1;
+            let mapDevStart = resultUrl.indexOf("uag") + 4;
+            let mapDevEnd = resultUrl.indexOf("colo") - 1;
+            let IpResult = resultUrl.slice(mapUrlStart, mapUrlEnd);
+            let DevResult = resultUrl.slice(mapDevStart, mapDevEnd);
+            callbac({ip: IpResult, device: DevResult});
+        }
+    };
+}
+
+const appUsageStat = () => {
+    userData((data) => {
+        localStorage.setItem('user_data', JSON.stringify(data))
+    })
+}
+
+const webTorrentPlayer = () => {
+    let i = 0
+    if (lang === 'ru') i = 1
+    container.innerHTML = `
+        <section>
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
+                            ${translate[i].data[10]}
+                        </h1>
+                        <div class="fs-5 mb-2">
+                            <span id="torrentPlayerDescription">
+                                ${translate[i].data[11]}
+                            </span>
+                        </div>
+                    </div>            
+                </div>
+                <div class="mt-4 row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <div id="output">
+                            <div id="progressBar"></div>
+                            <video id="outputVideo" controls></video>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <form id="webTorrentForm" class="mt-4 row align-items-center">
+                            <div id="inputPlaceholder" class="col-md-12 mt-4">
+                                <label for="inputPassword2" class="visually-hidden">Magnet URL</label>
+                            </div>
+                            <div class="col-md-12 mt-4">
+                                <button style="width: 100%;" type="submit" class="btn btn-success">
+                                    ${translate[i].data[12]}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    `
+    let input = document.createElement("input")
+    input.classList = 'form-control'
+    input.type = 'file'
+    input.id = 'magnetUrl'
+    let userAgent = window.navigator.userAgent;
+    let iphoneIpad = false
+    input.accept = ".torrent"
+    if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
+        iphoneIpad = true
+    }
+    inputPlaceholder.appendChild(input)
+    webTorrentForm.onsubmit = () => {
+        event.preventDefault()
+
+        const fileList = magnetUrl.files;
+        function readFile(file) {
+            if (iphoneIpad || file && file.type && file.type.startsWith('application/x-bittorrent')) {
+                const reader = new FileReader();
+                reader.addEventListener('load', (event) => {
+                    fetch(event.target.result)
+                        .then(res => {
+                            return res.blob()
+                        })
+                        .then(blob => {
+                            getTorrentByMagnet(blob);
+                        })
+                });
+                reader.readAsDataURL(file)
+            } else {
+                return;
+            }
+        }
+        readFile(fileList[0])
+    }
+    if (file) {
+        file.renderTo('#outputVideo')
+    }
+}
+
+const settingsTab = () => {
+    let ip = 'will be available on next app load'
+    let dev = 'will be available on next app load'
+    let qty
+    let mem
+    var _lsTotal = 0,
+        _xLen, _x;
+    for (_x in localStorage) {
+        if (!localStorage.hasOwnProperty(_x)) {
+            continue;
+        }
+        _xLen = ((localStorage[_x].length + _x.length) * 2);
+        _lsTotal += _xLen;
+        console.log(_x.substr(0, 50) + " = " + (_xLen / 1024).toFixed(2) + " KB")
+    };
+    mem = (_lsTotal / 1024).toFixed(2) + " Kb";
+    let rtc = false
+    if (localStorage.getItem('user_data')) {
+        ip = JSON.parse(localStorage.getItem('user_data')).ip
+        dev = JSON.parse(localStorage.getItem('user_data')).device
+    }
+    if (localStorage.getItem('favorites')) {
+        qty = JSON.parse(localStorage.getItem('favorites')).length
+    }
+    let isWebRTCSupported = navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia ||
+        window.RTCPeerConnection;
+    if (window.navigator.userAgent.indexOf("Edge") > -1) {
+        rtc = false
+    }
+    if (isWebRTCSupported) {
+        rtc = true
+    }
+    else {
+        rtc = false
+    }
+    let i = 0
+    if (lang === 'ru') i = 1
+    container.innerHTML = `
+        <section>
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
+                            ${translate[i].data[17]}
+                        </h1>
+                        <div class="fs-5 mb-2">
+                            <span id="torrentPlayerDescription">
+                                ${translate[i].data[18]}
+                            </span>
+                        </div>
+                    </div>            
+                </div>
+                <div class="mt-5 row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <h1 id="torrentPlayerTitle" class="display-7">
+                            IP address
+                        </h1>
+                        <div class="fs-5 mb-2">
+                            <span id="torrentPlayerDescription">
+                                ${ip}
+                            </span>
+                        </div>
+                    </div>            
+                </div>
+                <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <h1 id="torrentPlayerTitle" class="display-7">
+                            Device info
+                        </h1>
+                        <div class="fs-5 mb-2">
+                            <span id="torrentPlayerDescription">
+                                ${dev}
+                            </span>
+                        </div>
+                    </div>            
+                </div>
+                <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <h1 id="torrentPlayerTitle" class="display-7">
+                            Items in favorites
+                        </h1>
+                        <div class="fs-5 mb-2">
+                            <span id="torrentPlayerDescription">
+                                ${qty}
+                            </span>
+                        </div>
+                    </div>            
+                </div>
+                <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <h1 id="torrentPlayerTitle" class="display-7">
+                            Local storage cache size
+                        </h1>
+                        <div class="fs-5 mb-2">
+                            <span id="torrentPlayerDescription">
+                                ${mem}
+                            </span>
+                        </div>
+                    </div>            
+                </div>
+                <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <h1 id="torrentPlayerTitle" class="display-7">
+                            Web RTC support
+                        </h1>
+                        <div class="fs-5 mb-2">
+                            <span id="torrentPlayerDescription">
+                                ${rtc}
+                            </span>
+                        </div>
+                    </div>            
+                </div>
+            </div>
+        </section>
+    `
+}
+
+const stateListener = () => {
+    closeSideBarBtn.click()
+    let href = window.location.href
+    if (href.includes('trending')) {
+        let type = href.split('_')[1]
+        let time = href.split('_')[2]
+        renderTrendingCards(type, time)
+
+        homeLink.classList = 'nav-link active'
+        randomfindmachineLink.classList = 'nav-link'
+        favoritesLink.classList = 'nav-link'
+        settingsLink.classList = 'nav-link'
+    } else if (href.includes('show')) {
+        let type = href.split('_')[1]
+        let id = href.split('_')[2]
+        showItem(type, id)
+
+        homeLink.classList = 'nav-link'
+        randomfindmachineLink.classList = 'nav-link'
+        favoritesLink.classList = 'nav-link'
+        settingsLink.classList = 'nav-link'
+    } else if (href.includes('search')) {
+        let query = href.split('_')[1]
+        renderSearchResults(query)
+
+        homeLink.classList = 'nav-link'
+        randomfindmachineLink.classList = 'nav-link'
+        favoritesLink.classList = 'nav-link'
+        settingsLink.classList = 'nav-link'
+    } else if (href.includes('webtorrent')) {
+        webTorrentPlayer()
+
+        homeLink.classList = 'nav-link'
+        randomfindmachineLink.classList = 'nav-link active'
+        favoritesLink.classList = 'nav-link'
+        settingsLink.classList = 'nav-link'
+    } else if (href.includes('favorites')) {
+        renderFavorites(localStorage.getItem('favorites'))
+
+        homeLink.classList = 'nav-link'
+        randomfindmachineLink.classList = 'nav-link'
+        favoritesLink.classList = 'nav-link active'
+        settingsLink.classList = 'nav-link'
+    } else if (href.includes('settings')) {
+        settingsTab()
+
+        homeLink.classList = 'nav-link'
+        randomfindmachineLink.classList = 'nav-link'
+        favoritesLink.classList = 'nav-link'
+        settingsLink.classList = 'nav-link active'
+    } else {
+
+        homeLink.classList = 'nav-link'
+        randomfindmachineLink.classList = 'nav-link'
+        favoritesLink.classList = 'nav-link'
+        settingsLink.classList = 'nav-link'
+    }
+}
+
 window.onload = () => {
     if (localStorage.getItem('favorites')) {
-        // add counters to settings tab ['movies qty', 'tvs qty', 'persons qty']
+        appUsageStat()
     } else {
         localStorage.setItem('favorites', '[]')
     }

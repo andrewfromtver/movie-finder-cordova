@@ -30,6 +30,8 @@ button, input {
 .ico {
     filter: invert(1);
     height: 18px;
+    padding-left: 16px;
+    padding-right: 16px;
 }
 
 .score {
@@ -61,7 +63,7 @@ button, input {
 .card-body {
     bottom: 0;
     position: absolute;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(128px);
     width: 100%;
     color: #fff;
     font-weight: 900;

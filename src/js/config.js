@@ -35,7 +35,9 @@ export const translate = [
             'Favorites',
             'Item added to "Favorites" list',
             'Item already exists in "Favorites" list',
-            'An error occurred, try again later'
+            'An error occurred, try again later',
+            'Metrics',
+            'We do not collect your data'
         ]
     },
     {
@@ -57,7 +59,9 @@ export const translate = [
             'Избранное',
             'Элемент добавлен в избранное',
             'Элемент уже в избранном',
-            'Произошла ошибка, попробуйте позже'
+            'Произошла ошибка, попробуйте позже',
+            'Метрики',
+            'Мы не собираем ваши данные'
         ]
     }
 ]
