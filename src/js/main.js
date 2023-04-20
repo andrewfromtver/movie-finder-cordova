@@ -869,7 +869,7 @@ const webTorPlayer = () => {
                 </div>
                 <div class="mt-4 row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
-                        <iframe id="output"></iframe>
+                        <iframe id="output" sandbox="allow-scripts allow-same-origin"></iframe>
                     </div>
                 </div>
                 <div>
@@ -923,11 +923,11 @@ const webTorPlayer = () => {
         `
         output.srcdoc = htmlPage
         function resizeIframe(obj) {
-            obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+            obj.style.height = obj.contentWindow.document.documentElement.scrollHeight  + 'px';
         }
         iframeInterval = setInterval( () => {
             if (document.querySelector('iframe')) resizeIframe(document.querySelector('iframe'))
-        }, 50)
+        }, 250)
     }
 }
 
