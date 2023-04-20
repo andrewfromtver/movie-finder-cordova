@@ -14,6 +14,7 @@ import favoritesIco from "../assets/favorites.svg"
 import settingsIco from "../assets/settings.svg"
 import playIco from "../assets/play.svg"
 import deleteIco from "../assets/delete.svg"
+import webtorIco from "../assets/webtor.png"
 
 import { getTrending, getFullInfo, getRecommendations, getItemsByPerson, searchEngine, getTrailers} from './api'
 import { lang, translate } from "./config";
@@ -211,7 +212,7 @@ const renderAddons = (type, id) => {
                             </h2>
                             <div id="panelsStayOpen-collapse-${counter}" class="accordion-collapse collapse ${showToggle}">
                             <div>
-                                <iframe src="https://www.youtube.com/embed/${element.key}" frameborder="0"></iframe>
+                                <iframe class="trailerIframe" src="https://www.youtube.com/embed/${element.key}" frameborder="0"></iframe>
                             </div>
                             </div>
                         </div>
@@ -848,9 +849,94 @@ const settingsTab = () => {
     `
 }
 
+const webTorPlayer = () => {
+    let i = 0
+    if (lang === 'ru') i = 1
+    container.innerHTML = `
+        <section>
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
+                            ${translate[i].data[10]}
+                        </h1>
+                        <div class="fs-5 mb-2">
+                            <span id="torrentPlayerDescription">
+                                ${translate[i].data[11]}
+                            </span>
+                        </div>
+                    </div>            
+                </div>
+                <div class="mt-4 row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <iframe id="output"></iframe>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <form id="webTorrentForm" class="mt-4 row align-items-center">
+                            <div id="inputPlaceholder" class="col-md-12 mt-4">
+                                <label for="inputPassword2" class="visually-hidden">Magnet URL</label>
+                            </div>
+                            <div class="col-md-12 mt-4">
+                                <button style="width: 100%;" type="submit" class="btn btn-success">
+                                    ${translate[i].data[12]}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    `
+    let input = document.createElement("input")
+    input.classList = 'form-control'
+    input.type = 'text'
+    input.placeholder = 'Magnet URL'
+    input.id = 'magnetUrl'
+    inputPlaceholder.appendChild(input)
+
+    webTorrentForm.onsubmit = () => {
+        event.preventDefault()
+        let htmlPage = `
+            <!doctype html>
+            <html>
+                <head>
+                    <title>Webtor Player SDK Example</title>
+                    <meta charset="utf-8">
+                    <meta content="width=device-width, initial-scale=1" name="viewport">
+                    <meta content="ie=edge" http-equiv="x-ua-compatible">
+                    <style>
+                        html, body, iframe {
+                            margin: 0;
+                            padding: 0;
+                            width: 100%;
+                            height: 100%;
+                        }
+                    </style>
+                    <script src="https://cdn.jsdelivr.net/npm/@webtor/embed-sdk-js/dist/index.min.js" charset="utf-8" async></script>
+                </head>
+                <body>
+                    <video controls src="${magnetUrl.value}"></video>
+                </body>
+            </html>
+        `
+        output.srcdoc = htmlPage
+        function resizeIframe(obj) {
+            obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+        }
+        iframeInterval = setInterval( () => {
+            if (document.querySelector('iframe')) resizeIframe(document.querySelector('iframe'))
+        }, 50)
+    }
+}
+
+let iframeInterval
+
 const stateListener = () => {
     closeSideBarBtn.click()
     let href = window.location.href
+    if (iframeInterval) clearInterval(iframeInterval)
     if (href.includes('trending')) {
         let type = href.split('_')[1]
         let time = href.split('_')[2]
@@ -878,7 +964,9 @@ const stateListener = () => {
         favoritesLink.classList = 'nav-link'
         settingsLink.classList = 'nav-link'
     } else if (href.includes('webtorrent')) {
-        webTorrentPlayer()
+        let playerType = 'native'
+        if (sessionStorage.getItem('player')) playerType = sessionStorage.getItem('player')
+        playerType === 'native' ? webTorrentPlayer() : webTorPlayer()
 
         homeLink.classList = 'nav-link'
         randomfindmachineLink.classList = 'nav-link active'
@@ -918,6 +1006,7 @@ window.onload = () => {
     home.src = homeIco
     play.src = playIco
     favorites.src = favoritesIco
+    playerIcon.src = webtorIco
     settings.src = settingsIco
     movies.innerText = translate[i].data[0]
     tvs.innerText = translate[i].data[1]
@@ -937,6 +1026,14 @@ window.onload = () => {
         langSwitch.checked ? sessionStorage.setItem('lang', 1) : sessionStorage.setItem('lang', 0)
         window.location.reload()
     }
+    playerSwitch.onchange = () => {
+        !playerSwitch.checked ? sessionStorage.setItem('player', 'native') : sessionStorage.setItem('player', 'webtorrent')
+        window.location.reload()
+    }
+    if (sessionStorage.getItem('player') && sessionStorage.getItem('player') === 'native') {
+        playerSwitch.checked = false
+    } else {
+        playerSwitch.checked = true
+    }
     app.hidden = false
-
 }
