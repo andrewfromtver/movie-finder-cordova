@@ -212,7 +212,7 @@ const renderAddons = (type, id) => {
                             </h2>
                             <div id="panelsStayOpen-collapse-${counter}" class="accordion-collapse collapse ${showToggle}">
                             <div>
-                                <iframe class="trailerIframe" src="https://www.youtube.com/embed/${element.key}" frameborder="0"></iframe>
+                                <iframe sandbox="allow-scripts allow-same-origin" class="trailerIframe" src="https://www.youtube.com/embed/${element.key}" frameborder="0"></iframe>
                             </div>
                             </div>
                         </div>
@@ -222,6 +222,7 @@ const renderAddons = (type, id) => {
         });
         inner += '</div></div></div>'
         trailers.innerHTML = inner
+        wideScreenFrame()
         if (document.getElementById('panelsStayOpen-collapse-1')) {
             setTimeout( () => {document.getElementById('panelsStayOpen-collapse-1').scrollIntoView({ behavior: 'smooth', block: 'center'}) }, 250);
         }
@@ -869,7 +870,7 @@ const webTorPlayer = () => {
                 </div>
                 <div class="mt-4 row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
-                        <iframe id="output" sandbox="allow-scripts allow-same-origin"></iframe>
+                        <iframe class="shadow-sm" height="0px" style="background: #111;" id="output" sandbox="allow-scripts allow-same-origin"></iframe>
                     </div>
                 </div>
                 <div>
@@ -922,21 +923,13 @@ const webTorPlayer = () => {
             </html>
         `
         output.srcdoc = htmlPage
-        function resizeIframe(obj) {
-            obj.style.height = obj.contentWindow.document.documentElement.scrollHeight  + 'px';
-        }
-        iframeInterval = setInterval( () => {
-            if (document.querySelector('iframe')) resizeIframe(document.querySelector('iframe'))
-        }, 250)
+        wideScreenFrame()
     }
 }
-
-let iframeInterval
 
 const stateListener = () => {
     closeSideBarBtn.click()
     let href = window.location.href
-    if (iframeInterval) clearInterval(iframeInterval)
     if (href.includes('trending')) {
         let type = href.split('_')[1]
         let time = href.split('_')[2]
@@ -995,7 +988,14 @@ const stateListener = () => {
     }
 }
 
+const wideScreenFrame = () => {
+    if (window.location.href.includes('webtorrent')) document.querySelectorAll('iframe').forEach(element => {
+        element.style.height = Math.floor(element.contentWindow.document.documentElement.scrollWidth / 1.778) + 16 + 'px';
+    });
+}
+
 window.onload = () => {
+    window.addEventListener("resize", () => {wideScreenFrame();});
     if (localStorage.getItem('favorites')) {
         appUsageStat()
     } else {
