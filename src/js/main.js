@@ -142,6 +142,8 @@ const showItem = (type, id) => {
                 renderRecommendations(type, id)
             }
             findTorrent.onclick = () => {
+                // to-do add API call to get magnet by title & store magnet in session storage
+                // let magnetUrl = getMagnet(itemTitle.innerText)
                 sessionStorage.setItem('torrent_search', itemTitle.innerText)
                 playerSwitch.checked = true
                 sessionStorage.setItem('player', 'webtorrent')
@@ -983,40 +985,33 @@ const stateListener = () => {
         favoritesLink.classList = 'nav-link'
         settingsLink.classList = 'nav-link'
         if (href.includes('play')) {
-            if (magnetUrl && magnetUrl.type === 'text') magnetUrl.value = sessionStorage.getItem('torrent_search')
-            event.preventDefault()
-            let htmlPage = `
-                <!doctype html>
-                <html>
-                    <head>
-                        <title>Webtor Player SDK Example</title>
-                        <meta charset="utf-8">
-                        <meta content="width=device-width, initial-scale=1" name="viewport">
-                        <meta content="ie=edge" http-equiv="x-ua-compatible">
-                        <style>
-                            html, body, iframe {
-                                margin: 0;
-                                padding: 0;
-                                width: 100%;
-                                height: 100%;
-                            }
-                        </style>
-                        <script src="https://cdn.jsdelivr.net/npm/@webtor/embed-sdk-js/dist/index.min.js" charset="utf-8" async></script>
-                    </head>
-                    <body>
-                        <video controls src="${magnetUrl.value}"></video>
-                    </body>
-                </html>
-            `
-            if (output) output.srcdoc = htmlPage
-            wideScreenFrame()
-
-            // const TorrentSearchApi = require('torrent-search-api');
-            // TorrentSearchApi.enableProvider('Torrent9');
-            // const torrents =  TorrentSearchApi.search(magnetUrl.value, 'all', 1);
-            // torrents.then(res => {
-            //     console.log(res);
-            // })
+            // if (magnetUrl && magnetUrl.type === 'text') magnetUrl.value = sessionStorage.getItem('torrent_search')
+            // let htmlPage = `
+            //     <!doctype html>
+            //     <html>
+            //         <head>
+            //             <title>Webtor Player SDK Example</title>
+            //             <meta charset="utf-8">
+            //             <meta content="width=device-width, initial-scale=1" name="viewport">
+            //             <meta content="ie=edge" http-equiv="x-ua-compatible">
+            //             <style>
+            //                 html, body, iframe {
+            //                     margin: 0;
+            //                     padding: 0;
+            //                     width: 100%;
+            //                     height: 100%;
+            //                 }
+            //             </style>
+            //             <script src="https://cdn.jsdelivr.net/npm/@webtor/embed-sdk-js/dist/index.min.js" charset="utf-8" async></script>
+            //         </head>
+            //         <body>
+            //             <video controls src="${magnetUrl.value}"></video>
+            //         </body>
+            //     </html>
+            // `
+            // if (output) output.srcdoc = htmlPage
+            // wideScreenFrame()
+            alert('Backend for this feature cannot be implemented on Github Pages, please wait for official release.')
         }
     } else if (href.includes('favorites')) {
         renderFavorites(localStorage.getItem('favorites'))
