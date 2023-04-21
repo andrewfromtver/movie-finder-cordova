@@ -76,6 +76,10 @@ const showItem = (type, id) => {
                     <i class="bi-cart-fill me-1"></i>
                     <img class="ico" src="${recommendationsIco}">
                 </button>
+                <button id="findTorrent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
+                    <i class="bi-cart-fill me-1"></i>
+                    <img class="ico" src="${playIco}">
+                </button>
             `
         }
         let scoreColor = '#dc3545'
@@ -136,6 +140,12 @@ const showItem = (type, id) => {
             showSimilar.onclick = () => {
                 setTimeout( () => { showSimilar.hidden = true }, 250);
                 renderRecommendations(type, id)
+            }
+            findTorrent.onclick = () => {
+                sessionStorage.setItem('torrent_search', itemTitle.innerText)
+                playerSwitch.checked = true
+                sessionStorage.setItem('player', 'webtorrent')
+                window.location.hash = '#webtorrent_play'
             }
         }
         const addItemToFavorites = (id, type, tytle, subtytle, img) => {
@@ -925,6 +935,13 @@ const webTorPlayer = () => {
         output.srcdoc = htmlPage
         wideScreenFrame()
     }
+    setTimeout( () => { wideScreenFrame() }, 500 )
+}
+
+const wideScreenFrame = () => {
+    if (window.location.href.includes('webtorrent')) document.querySelectorAll('iframe').forEach(element => {
+        element.style.height = Math.floor(element.contentWindow.document.documentElement.scrollWidth / 1.778) + 16 + 'px';
+    });
 }
 
 const stateListener = () => {
@@ -965,6 +982,42 @@ const stateListener = () => {
         randomfindmachineLink.classList = 'nav-link active'
         favoritesLink.classList = 'nav-link'
         settingsLink.classList = 'nav-link'
+        if (href.includes('play')) {
+            magnetUrl.value = sessionStorage.getItem('torrent_search')
+            event.preventDefault()
+            let htmlPage = `
+                <!doctype html>
+                <html>
+                    <head>
+                        <title>Webtor Player SDK Example</title>
+                        <meta charset="utf-8">
+                        <meta content="width=device-width, initial-scale=1" name="viewport">
+                        <meta content="ie=edge" http-equiv="x-ua-compatible">
+                        <style>
+                            html, body, iframe {
+                                margin: 0;
+                                padding: 0;
+                                width: 100%;
+                                height: 100%;
+                            }
+                        </style>
+                        <script src="https://cdn.jsdelivr.net/npm/@webtor/embed-sdk-js/dist/index.min.js" charset="utf-8" async></script>
+                    </head>
+                    <body>
+                        <video controls src="${magnetUrl.value}"></video>
+                    </body>
+                </html>
+            `
+            output.srcdoc = htmlPage
+            wideScreenFrame()
+
+            // const TorrentSearchApi = require('torrent-search-api');
+            // TorrentSearchApi.enableProvider('Torrent9');
+            // const torrents =  TorrentSearchApi.search(magnetUrl.value, 'all', 1);
+            // torrents.then(res => {
+            //     console.log(res);
+            // })
+        }
     } else if (href.includes('favorites')) {
         renderFavorites(localStorage.getItem('favorites'))
 
@@ -986,12 +1039,6 @@ const stateListener = () => {
         favoritesLink.classList = 'nav-link'
         settingsLink.classList = 'nav-link'
     }
-}
-
-const wideScreenFrame = () => {
-    if (window.location.href.includes('webtorrent')) document.querySelectorAll('iframe').forEach(element => {
-        element.style.height = Math.floor(element.contentWindow.document.documentElement.scrollWidth / 1.778) + 16 + 'px';
-    });
 }
 
 window.onload = () => {
