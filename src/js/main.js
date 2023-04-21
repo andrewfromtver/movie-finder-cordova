@@ -983,7 +983,7 @@ const stateListener = () => {
         favoritesLink.classList = 'nav-link'
         settingsLink.classList = 'nav-link'
         if (href.includes('play')) {
-            magnetUrl.value = sessionStorage.getItem('torrent_search')
+            if (magnetUrl && magnetUrl.type === 'text') magnetUrl.value = sessionStorage.getItem('torrent_search')
             event.preventDefault()
             let htmlPage = `
                 <!doctype html>
@@ -1008,7 +1008,7 @@ const stateListener = () => {
                     </body>
                 </html>
             `
-            output.srcdoc = htmlPage
+            if (output) output.srcdoc = htmlPage
             wideScreenFrame()
 
             // const TorrentSearchApi = require('torrent-search-api');
