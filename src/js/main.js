@@ -863,7 +863,10 @@ const settingsTab = () => {
                             Search API host
                         </h1>
                         <div class="fs-5 mb-2">
-                            <input id="searchApiHost" type="text">
+                            <div class="form-floating mb-3">
+                                <input style="height: 64px;" id="searchApiHost" type="text" class="form-control" id="floatingInput" placeholder="protocol://host:port">
+                                <label for="floatingInput">protocol://host:port</label>
+                            </div>
                         </div>
                     </div>            
                 </div>
