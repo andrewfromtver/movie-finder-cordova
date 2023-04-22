@@ -37,7 +37,8 @@ export const translate = [
             'Item already exists in "Favorites" list',
             'An error occurred, try again later',
             'Metrics',
-            'We do not collect your data'
+            'We do not collect your data',
+            'Please setup search API server first'
         ]
     },
     {
@@ -61,7 +62,8 @@ export const translate = [
             'Элемент уже в избранном',
             'Произошла ошибка, попробуйте позже',
             'Метрики',
-            'Мы не собираем ваши данные'
+            'Мы не собираем ваши данные',
+            'Search API сервер не настроен'
         ]
     }
 ]

@@ -21,6 +21,8 @@ import { lang, translate } from "./config";
 
 import { file, getTorrentByMagnet } from "./torrent"
 
+let searchApiServer = ''
+
 const renderTrendingCards = (type, time) => {
     container.innerHTML = `
         <div class="d-flex justify-content-center" style="margin-top: 40vh;">
@@ -142,8 +144,6 @@ const showItem = (type, id) => {
                 renderRecommendations(type, id)
             }
             findTorrent.onclick = () => {
-                // to-do add API call to get magnet by title & store magnet in session storage
-                // let magnetUrl = getMagnet(itemTitle.innerText)
                 sessionStorage.setItem('torrent_search', itemTitle.innerText)
                 playerSwitch.checked = true
                 sessionStorage.setItem('player', 'webtorrent')
@@ -857,9 +857,26 @@ const settingsTab = () => {
                         </div>
                     </div>            
                 </div>
+                <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <h1 id="torrentPlayerTitle" class="display-7">
+                            Search API host
+                        </h1>
+                        <div class="fs-5 mb-2">
+                            <input id="searchApiHost" type="text">
+                        </div>
+                    </div>            
+                </div>
             </div>
         </section>
     `
+    if (localStorage.getItem('search_api_server')) {
+        searchApiHost.value = localStorage.getItem('search_api_server')
+    }
+    searchApiHost.oninput = () => {
+        localStorage.setItem('search_api_server', searchApiHost.value)
+        searchApiServer = searchApiHost.value
+    }
 }
 
 const webTorPlayer = () => {
@@ -985,33 +1002,48 @@ const stateListener = () => {
         favoritesLink.classList = 'nav-link'
         settingsLink.classList = 'nav-link'
         if (href.includes('play')) {
-            // if (magnetUrl && magnetUrl.type === 'text') magnetUrl.value = sessionStorage.getItem('torrent_search')
-            // let htmlPage = `
-            //     <!doctype html>
-            //     <html>
-            //         <head>
-            //             <title>Webtor Player SDK Example</title>
-            //             <meta charset="utf-8">
-            //             <meta content="width=device-width, initial-scale=1" name="viewport">
-            //             <meta content="ie=edge" http-equiv="x-ua-compatible">
-            //             <style>
-            //                 html, body, iframe {
-            //                     margin: 0;
-            //                     padding: 0;
-            //                     width: 100%;
-            //                     height: 100%;
-            //                 }
-            //             </style>
-            //             <script src="https://cdn.jsdelivr.net/npm/@webtor/embed-sdk-js/dist/index.min.js" charset="utf-8" async></script>
-            //         </head>
-            //         <body>
-            //             <video controls src="${magnetUrl.value}"></video>
-            //         </body>
-            //     </html>
-            // `
-            // if (output) output.srcdoc = htmlPage
-            // wideScreenFrame()
-            alert('Backend for this feature cannot be implemented on Github Pages, please wait for official release.')
+            if (localStorage.getItem('search_api_server')) {
+                fetch(`${searchApiServer}/api/torrent-search?t=All&q=${sessionStorage.getItem('torrent_search')}`)
+                    .then(result => {
+                        if (result.status === 200) return result.json()
+                    })
+                    .then(result => {
+                        webTorPlayer()
+                        sessionStorage.setItem('player', 'webtorrent')
+                        playerSwitch.checked = true
+                        magnetUrl.value = result.result
+                        let htmlPage = `
+                            <!doctype html>
+                            <html>
+                                <head>
+                                    <title>Webtor Player SDK Example</title>
+                                    <meta charset="utf-8">
+                                    <meta content="width=device-width, initial-scale=1" name="viewport">
+                                    <meta content="ie=edge" http-equiv="x-ua-compatible">
+                                    <style>
+                                        html, body, iframe {
+                                            margin: 0;
+                                            padding: 0;
+                                            width: 100%;
+                                            height: 100%;
+                                        }
+                                    </style>
+                                    <script src="https://cdn.jsdelivr.net/npm/@webtor/embed-sdk-js/dist/index.min.js" charset="utf-8" async></script>
+                                </head>
+                                <body>
+                                    <video controls src="${magnetUrl.value}"></video>
+                                </body>
+                            </html>
+                        `
+                        output.srcdoc = htmlPage
+                    })
+            } else {
+                const message = new bootstrap.Toast(toast);
+                let i = 0
+                if (lang === 'ru') i = 1
+                toastMsg.innerText = translate[i].data[19]
+                message.show();
+            }
         }
     } else if (href.includes('favorites')) {
         renderFavorites(localStorage.getItem('favorites'))
@@ -1037,6 +1069,9 @@ const stateListener = () => {
 }
 
 window.onload = () => {
+    if (localStorage.getItem('search_api_server')) {
+        searchApiServer = localStorage.getItem('search_api_server')
+    }
     window.addEventListener("resize", () => {wideScreenFrame();});
     if (localStorage.getItem('favorites')) {
         appUsageStat()
