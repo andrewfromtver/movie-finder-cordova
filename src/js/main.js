@@ -22,6 +22,7 @@ import { lang, translate } from "./config";
 import { file, getTorrentByMagnet } from "./torrent"
 
 let searchApiServer = ''
+export let apiUrl = 'https://api.themoviedb.org'
 
 const renderTrendingCards = (type, time) => {
     container.innerHTML = `
@@ -858,17 +859,19 @@ const settingsTab = () => {
                     </div>            
                 </div>
                 <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-md-12">
-                        <h1 id="torrentPlayerTitle" class="display-7">
-                            Search API host
-                        </h1>
+                    <div class="col-md-10">
                         <div class="fs-5 mb-2">
                             <div class="form-floating mb-3">
-                                <input style="height: 64px;" id="searchApiHost" type="text" class="form-control" id="floatingInput" placeholder="protocol://host:port">
-                                <label for="floatingInput">protocol://host:port</label>
+                                <input style="height: 64px;" id="searchApiHost" type="text" class="form-control" id="floatingInput" placeholder="Search API host">
+                                <label for="floatingInput">Search API host</label>
                             </div>
                         </div>
-                    </div>            
+                    </div>
+                    <div class="col-md-2">
+                        <div class="fs-5 mb-2">
+                            <button id="saveServer">Save</button>
+                        </div>
+                    </div>  
                 </div>
             </div>
         </section>
@@ -876,9 +879,10 @@ const settingsTab = () => {
     if (localStorage.getItem('search_api_server')) {
         searchApiHost.value = localStorage.getItem('search_api_server')
     }
-    searchApiHost.oninput = () => {
+    saveServer.onclick = () => {
         localStorage.setItem('search_api_server', searchApiHost.value)
         searchApiServer = searchApiHost.value
+        window.location.reload()
     }
 }
 
@@ -1009,6 +1013,13 @@ const stateListener = () => {
                 fetch(`${searchApiServer}/api/torrent-search?t=All&q=${sessionStorage.getItem('torrent_search')}`)
                     .then(result => {
                         if (result.status === 200) return result.json()
+                        else {
+                            const message = new bootstrap.Toast(toast);
+                            let i = 0
+                            if (lang === 'ru') i = 1
+                            toastMsg.innerText = result.status
+                            message.show();
+                        }
                     })
                     .then(result => {
                         webTorPlayer()
@@ -1074,6 +1085,7 @@ const stateListener = () => {
 window.onload = () => {
     if (localStorage.getItem('search_api_server')) {
         searchApiServer = localStorage.getItem('search_api_server')
+        apiUrl = localStorage.getItem('search_api_server')
     }
     window.addEventListener("resize", () => {wideScreenFrame();});
     if (localStorage.getItem('favorites')) {

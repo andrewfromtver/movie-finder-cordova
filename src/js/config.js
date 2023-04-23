@@ -1,4 +1,3 @@
-export const apiUrl = 'https://api.themoviedb.org'
 export const apiKey = 'dcaf7f5ea224596464b7714bac28142f'
 
 import ruIco from "../assets/ru.png"

@@ -1,4 +1,5 @@
-import { apiKey, apiUrl, lang } from './config'
+import { apiKey, lang } from './config'
+import { apiUrl } from './main'
 
 // type = ['movie', 'tv', 'person', 'all']
 // time = ['day', 'week']
