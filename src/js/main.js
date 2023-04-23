@@ -23,6 +23,7 @@ import { file, getTorrentByMagnet } from "./torrent"
 
 let searchApiServer = ''
 export let apiUrl = 'https://api.themoviedb.org'
+let imgHost = 'https://image.tmdb.org'
 
 const renderTrendingCards = (type, time) => {
     container.innerHTML = `
@@ -43,7 +44,7 @@ const renderTrendingCards = (type, time) => {
             if (element.vote_average) scoreWidth = '64px'
             let imgSrc = noImage
             if (element.poster_path || element.profile_path) {
-                imgSrc = `https://image.tmdb.org/t/p/w500/${element.poster_path || element.profile_path}`
+                imgSrc = `${imgHost}/t/p/w500/${element.poster_path || element.profile_path}`
             }
             inner += `
                 <div class="card shadow-sm" style="max-width: 320px; width: calc(100% - 16px); margin: 48px 8px 0 8px;">
@@ -96,7 +97,7 @@ const showItem = (type, id) => {
         });
         let imgSrc = noImage
             if (data.poster_path || data.profile_path) {
-                imgSrc = `https://image.tmdb.org/t/p/w500/${data.poster_path || data.profile_path}`
+                imgSrc = `${imgHost}/t/p/w500/${data.poster_path || data.profile_path}`
             }
         let inner = `
             <section>
@@ -275,7 +276,7 @@ const renderAddons = (type, id) => {
             if (counter === 0) recMovieId = id
             let imgSrc = noImage
             if (element.poster_path || element.profile_path) {
-                imgSrc = `https://image.tmdb.org/t/p/w500/${element.poster_path || element.profile_path}`
+                imgSrc = `${imgHost}/t/p/w500/${element.poster_path || element.profile_path}`
             }
             inner += `
                 <div id="${id}" class="carousel-item ${itemState} movierec" data-bs-interval="10000">
@@ -393,7 +394,7 @@ const renderRecommendations = (type, id) => {
             if (counter === 0) recMovieId = id
             let imgSrc = noImage
             if (element.poster_path || element.profile_path) {
-                imgSrc = `https://image.tmdb.org/t/p/w500/${element.poster_path || element.profile_path}`
+                imgSrc = `${imgHost}/t/p/w500/${element.poster_path || element.profile_path}`
             }
             inner += `
                 <div id="${id}" class="carousel-item ${itemState} movierec" data-bs-interval="10000">
@@ -491,7 +492,7 @@ const renderSearchResults = (query) => {
             if (element.vote_average) scoreWidth = '64px'
             let imgSrc = noImage
             if (element.poster_path || element.profile_path) {
-                imgSrc = `https://image.tmdb.org/t/p/w500/${element.poster_path || element.profile_path}`
+                imgSrc = `${imgHost}/t/p/w500/${element.poster_path || element.profile_path}`
             }
             inner += `
                 <div class="card shadow-sm" style="max-width: 256px; width: calc(100% - 32px); margin: 48px 16px 0 16px;">
@@ -881,7 +882,6 @@ const settingsTab = () => {
     }
     saveServer.onclick = () => {
         localStorage.setItem('search_api_server', searchApiHost.value)
-        searchApiServer = searchApiHost.value
         window.location.reload()
     }
 }
@@ -1086,6 +1086,7 @@ window.onload = () => {
     if (localStorage.getItem('search_api_server')) {
         searchApiServer = localStorage.getItem('search_api_server')
         apiUrl = localStorage.getItem('search_api_server')
+        imgHost = localStorage.getItem('search_api_server')
     }
     window.addEventListener("resize", () => {wideScreenFrame();});
     if (localStorage.getItem('favorites')) {
