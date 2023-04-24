@@ -61,6 +61,7 @@ export const renderItem = (type, id) => {
                     <div class="row gx-4 gx-lg-5 align-items-center">
                         <div class="col-md-6"><img id="itemImg"class="shadow-sm card-img-top mb-5 mb-md-0" src="${imgSrc}" alt="" /></div>
                         <div class="col-md-6">
+                            <p hidden id="originalTitle">${data.original_title || data.original_name}</p>
                             <h1 id="itemTitle" class="display-5 fw-bolder">${data.title || data.name}</h1>
                             <div class="fs-5 mb-2">
                                 <span id="itemTag">${data.tagline || ""}</span>
@@ -102,7 +103,7 @@ export const renderItem = (type, id) => {
                 renderRecommendations(type, id)
             }
             findTorrent.onclick = () => {
-                window.location.hash = `#play_${itemTitle.innerText}`
+                window.location.hash = `#play_${originalTitle.innerText}`
             }
         }
         const addItemToFavorites = (id, type, tytle, subtytle, img) => {
@@ -445,9 +446,9 @@ export const renderSearchResults = (query) => {
                 imgSrc = `${imdbImageStore}/t/p/w500/${element.poster_path || element.profile_path}`
             }
             inner += `
-                <div class="card shadow-sm" style="max-width: 256px; width: calc(100% - 32px); margin: 48px 16px 0 16px;">
+                <div class="card shadow-sm" style="max-width: 320px; width: calc(100% - 16px); margin: 48px 8px 0 8px;">
                     <a href="#show_${element.media_type || type}_${id}">
-                        <img src="${imgSrc}" class="card-img-top" alt="${element.original_title}">
+                        <img style="min-height: 480px;" src="${imgSrc}" class="card-img-top" alt="${element.original_title}">
                     </a>
                     <p class="score" style="background-color: ${scoreColor}; width: ${scoreWidth};">${element.vote_average || ""}</p>
                     <div class="card-body">
