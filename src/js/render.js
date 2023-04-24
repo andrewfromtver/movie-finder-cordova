@@ -14,7 +14,7 @@ import favoritesIco from "../assets/favorites.svg"
 // App imports
 import { lang, translate } from "./config";
 import { getTrending, getFullInfo, getRecommendations, getItemsByPerson, searchEngine, getTrailers} from "./api"
-import { imgHost } from "./main"
+import { imdbImageStore } from "./main"
 import { file, getTorrentByMagnet } from "./torrent"
 
 // Data render
@@ -53,7 +53,7 @@ export const renderItem = (type, id) => {
         });
         let imgSrc = noImage
             if (data.poster_path || data.profile_path) {
-                imgSrc = `${imgHost}/t/p/w500/${data.poster_path || data.profile_path}`
+                imgSrc = `${imdbImageStore}/t/p/w500/${data.poster_path || data.profile_path}`
             }
         let inner = `
             <section>
@@ -231,7 +231,7 @@ const renderAddons = (type, id) => {
             if (counter === 0) recMovieId = id
             let imgSrc = noImage
             if (element.poster_path || element.profile_path) {
-                imgSrc = `${imgHost}/t/p/w500/${element.poster_path || element.profile_path}`
+                imgSrc = `${imdbImageStore}/t/p/w500/${element.poster_path || element.profile_path}`
             }
             inner += `
                 <div id="${id}" class="carousel-item ${itemState} movierec" data-bs-interval="10000">
@@ -348,7 +348,7 @@ const renderRecommendations = (type, id) => {
             if (counter === 0) recMovieId = id
             let imgSrc = noImage
             if (element.poster_path || element.profile_path) {
-                imgSrc = `${imgHost}/t/p/w500/${element.poster_path || element.profile_path}`
+                imgSrc = `${imdbImageStore}/t/p/w500/${element.poster_path || element.profile_path}`
             }
             inner += `
                 <div id="${id}" class="carousel-item ${itemState} movierec" data-bs-interval="10000">
@@ -445,7 +445,7 @@ export const renderSearchResults = (query) => {
             if (element.vote_average) scoreWidth = '64px'
             let imgSrc = noImage
             if (element.poster_path || element.profile_path) {
-                imgSrc = `${imgHost}/t/p/w500/${element.poster_path || element.profile_path}`
+                imgSrc = `${imdbImageStore}/t/p/w500/${element.poster_path || element.profile_path}`
             }
             inner += `
                 <div class="card shadow-sm" style="max-width: 256px; width: calc(100% - 32px); margin: 48px 16px 0 16px;">
@@ -515,7 +515,7 @@ export const renderTrendingCards = (type, time) => {
             if (element.vote_average) scoreWidth = '64px'
             let imgSrc = noImage
             if (element.poster_path || element.profile_path) {
-                imgSrc = `${imgHost}/t/p/w500/${element.poster_path || element.profile_path}`
+                imgSrc = `${imdbImageStore}/t/p/w500/${element.poster_path || element.profile_path}`
             }
             inner += `
                 <div class="card shadow-sm" style="max-width: 320px; width: calc(100% - 16px); margin: 48px 8px 0 8px;">

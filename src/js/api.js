@@ -1,12 +1,12 @@
 // App imports
 import { apiKey, lang } from './config'
-import { apiUrl } from './main'
+import { imdbApi } from './main'
 
 // type = ['movie', 'tv', 'person', 'all']
 // time = ['day', 'week']
 // output = Array
 export const getTrending = (type, time, callback = (data) => {console.log(data);}) => {
-    fetch(`${apiUrl}/3/trending/${type}/${time}?${apiKey}&language=${lang}`)
+    fetch(`${imdbApi}/3/trending/${type}/${time}?${apiKey}&language=${lang}`)
         .then(value => {
             if(value.status !== 200){
                 return Promise.reject(new Error('Internal API error.'));
@@ -27,7 +27,7 @@ export const getTrending = (type, time, callback = (data) => {console.log(data);
 // id = Integer
 // output = Object
 export const getFullInfo = (type, id, callback = (data) => {console.log(data);}) => {
-    fetch(`${apiUrl}/3/${type}/${id}?${apiKey}&language=${lang}`)
+    fetch(`${imdbApi}/3/${type}/${id}?${apiKey}&language=${lang}`)
         .then(value => {
             if(value.status !== 200){
                 return Promise.reject(new Error('Internal API error.'));
@@ -49,7 +49,7 @@ export const getFullInfo = (type, id, callback = (data) => {console.log(data);})
 // page = Integer
 // output = Array
 export const getRecommendations = (type, id, page = 1, callback = (data) => {console.log(data);}, errorHandler = () => {}) => {
-    fetch(`${apiUrl}/3/${type}/${id}/recommendations?${apiKey}&language=${lang}&page=${page}`)
+    fetch(`${imdbApi}/3/${type}/${id}/recommendations?${apiKey}&language=${lang}&page=${page}`)
         .then(value => {
             if(value.status !== 200){
                 errorHandler()
@@ -73,7 +73,7 @@ export const getRecommendations = (type, id, page = 1, callback = (data) => {con
 // page = Integer
 // output = Array
 export const getItemsByPerson = (type, id, page = 1, callback = (data) => {console.log(data);}, errorHandler = () => {}) => {
-    fetch(`${apiUrl}/3/discover/${type}?${apiKey}&language=${lang}&page=${page}&with_people=${id}&sort_by=popularity.desc`)
+    fetch(`${imdbApi}/3/discover/${type}?${apiKey}&language=${lang}&page=${page}&with_people=${id}&sort_by=popularity.desc`)
         .then(value => {
             if(value.status !== 200){
                 errorHandler()
@@ -97,7 +97,7 @@ export const getItemsByPerson = (type, id, page = 1, callback = (data) => {conso
 // page = Integer
 // output = Array
 export const searchEngine = (type, query, page, callback = (data) => {console.log(data);}, errorHandler = () => {}) => {
-    fetch(`${apiUrl}/3/search/${type}?${apiKey}&language=${lang}&page=${page}&query=${query}&sort_by=popularity.desc`)
+    fetch(`${imdbApi}/3/search/${type}?${apiKey}&language=${lang}&page=${page}&query=${query}&sort_by=popularity.desc`)
         .then(value => {
             if(value.status !== 200){
                 errorHandler()
@@ -120,7 +120,7 @@ export const searchEngine = (type, query, page, callback = (data) => {console.lo
 // id = Integer
 // output = Array
 export const getTrailers = (type, id, callback = (data) => {console.log(data);}, errorHandler = () => {}) => {
-    fetch(`${apiUrl}/3/${type}/${id}/videos?${apiKey}&language=${lang}`)
+    fetch(`${imdbApi}/3/${type}/${id}/videos?${apiKey}&language=${lang}`)
         .then(value => {
             if(value.status !== 200){
                 errorHandler()
