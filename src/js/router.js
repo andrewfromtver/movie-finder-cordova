@@ -52,6 +52,13 @@ export const stateListener = () => {
         favoritesLink.classList = 'nav-link'
         settingsLink.classList = 'nav-link'
     } else if (href.includes('play')) {
+        container.innerHTML = `
+            <div class="d-flex justify-content-center" style="margin-top: 40vh;">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        `
         if (localStorage.getItem('search_api_server')) {
             fetch(`${torrentSearchApi}/api/torrent-search?t=Movies&q=${href.split('_')[1]}`)
                 .then(result => {
@@ -66,8 +73,6 @@ export const stateListener = () => {
                 })
                 .then(result => {
                     renderWebTorPlayer()
-                    sessionStorage.setItem('player', 'webtorrent')
-                    playerSwitch.checked = true
                     magnetUrl.value = result.result
                     let htmlPage = `
                         <!doctype html>

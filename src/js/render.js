@@ -517,7 +517,7 @@ export const renderTrendingCards = (type, time) => {
             inner += `
                 <div class="card shadow-sm" style="max-width: 320px; width: calc(100% - 16px); margin: 48px 8px 0 8px;">
                     <a href="#show_${element.media_type || type}_${id}">
-                        <img src="${imgSrc}" class="card-img-top" alt="${element.original_title}">
+                        <img style="min-height: 480px;" src="${imgSrc}" class="card-img-top" alt="${element.original_title}">
                     </a>
                     <p class="score" style="background-color: ${scoreColor}; width: ${scoreWidth};">${element.vote_average || ""}</p>
                     <div class="card-body">
