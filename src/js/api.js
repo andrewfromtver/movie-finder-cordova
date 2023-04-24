@@ -1,3 +1,4 @@
+// App imports
 import { apiKey, lang } from './config'
 import { apiUrl } from './main'
 
@@ -5,7 +6,7 @@ import { apiUrl } from './main'
 // time = ['day', 'week']
 // output = Array
 export const getTrending = (type, time, callback = (data) => {console.log(data);}) => {
-    fetch(`${apiUrl}/3/trending/${type}/${time}?api_key=${apiKey}&language=${lang}`)
+    fetch(`${apiUrl}/3/trending/${type}/${time}?${apiKey}&language=${lang}`)
         .then(value => {
             if(value.status !== 200){
                 return Promise.reject(new Error('Internal API error.'));
@@ -22,12 +23,11 @@ export const getTrending = (type, time, callback = (data) => {console.log(data);
             console.error(e);
         });
 }
-
 // type = ['movie', 'tv', 'person']
 // id = Integer
 // output = Object
 export const getFullInfo = (type, id, callback = (data) => {console.log(data);}) => {
-    fetch(`${apiUrl}/3/${type}/${id}?api_key=${apiKey}&language=${lang}`)
+    fetch(`${apiUrl}/3/${type}/${id}?${apiKey}&language=${lang}`)
         .then(value => {
             if(value.status !== 200){
                 return Promise.reject(new Error('Internal API error.'));
@@ -44,13 +44,12 @@ export const getFullInfo = (type, id, callback = (data) => {console.log(data);})
             console.error(e);
         });
 }
-
 // type = ['movie', 'tv']
 // id = Integer
 // page = Integer
 // output = Array
 export const getRecommendations = (type, id, page = 1, callback = (data) => {console.log(data);}, errorHandler = () => {}) => {
-    fetch(`${apiUrl}/3/${type}/${id}/recommendations?api_key=${apiKey}&language=${lang}&page=${page}`)
+    fetch(`${apiUrl}/3/${type}/${id}/recommendations?${apiKey}&language=${lang}&page=${page}`)
         .then(value => {
             if(value.status !== 200){
                 errorHandler()
@@ -69,13 +68,12 @@ export const getRecommendations = (type, id, page = 1, callback = (data) => {con
             console.error(e);
         });
 }
-
 // type = ['movie', 'tv']
 // id = Integer
 // page = Integer
 // output = Array
 export const getItemsByPerson = (type, id, page = 1, callback = (data) => {console.log(data);}, errorHandler = () => {}) => {
-    fetch(`${apiUrl}/3/discover/${type}?api_key=${apiKey}&language=${lang}&page=${page}&with_people=${id}&sort_by=popularity.desc`)
+    fetch(`${apiUrl}/3/discover/${type}?${apiKey}&language=${lang}&page=${page}&with_people=${id}&sort_by=popularity.desc`)
         .then(value => {
             if(value.status !== 200){
                 errorHandler()
@@ -94,13 +92,12 @@ export const getItemsByPerson = (type, id, page = 1, callback = (data) => {conso
             console.error(e);
         });
 }
-
 // type = ['movie', 'tv', 'multi']
 // query = String
 // page = Integer
 // output = Array
 export const searchEngine = (type, query, page, callback = (data) => {console.log(data);}, errorHandler = () => {}) => {
-    fetch(`${apiUrl}/3/search/${type}?api_key=${apiKey}&language=${lang}&page=${page}&query=${query}&sort_by=popularity.desc`)
+    fetch(`${apiUrl}/3/search/${type}?${apiKey}&language=${lang}&page=${page}&query=${query}&sort_by=popularity.desc`)
         .then(value => {
             if(value.status !== 200){
                 errorHandler()
@@ -119,12 +116,11 @@ export const searchEngine = (type, query, page, callback = (data) => {console.lo
             console.error(e);
         });
 }
-
 // type = ['movie', 'tv']
 // id = Integer
 // output = Array
 export const getTrailers = (type, id, callback = (data) => {console.log(data);}, errorHandler = () => {}) => {
-    fetch(`${apiUrl}/3/${type}/${id}/videos?api_key=${apiKey}&language=${lang}`)
+    fetch(`${apiUrl}/3/${type}/${id}/videos?${apiKey}&language=${lang}`)
         .then(value => {
             if(value.status !== 200){
                 errorHandler()

@@ -1,4 +1,4 @@
-export const apiKey = 'dcaf7f5ea224596464b7714bac28142f'
+export const apiKey = 'api_key=dcaf7f5ea224596464b7714bac28142f'
 
 import ruIco from "../assets/ru.png"
 import usaIco from "../assets/usa.png"
