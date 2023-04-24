@@ -11,6 +11,7 @@ import playIco from "../assets/play.svg"
 // App import
 import { lang, translate } from "./config";
 import { stateListener } from "./router"
+import { renderNativeTorrentPlayer, renderWebTorPlayer } from "./render"
 
 // Servers
 export let torrentSearchApi = 'https://localhost'
@@ -64,22 +65,6 @@ window.onload = () => {
     searchImg.src = searchIco
     brand.src = logo
 
-    // toggles control
-    langSwitch.onchange = () => {
-        langSwitch.checked ? sessionStorage.setItem('lang', 1) : sessionStorage.setItem('lang', 0)
-        window.location.reload()
-    }
-    playerSwitch.onchange = () => {
-        !playerSwitch.checked ? sessionStorage.setItem('player', 'native') : sessionStorage.setItem('player', 'webtorrent')
-        window.location.reload()
-    }
-
-    // search init
-    searchForm.onsubmit = () => {
-        event.preventDefault()
-        window.location.href = `#search_${queryString.value}`
-    }
-
     // read saved servers
     if (localStorage.getItem('search_api_server')) {
         torrentSearchApi = localStorage.getItem('search_api_server')
@@ -90,6 +75,26 @@ window.onload = () => {
     // read saved user data
     if (!localStorage.getItem('favorites')) {
         localStorage.setItem('favorites', '[]')
+    }
+    
+    // toggles control
+    langSwitch.onchange = () => {
+        langSwitch.checked ? sessionStorage.setItem('lang', 1) : sessionStorage.setItem('lang', 0)
+        window.location.reload()
+    }
+    playerSwitch.onchange = () => {
+        playerSwitch.checked ? sessionStorage.setItem('player', 'webtorrent') : sessionStorage.setItem('player', 'native')
+        if (window.location.href.includes('webtorrent')) {
+        let playerType = 'native'
+            if (sessionStorage.getItem('player')) playerType = sessionStorage.getItem('player')
+            playerType === 'native' ? renderNativeTorrentPlayer() : renderWebTorPlayer()
+        }
+    }
+
+    // search init
+    searchForm.onsubmit = () => {
+        event.preventDefault()
+        window.location.href = `#search_${queryString.value}`
     }
     
     // router init

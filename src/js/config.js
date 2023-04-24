@@ -4,6 +4,13 @@ import ruIco from "../assets/ru.png"
 import usaIco from "../assets/usa.png"
 
 export let lang = 'en'
+
+if (sessionStorage.getItem('player') == 'webtorrent') {
+    playerSwitch.checked = true
+} else {
+    playerSwitch.checked = false
+}
+
 if (sessionStorage.getItem('lang') == 1) {
     lang = 'ru'
     langIcon.src = ruIco

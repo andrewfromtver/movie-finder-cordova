@@ -1,3 +1,6 @@
+import * as bootstrap from "bootstrap";
+
+import { lang, translate } from "./config";
 import { 
     renderTrendingCards, 
     renderItem, 
@@ -7,7 +10,7 @@ import {
     renderWebTorPlayer, 
     renderSettingsTab 
 } from './render'
-
+import { wideScreenFrame } from "./render";
 import { torrentSearchApi } from './main'
 
 export const stateListener = () => {
@@ -48,56 +51,58 @@ export const stateListener = () => {
         randomfindmachineLink.classList = 'nav-link active'
         favoritesLink.classList = 'nav-link'
         settingsLink.classList = 'nav-link'
-        if (href.includes('play')) {
-            if (localStorage.getItem('search_api_server')) {
-                fetch(`${torrentSearchApi}/api/torrent-search?t=Movies&q=${sessionStorage.getItem('torrent_search')}`)
-                    .then(result => {
-                        if (result.status === 200) return result.json()
-                        else {
-                            const message = new bootstrap.Toast(toast);
-                            let i = 0
-                            if (lang === 'ru') i = 1
-                            toastMsg.innerText = result.status
-                            message.show();
-                        }
-                    })
-                    .then(result => {
-                        renderWebTorPlayer()
-                        sessionStorage.setItem('player', 'webtorrent')
-                        playerSwitch.checked = true
-                        magnetUrl.value = result.result
-                        let htmlPage = `
-                            <!doctype html>
-                            <html>
-                                <head>
-                                    <title>Webtor Player SDK Example</title>
-                                    <meta charset="utf-8">
-                                    <meta content="width=device-width, initial-scale=1" name="viewport">
-                                    <meta content="ie=edge" http-equiv="x-ua-compatible">
-                                    <style>
-                                        html, body, iframe {
-                                            margin: 0;
-                                            padding: 0;
-                                            width: 100%;
-                                            height: 100%;
-                                        }
-                                    </style>
-                                    <script src="https://cdn.jsdelivr.net/npm/@webtor/embed-sdk-js/dist/index.min.js" charset="utf-8" async></script>
-                                </head>
-                                <body>
-                                    <video controls src="${magnetUrl.value}"></video>
-                                </body>
-                            </html>
-                        `
-                        output.srcdoc = htmlPage
-                    })
-            } else {
-                const message = new bootstrap.Toast(toast);
-                let i = 0
-                if (lang === 'ru') i = 1
-                toastMsg.innerText = translate[i].data[19]
-                message.show();
-            }
+    } else if (href.includes('play')) {
+        if (localStorage.getItem('search_api_server')) {
+            fetch(`${torrentSearchApi}/api/torrent-search?t=Movies&q=${href.split('_')[1]}`)
+                .then(result => {
+                    if (result.status === 200) return result.json()
+                    else {
+                        const message = new bootstrap.Toast(toast);
+                        let i = 0
+                        if (lang === 'ru') i = 1
+                        toastMsg.innerText = result.status
+                        message.show();
+                    }
+                })
+                .then(result => {
+                    renderWebTorPlayer()
+                    sessionStorage.setItem('player', 'webtorrent')
+                    playerSwitch.checked = true
+                    magnetUrl.value = result.result
+                    let htmlPage = `
+                        <!doctype html>
+                        <html>
+                            <head>
+                                <title>Webtor Player SDK Example</title>
+                                <meta charset="utf-8">
+                                <meta content="width=device-width, initial-scale=1" name="viewport">
+                                <meta content="ie=edge" http-equiv="x-ua-compatible">
+                                <style>
+                                    html, body, iframe {
+                                        margin: 0;
+                                        padding: 0;
+                                        width: 100%;
+                                        height: 100%;
+                                    }
+                                </style>
+                                <script src="https://cdn.jsdelivr.net/npm/@webtor/embed-sdk-js/dist/index.min.js" charset="utf-8" async></script>
+                            </head>
+                            <body>
+                                <video controls src="${magnetUrl.value}"></video>
+                            </body>
+                        </html>
+                    `
+                    output.srcdoc = htmlPage
+                    wideScreenFrame()
+                    webTorrentForm.hidden = true
+                    torrentPlayerTitle.innerText = decodeURI(href.split('_')[1])
+                })
+        } else {
+            const message = new bootstrap.Toast(toast);
+            let i = 0
+            if (lang === 'ru') i = 1
+            toastMsg.innerText = translate[i].data[19]
+            message.show();
         }
     } else if (href.includes('favorites')) {
         renderFavorites(localStorage.getItem('favorites'))

@@ -102,10 +102,7 @@ export const renderItem = (type, id) => {
                 renderRecommendations(type, id)
             }
             findTorrent.onclick = () => {
-                sessionStorage.setItem('torrent_search', itemTitle.innerText)
-                playerSwitch.checked = true
-                sessionStorage.setItem('player', 'webtorrent')
-                window.location.hash = '#webtorrent_play'
+                window.location.hash = `#play_${itemTitle.innerText}`
             }
         }
         const addItemToFavorites = (id, type, tytle, subtytle, img) => {
@@ -688,7 +685,7 @@ export const renderWebTorPlayer = () => {
         output.srcdoc = htmlPage
         wideScreenFrame()
     }
-    setTimeout( () => { wideScreenFrame() }, 500 )
+    wideScreenFrame()
 }
 export const renderFavorites = (data) => {
     let i = 0
@@ -926,8 +923,8 @@ export const renderSettingsTab = () => {
 }
 
 // Service functions
-const wideScreenFrame = () => {
-    if (window.location.href.includes('webtorrent')) document.querySelectorAll('iframe').forEach(element => {
+export const wideScreenFrame = () => {
+    if (window.location.href.includes('webtorrent') || window.location.href.includes('play')) document.querySelectorAll('iframe').forEach(element => {
         element.style.height = Math.floor(element.contentWindow.document.documentElement.scrollWidth / 1.778) + 16 + 'px';
     });
 }
