@@ -65,6 +65,8 @@ export const renderItem = (type, id) => {
         data.poster_path || data.profile_path
       }`;
     }
+    let searchDate = "S01E01_tvshow";
+    if (data.release_date) searchDate = data.release_date.split("-")[0];
     let inner = `
             <section>
                 <div class="container px-4 px-lg-5 my-5">
@@ -73,7 +75,7 @@ export const renderItem = (type, id) => {
                         <div class="col-md-6">
                             <p hidden id="originalTitle">${
                               data.original_title || data.original_name
-                            }</p>
+                            } ${searchDate}</p>
                             <h1 id="itemTitle" class="display-5 fw-bolder">${
                               data.title || data.name
                             }</h1>
