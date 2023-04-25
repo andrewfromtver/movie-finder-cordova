@@ -65,7 +65,7 @@ export const renderItem = (type, id) => {
         data.poster_path || data.profile_path
       }`;
     }
-    let searchDate = "S01E01_tvshow";
+    let searchDate = "S01E01";
     if (data.release_date) searchDate = data.release_date.split("-")[0];
     let inner = `
             <section>
