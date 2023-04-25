@@ -1,144 +1,159 @@
 @import "~bootstrap/scss/bootstrap";
 
 * {
-    font-family: sans-serif;
+  font-family: sans-serif;
 }
 
 footer {
-    width: 100%;
-    background: #fff;
+  width: 100%;
+  background: #fff;
 }
 
 .favoritesImg {
-    height: 128px;
-    width: 96px;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+  height: 128px;
+  width: 96px;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 .nav-icon {
-    height: 32px;
-    width: 32px;
+  height: 32px;
+  width: 32px;
 }
 
-button, input {
-    border-radius: 0 !important;
+button,
+input {
+  border-radius: 0 !important;
 }
 
 .ico {
-    filter: invert(1);
-    height: 18px;
-    padding: 0 8px;
+  filter: invert(1);
+  height: 18px;
+  padding: 0 8px;
 }
 
 .score {
-    position: absolute;
-    color: #fff;
-    text-align: center;
-    padding: 8px 0;
-    font-weight: 900;
-    font-size: 18px;
+  position: absolute;
+  color: #fff;
+  text-align: center;
+  padding: 8px 0;
+  font-weight: 900;
+  font-size: 18px;
 }
 
-.card, .accordion-item {
-    border-radius: 0;
-    border: none;
+.card,
+.accordion-item {
+  border-radius: 0;
+  border: none;
 }
 
 .card:hover {
-    box-shadow: 0 0 24px #0dcaf0 !important;
+  box-shadow: 0 0 24px #0dcaf0 !important;
 }
 
 .card:active {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .card img {
-    border-radius: 0;
+  border-radius: 0;
 }
 
 .card-body {
-    bottom: 0;
-    position: absolute;
-    backdrop-filter: blur(128px);
-    width: 100%;
-    color: #fff;
-    font-weight: 900;
-    -webkit-text-stroke: 1px #aaa;
+  bottom: 0;
+  position: absolute;
+  backdrop-filter: blur(128px);
+  width: 100%;
+  color: #fff;
+  font-weight: 900;
+  -webkit-text-stroke: 1px #aaa;
 }
 
 .card-body h5 {
-    font-weight: 900;
+  font-weight: 900;
 }
 
 .accordion-button {
-    background: none !important;
-    border-radius: 0 !important;
+  background: none !important;
+  border-radius: 0 !important;
 }
 
 #container {
-    margin: 48px auto 96px auto;
-    display: flex; 
-    flex-direction: row; 
-    flex-wrap: wrap; 
-    justify-content: center;
-    max-width: 1088px;
+  margin: 48px auto 96px auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1088px;
 }
 
 section {
-    width: 100%;
+  width: 100%;
 }
 
 .table-wrap {
-    width: 100%;
-    max-width: 992px;
+  width: 100%;
+  max-width: 992px;
 }
 
 #output video {
-    width: 1200px;
-    max-width: 100%;
-  }
-  #progressBar {
-      height: 5px;
-      width: 0%;
-      background-color: #35b44f;
-      transition: width .4s ease-in-out;
-  }
+  width: 1200px;
+  max-width: 100%;
+}
+#progressBar {
+  height: 5px;
+  width: 0%;
+  background-color: #35b44f;
+  transition: width 0.4s ease-in-out;
+}
 
 iframe {
-    width: 100%;
+  width: 100%;
 }
 
 .trailerIframe {
-    width: 100%;
-    height: 70vh;
-    margin-bottom: -6px;
+  width: 100%;
+  height: 70vh;
+  margin-bottom: -6px;
 }
 
-.trailerIframe, video  {
-    background-image: url('https://static.pexels.com/photos/414171/pexels-photo-414171.jpeg');
-    background-size:cover;
-    -webkit-animation: slidein 25s;
-    animation: slidein 25s;
+.trailerIframe,
+video {
+  background-image: url("https://static.pexels.com/photos/414171/pexels-photo-414171.jpeg");
+  background-size: cover;
+  -webkit-animation: slidein 25s;
+  animation: slidein 25s;
 
-    -webkit-animation-fill-mode: forwards;
-    animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
 
-    -webkit-animation-iteration-count: infinite;
-    animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
 
-    -webkit-animation-direction: alternate;
-    animation-direction: alternate;              
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
 }
 
 @-webkit-keyframes slidein {
-    from {background-position: top; background-size:3000px; }
-    to {background-position: -100px 0px;background-size:2750px;}
+  from {
+    background-position: top;
+    background-size: 3000px;
+  }
+  to {
+    background-position: -100px 0px;
+    background-size: 2750px;
+  }
 }
 
 @keyframes slidein {
-    from {background-position: top;background-size:3000px; }
-    to {background-position: -100px 0px;background-size:2750px;}
+  from {
+    background-position: top;
+    background-size: 3000px;
+  }
+  to {
+    background-position: -100px 0px;
+    background-size: 2750px;
+  }
 }
