@@ -1,6 +1,5 @@
 // Assets
 import logo from "../assets/logo.jpeg";
-import webtorIco from "../assets/webtor.png";
 import searchIco from "../assets/search.svg";
 import menuIco from "../assets/menu.svg";
 import homeIco from "../assets/home.svg";
@@ -66,7 +65,6 @@ window.onload = () => {
   home.src = homeIco;
   play.src = playIco;
   favorites.src = favoritesIco;
-  playerIcon.src = webtorIco;
   settings.src = settingsIco;
   menuImg.src = menuIco;
   searchImg.src = searchIco;
@@ -75,20 +73,17 @@ window.onload = () => {
   // read saved servers
   if (localStorage.getItem("search_api_server")) {
     torrentSearchApi = localStorage.getItem("search_api_server");
-    imdbApi = localStorage.getItem("search_api_server");
-    imdbImageStore = localStorage.getItem("search_api_server");
+  }
+  if (localStorage.getItem("imdb_api_server")) {
+    imdbApi = localStorage.getItem("imdb_api_server");
+  }
+  if (localStorage.getItem("imdb_images_server")) {
+    imdbImageStore = localStorage.getItem("imdb_images_server");
   }
 
   // read saved user data
   if (!localStorage.getItem("favorites")) {
     localStorage.setItem("favorites", "[]");
-  }
-
-  // read saved player type
-  if (sessionStorage.getItem("player") == "webtorrent") {
-    playerSwitch.checked = true;
-  } else {
-    playerSwitch.checked = false;
   }
 
   // toggles control
@@ -97,19 +92,6 @@ window.onload = () => {
       ? sessionStorage.setItem("lang", 1)
       : sessionStorage.setItem("lang", 0);
     window.location.reload();
-  };
-  playerSwitch.onchange = () => {
-    playerSwitch.checked
-      ? sessionStorage.setItem("player", "webtorrent")
-      : sessionStorage.setItem("player", "native");
-    if (window.location.href.includes("webtorrent")) {
-      let playerType = "native";
-      if (sessionStorage.getItem("player"))
-        playerType = sessionStorage.getItem("player");
-      playerType === "native"
-        ? renderNativeTorrentPlayer()
-        : renderWebTorPlayer();
-    }
   };
 
   // search init

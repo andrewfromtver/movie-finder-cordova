@@ -1003,7 +1003,7 @@ export const renderSettingsTab = () => {
                     </div>            
                 </div>
                 <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-md-10">
+                    <div class="col-md-12">
                         <div class="fs-5 mb-2">
                             <div class="form-floating mb-3">
                                 <input style="height: 64px;" id="searchApiHost" type="text" class="form-control" id="floatingInput" placeholder="Search API host">
@@ -1011,20 +1011,50 @@ export const renderSettingsTab = () => {
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="fs-5 mb-2">
-                            <button id="saveServer">Save</button>
-                        </div>
-                    </div>  
                 </div>
+                <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <div class="fs-5 mb-2">
+                            <div class="form-floating mb-3">
+                                <input style="height: 64px;" id="imdbApiMirror" type="text" class="form-control" id="floatingInput" placeholder="Search API host">
+                                <label for="floatingInput">IMDB API mirror</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <div class="fs-5 mb-2">
+                            <div class="form-floating mb-3">
+                                <input style="height: 64px;" id="imdbImagesMirror" type="text" class="form-control" id="floatingInput" placeholder="Search API host">
+                                <label for="floatingInput">IMDB Images mirror</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <div class="fs-5 mb-2">
+                          <button class="btn btn-secondary" id="saveServer">Save</button>
+                        </div>
+                    </div>
+                </div> 
             </div>
         </section>
     `;
   if (localStorage.getItem("search_api_server")) {
     searchApiHost.value = localStorage.getItem("search_api_server");
   }
+  if (localStorage.getItem("imdb_api_server")) {
+    imdbApiMirror.value = localStorage.getItem("imdb_api_server");
+  }
+  if (localStorage.getItem("imdb_images_server")) {
+    imdbImagesMirror.value = localStorage.getItem("imdb_images_server");
+  }
   saveServer.onclick = () => {
     localStorage.setItem("search_api_server", searchApiHost.value);
+    localStorage.setItem("imdb_api_server", imdbApiMirror.value);
+    localStorage.setItem("imdb_images_server", imdbImagesMirror.value);
     window.location.reload();
   };
 };

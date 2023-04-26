@@ -1,6 +1,9 @@
 // Bootstrap
 import * as bootstrap from "bootstrap";
 
+// Assets
+import noContent from '../assets/404.gif'
+
 // App imports
 import { lang, translate } from "./lang";
 import {
@@ -46,12 +49,7 @@ export const stateListener = () => {
     favoritesLink.classList = "nav-link";
     settingsLink.classList = "nav-link";
   } else if (href.includes("webtorrent")) {
-    let playerType = "native";
-    if (sessionStorage.getItem("player"))
-      playerType = sessionStorage.getItem("player");
-    playerType === "native"
-      ? renderNativeTorrentPlayer()
-      : renderWebTorPlayer();
+    renderNativeTorrentPlayer();
 
     homeLink.classList = "nav-link";
     randomfindmachineLink.classList = "nav-link active";
@@ -118,7 +116,32 @@ export const stateListener = () => {
       if (lang === "ru") i = 1;
       toastMsg.innerText = translate[i].data[19];
       message.show();
+      container.innerHTML = `
+        <section>
+        <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6">
+                <img class="card-img-top mb-5 mb-md-0" src="${noContent}">
+            </div>
+            <div class="col-md-6">
+                <div style="text-align: center;" class="fs-5 mb-2">
+                    <button style="width: 128px;" type="button" class="btn btn-success m-0 p-0">
+                        <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#trending_all_week">
+                            ${translate[i].data[8]}
+                        </a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+        </section>
+      `
     }
+
+    homeLink.classList = "nav-link";
+    randomfindmachineLink.classList = "nav-link";
+    favoritesLink.classList = "nav-link";
+    settingsLink.classList = "nav-link";
   } else if (href.includes("favorites")) {
     renderFavorites(localStorage.getItem("favorites"));
 

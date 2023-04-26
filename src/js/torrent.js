@@ -10,6 +10,7 @@ let interval;
 
 // Torrent search API
 export const getTorrentByMagnet = async (torFile) => {
+  if (file) file
   if (interval) clearInterval(interval);
   if (client) client.destroy();
   outputVideo.src = "";
@@ -23,12 +24,14 @@ export const getTorrentByMagnet = async (torFile) => {
     if (file && file._torrent.announce) {
       let isWebTorrent = false;
       file._torrent.announce.forEach((element) => {
-        if (
-          element.includes("wss://") ||
-          element.includes("ws://") ||
-          element.includes("http://")
-        )
-          isWebTorrent = true;
+        if (element) {
+          console.log(element);
+          if (element.includes("wss://") || element.includes("ws://")) {
+            isWebTorrent = true;
+          }
+        } else {
+          isWebTorrent = false;
+        }
       });
       if (isWebTorrent) {
         console.log("Client is downloading:", torrent.infoHash);
@@ -46,6 +49,12 @@ export const getTorrentByMagnet = async (torFile) => {
         toastMsg.innerText = translate[i].data[9];
         message.show();
       }
+    } else {
+      const message = new bootstrap.Toast(toast);
+      let i = 0;
+      if (lang === "ru") i = 1;
+      toastMsg.innerText = translate[i].data[9];
+      message.show();
     }
   });
 };
