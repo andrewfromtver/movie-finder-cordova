@@ -65,12 +65,12 @@ export const stateListener = () => {
         `;
     if (localStorage.getItem("search_api_server")) {
       fetch(
-        `${torrentSearchApi}/api/torrent-search?t=Movies&q=${
+        `${torrentSearchApi}/api/torrent/webtor?type=All&query=${
           href.split("_")[1]
         }`
       )
         .then((result) => {
-          if (result.status === 200) return result.json();
+          if (result.status === 200) return result.text();
           else {
             const message = new bootstrap.Toast(toast);
             let i = 0;
@@ -81,59 +81,39 @@ export const stateListener = () => {
         })
         .then((result) => {
           renderWebTorPlayer();
-          magnetUrl.value = result.result;
-          let htmlPage = `
-                        <!doctype html>
-                        <html>
-                            <head>
-                                <title>Webtor Player SDK Example</title>
-                                <meta charset="utf-8">
-                                <meta content="width=device-width, initial-scale=1" name="viewport">
-                                <meta content="ie=edge" http-equiv="x-ua-compatible">
-                                <style>
-                                    html, body, iframe {
-                                        margin: 0;
-                                        padding: 0;
-                                        width: 100%;
-                                        height: 100%;
-                                    }
-                                </style>
-                                <script src="https://cdn.jsdelivr.net/npm/@webtor/embed-sdk-js/dist/index.min.js" charset="utf-8" async></script>
-                            </head>
-                            <body>
-                                <video controls src="${magnetUrl.value}"></video>
-                            </body>
-                        </html>
-                    `;
-          output.srcdoc = htmlPage;
+          output.srcdoc = result;
           wideScreenFrame();
-          webTorrentForm.hidden = true;
           torrentPlayerTitle.innerText = decodeURI(href.split("_")[1]);
         });
     } else {
-      const message = new bootstrap.Toast(toast);
       let i = 0;
       if (lang === "ru") i = 1;
-      toastMsg.innerText = translate[i].data[19];
-      message.show();
       container.innerHTML = `
         <section>
-        <div class="container px-4 px-lg-5 my-5">
-        <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6">
-                <img class="card-img-top mb-5 mb-md-0" src="${noContent}">
-            </div>
-            <div class="col-md-6">
-                <div style="text-align: center;" class="fs-5 mb-2">
-                    <button style="width: 128px;" type="button" class="btn btn-success m-0 p-0">
-                        <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#trending_all_week">
-                            ${translate[i].data[8]}
-                        </a>
-                    </button>
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6">
+                        <img class="card-img-top mb-5 mb-md-0" src="${noContent}">
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="display-5 fw-bolder">
+                            404
+                        </h1>
+                        <div class="fs-5 mb-2">
+                            <span id="itemTag">
+                                ${translate[i].data[19]}
+                            </span>
+                        </div>
+                        <div class="fs-5 mb-2">
+                            <button style="width: 128px;" type="button" class="btn btn-success m-0 p-0">
+                                <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#trending_all_week">
+                                    ${translate[i].data[8]}
+                                </a>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
         </section>
       `
     }

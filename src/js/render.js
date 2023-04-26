@@ -739,58 +739,9 @@ export const renderWebTorPlayer = () => {
                         <iframe class="shadow-sm" height="0px" style="background: #111;" id="output" sandbox="allow-scripts allow-same-origin"></iframe>
                     </div>
                 </div>
-                <div>
-                    <div>
-                        <form id="webTorrentForm" class="mt-4 row align-items-center">
-                            <div id="inputPlaceholder" class="col-md-12 mt-4">
-                                <label for="inputPassword2" class="visually-hidden">Magnet URL</label>
-                            </div>
-                            <div class="col-md-12 mt-4">
-                                <button style="width: 100%;" type="submit" class="btn btn-success">
-                                    ${translate[i].data[12]}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
             </div>
         </section>
     `;
-  let input = document.createElement("input");
-  input.classList = "form-control";
-  input.type = "text";
-  input.placeholder = "Magnet URL";
-  input.id = "magnetUrl";
-  inputPlaceholder.appendChild(input);
-
-  webTorrentForm.onsubmit = () => {
-    event.preventDefault();
-    let htmlPage = `
-            <!doctype html>
-            <html>
-                <head>
-                    <title>Webtor Player SDK Example</title>
-                    <meta charset="utf-8">
-                    <meta content="width=device-width, initial-scale=1" name="viewport">
-                    <meta content="ie=edge" http-equiv="x-ua-compatible">
-                    <style>
-                        html, body, iframe {
-                            margin: 0;
-                            padding: 0;
-                            width: 100%;
-                            height: 100%;
-                        }
-                    </style>
-                    <script src="https://cdn.jsdelivr.net/npm/@webtor/embed-sdk-js/dist/index.min.js" charset="utf-8" async></script>
-                </head>
-                <body>
-                    <video controls src="${magnetUrl.value}"></video>
-                </body>
-            </html>
-        `;
-    output.srcdoc = htmlPage;
-    wideScreenFrame();
-  };
   wideScreenFrame();
 };
 export const renderFavorites = (data) => {
