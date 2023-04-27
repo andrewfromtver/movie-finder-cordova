@@ -218,7 +218,14 @@ const renderAddons = (type, id) => {
                             </h2>
                             <div id="panelsStayOpen-collapse-${counter}" class="accordion-collapse collapse ${showToggle}">
                             <div>
-                                <iframe sandbox="allow-scripts allow-same-origin" class="trailerIframe" src="https://www.youtube.com/embed/${element.key}" frameborder="0"></iframe>
+                                <iframe 
+                                  sandbox="allow-scripts allow-same-origin" 
+                                  class="trailerIframe" 
+                                  src="https://www.youtube.com/embed/${element.key}" 
+                                  frameborder="0"
+                                  allow="accelerometer; autoplay; encrypted-media; gyroscope;"
+                                  allowfullscreen
+                                ></iframe>
                             </div>
                             </div>
                         </div>
@@ -721,7 +728,7 @@ export const renderWebTorPlayer = () => {
                 </div>
                 <div class="mt-4 row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
-                        <iframe class="shadow-sm" height="0px" style="background: #111;" id="output" sandbox="allow-scripts allow-same-origin"></iframe>
+                        <iframe class="shadow-sm movieFrame" height="0px" style="background: #111;" id="output" sandbox="allow-scripts allow-same-origin"></iframe>
                     </div>
                 </div>
             </div>
@@ -997,11 +1004,8 @@ export const renderSettingsTab = () => {
 
 // Service functions
 export const wideScreenFrame = () => {
-  if (
-    window.location.href.includes("webtorrent") ||
-    window.location.href.includes("play")
-  )
-    document.querySelectorAll("iframe").forEach((element) => {
+  if (document.querySelectorAll(".movieFrame")) {
+    document.querySelectorAll(".movieFrame").forEach((element) => {
       element.style.height =
         Math.floor(
           element.contentWindow.document.documentElement.scrollWidth / 1.778
@@ -1009,4 +1013,5 @@ export const wideScreenFrame = () => {
         16 +
         "px";
     });
+  }
 };

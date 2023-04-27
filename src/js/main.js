@@ -10,6 +10,7 @@ import playIco from "../assets/play.svg";
 // App import
 import { lang, translate } from "./lang";
 import { stateListener } from "./router";
+import { wideScreenFrame } from "./render";
 
 // Servers
 export let torrentSearchApi = "https://localhost";
@@ -105,6 +106,7 @@ window.onload = () => {
   // show app after content loaded
   app.hidden = false;
 
+  window.addEventListener('resize', wideScreenFrame)
   // app init
   stateListener();
   appUsageStat();
