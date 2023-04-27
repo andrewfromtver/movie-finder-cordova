@@ -10,7 +10,6 @@ import playIco from "../assets/play.svg";
 // App import
 import { lang, translate } from "./lang";
 import { stateListener } from "./router";
-import { renderNativeTorrentPlayer, renderWebTorPlayer } from "./render";
 
 // Servers
 export let torrentSearchApi = "https://localhost";
@@ -18,7 +17,7 @@ export let imdbApi = "https://api.themoviedb.org";
 export let imdbImageStore = "https://image.tmdb.org";
 
 // Api keys
-export let apiKey = "api_key=dcaf7f5ea224596464b7714bac28142f";
+export let apiKey = "";
 
 // Data collector
 const userData = (
