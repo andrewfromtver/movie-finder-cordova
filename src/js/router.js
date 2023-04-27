@@ -25,7 +25,8 @@ export const stateListener = () => {
   if (href.includes("trending")) {
     let type = href.split("_")[1];
     let time = href.split("_")[2];
-    renderTrendingCards(type, time);
+    let page = href.split("_")[3];
+    renderTrendingCards(type, time, page);
 
     homeLink.classList = "nav-link active";
     randomfindmachineLink.classList = "nav-link";
@@ -106,7 +107,7 @@ export const stateListener = () => {
                         </div>
                         <div class="fs-5 mb-2">
                             <button style="width: 128px;" type="button" class="btn btn-success m-0 p-0">
-                                <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#trending_all_week">
+                                <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#trending_all_week_1">
                                     ${translate[i].data[8]}
                                 </a>
                             </button>

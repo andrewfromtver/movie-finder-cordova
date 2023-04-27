@@ -6,6 +6,7 @@ import * as bootstrap from "bootstrap";
 import noContent from "../assets/404.gif";
 import noImage from "../assets/no-image.png";
 import trailerIco from "../assets/trailer.svg";
+import expandIco from "../assets/expand.svg";
 import recommendationsIco from "../assets/recommendations.svg";
 import deleteIco from "../assets/delete.svg";
 import playIco from "../assets/play.svg";
@@ -327,39 +328,26 @@ const renderAddons = (type, id) => {
           });
           recommendationsMovieGenres.innerText = genList || "";
         });
-        recSwitchPrev.onclick = () => {
-          setTimeout(() => {
-            let id = document.querySelector(".movierec.active").id;
-            getFullInfo("movie", id, (data) => {
-              recommendationsMovieDate.innerText =
-                data.release_date || data.last_air_date || "";
-              recommendationsMovieName.innerText = data.title || data.name;
-              recommendationsMovieTag.innerText = data.tagline || "";
-              let genList = "";
-              data.genres.forEach((element) => {
-                genList += `${element.name} `;
+        carouselRecommendationsMovies.addEventListener(
+          "slide.bs.carousel",
+          () => {
+            setTimeout(() => {
+              let id = document.querySelector(".movierec.active").id;
+              getFullInfo("movie", id, (data) => {
+                recommendationsMovieDate.innerText =
+                  data.release_date || data.last_air_date || "";
+                recommendationsMovieName.innerText = data.title || data.name;
+                recommendationsMovieTag.innerText = data.tagline || "";
+                let genList = "";
+                data.genres.forEach((element) => {
+                  genList += `${element.name} `;
+                });
+                recommendationsMovieGenres.innerText = genList || "";
               });
-              recommendationsMovieGenres.innerText = genList || "";
-            });
-          }, 1050);
-        };
-        recSwitchNext.onclick = () => {
-          setTimeout(() => {
-            let id = document.querySelector(".movierec.active").id;
-            getFullInfo("movie", id, (data) => {
-              recommendationsMovieDate.innerText =
-                data.release_date || data.last_air_date || "";
-              recommendationsMovieName.innerText = data.title || data.name;
-              recommendationsMovieTag.innerText = data.tagline || "";
-              let genList = "";
-              data.genres.forEach((element) => {
-                genList += `${element.name} `;
-              });
-              recommendationsMovieGenres.innerText = genList || "";
-            });
-          }, 1050);
-        };
-        loadingTrigger[0].onload = () => {
+            }, 1050);
+          }
+        );
+        document.querySelectorAll("#loadingTrigger")[0].onload = () => {
           recommendations.scrollIntoView({
             behavior: "smooth",
             block: "center",
@@ -466,40 +454,26 @@ const renderRecommendations = (type, id) => {
         });
         recommendationsMovieGenres.innerText = genList || "";
       });
-
-      recSwitchPrev.onclick = () => {
-        setTimeout(() => {
-          let id = document.querySelector(".movierec.active").id;
-          getFullInfo(type, id, (data) => {
-            recommendationsMovieDate.innerText =
-              data.release_date || data.last_air_date || "";
-            recommendationsMovieName.innerText = data.title || data.name;
-            recommendationsMovieTag.innerText = data.tagline || "";
-            let genList = "";
-            data.genres.forEach((element) => {
-              genList += `${element.name} `;
+      carouselRecommendationsMovies.addEventListener(
+        "slide.bs.carousel",
+        () => {
+          setTimeout(() => {
+            let id = document.querySelector(".movierec.active").id;
+            getFullInfo(type, id, (data) => {
+              recommendationsMovieDate.innerText =
+                data.release_date || data.last_air_date || "";
+              recommendationsMovieName.innerText = data.title || data.name;
+              recommendationsMovieTag.innerText = data.tagline || "";
+              let genList = "";
+              data.genres.forEach((element) => {
+                genList += `${element.name} `;
+              });
+              recommendationsMovieGenres.innerText = genList || "";
             });
-            recommendationsMovieGenres.innerText = genList || "";
-          });
-        }, 1050);
-      };
-      recSwitchNext.onclick = () => {
-        setTimeout(() => {
-          let id = document.querySelector(".movierec.active").id;
-          getFullInfo(type, id, (data) => {
-            recommendationsMovieDate.innerText =
-              data.release_date || data.last_air_date || "";
-            recommendationsMovieName.innerText = data.title || data.name;
-            recommendationsMovieTag.innerText = data.tagline || "";
-            let genList = "";
-            data.genres.forEach((element) => {
-              genList += `${element.name} `;
-            });
-            recommendationsMovieGenres.innerText = genList || "";
-          });
-        }, 1050);
-      };
-      loadingTrigger[0].onload = () => {
+          }, 1050);
+        }
+      );
+      document.querySelectorAll("#loadingTrigger")[0].onload = () => {
         recommendations.scrollIntoView({ behavior: "smooth", block: "center" });
       };
     },
@@ -573,7 +547,7 @@ export const renderSearchResults = (query) => {
                             </div>
                             <div class="fs-5 mb-2">
                                 <button style="width: 128px;" type="button" class="btn btn-success m-0 p-0">
-                                    <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#trending_all_week">
+                                    <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#trending_all_week_1">
                                         ${translate[i].data[8]}
                                     </a>
                                 </button>
@@ -588,7 +562,7 @@ export const renderSearchResults = (query) => {
 };
 
 // Nav links & tabs
-export const renderTrendingCards = (type, time) => {
+export const renderTrendingCards = (type, time, page) => {
   container.innerHTML = `
         <div class="d-flex justify-content-center" style="margin-top: 40vh;">
             <div class="spinner-border" role="status">
@@ -596,7 +570,7 @@ export const renderTrendingCards = (type, time) => {
             </div>
         </div>
     `;
-  getTrending(type, time, (data) => {
+  getTrending(type, time, page, (data) => {
     let inner = "";
     data.forEach((element) => {
       let id = element.id;
@@ -629,6 +603,17 @@ export const renderTrendingCards = (type, time) => {
                 </div>
             `;
     });
+    if (Number(page) < 1000) {
+      inner += `
+      <a style="width: 100%; text-align: center;" href="#trending_${type}_${time}_${
+        Number(page) + 1
+      }">
+        <button style="background: none; border: none;"class=" mt-5">
+          <img src="${expandIco}" alt="expand">
+        </button>
+      </a>
+    `;
+    }
     container.innerHTML = inner;
   });
 };

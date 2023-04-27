@@ -8,11 +8,12 @@ import { imdbApi, apiKey } from "./main";
 export const getTrending = (
   type,
   time,
+  page = 1,
   callback = (data) => {
     console.log(data);
   }
 ) => {
-  fetch(`${imdbApi}/3/trending/${type}/${time}?${apiKey}&language=${lang}`)
+  fetch(`${imdbApi}/3/trending/${type}/${time}?${apiKey}&language=${lang}&page=${page}`)
     .then((value) => {
       if (value.status !== 200) {
         return Promise.reject(new Error("Internal API error."));
