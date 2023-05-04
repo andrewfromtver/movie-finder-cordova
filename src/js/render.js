@@ -24,6 +24,7 @@ import {
 } from "./api";
 import { imdbImageStore } from "./main";
 import { file, getTorrentByMagnet } from "./torrent";
+import { torrentSearchApi } from "./main";
 
 // Data render
 export const renderItem = (type, id) => {
@@ -35,6 +36,15 @@ export const renderItem = (type, id) => {
         </div>
     `;
   getFullInfo(type, id, (data) => {
+    let episodeCount = [];
+    if (type === "tv") {
+      data.seasons.forEach((element) => {
+        episodeCount.push({ name: element.name, qty: element.episode_count });
+      });
+    } else {
+      episodeCount = [];
+    }
+    sessionStorage.setItem("seasons", JSON.stringify(episodeCount));
     let showButtonText = `<img class="ico" src="${recommendationsIco}">`;
     let similarButton = "";
     if (type !== "person") {
@@ -66,7 +76,7 @@ export const renderItem = (type, id) => {
         data.poster_path || data.profile_path
       }`;
     }
-    let searchDate = "S01E01";
+    let searchDate = "";
     if (data.release_date) searchDate = data.release_date.split("-")[0];
     let inner = `
             <section>
@@ -566,6 +576,143 @@ export const renderSearchResults = (query) => {
         `;
     }
   );
+};
+export const renderTorrentLiveVideo = () => {
+  container.innerHTML = `
+    <div class="d-flex justify-content-center" style="margin-top: 40vh;">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+  `;
+  if (localStorage.getItem("search_api_server")) {
+    let seriesNum = "";
+    if (sessionStorage.getItem("series_num")) {
+      seriesNum = sessionStorage.getItem("series_num");
+    }
+    fetch(
+      `${torrentSearchApi}/api/torrent/webtor?type=All&query=${
+        window.location.href.split("_")[1] + seriesNum
+      }`
+    )
+      .then((result) => {
+        if (result.status === 200) return result.text();
+        else {
+          const message = new bootstrap.Toast(toast);
+          let i = 0;
+          if (lang === "ru") i = 1;
+          toastMsg.innerText = result.status;
+          message.show();
+        }
+      })
+      .then((result) => {
+        renderWebTorPlayer();
+        output.srcdoc = result;
+        wideScreenFrame();
+        torrentPlayerTitle.innerText = decodeURI(
+          window.location.href.split("_")[1]
+        );
+        let seasons = JSON.parse(sessionStorage.getItem("seasons"));
+        if (seasons.length > 0) {
+          let seasonsInner = "";
+          let count = 1;
+          let episodesArray = [];
+          seasons.forEach((element) => {
+            let episodesInner = "";
+            seasonsInner += `
+              <option value="${count}">${element.name}</option>
+            `;
+            for (let index = 1; index < element.qty; index++) {
+              episodesInner += `
+                <option value="${index}">${index}</option>
+              `;
+            }
+            episodesArray.push({ season: count, episodes: episodesInner });
+            count++;
+          });
+          console.log(episodesArray);
+          container.innerHTML += `
+            <select id="seasonsSelector"></select>
+            <select id="episodesSelector"></select>
+            <a id="seasonEpisodeShow">
+              <button>Ok</button>
+            </a>
+          `;
+          seasonsSelector.innerHTML = seasonsInner;
+          episodesSelector.innerHTML = episodesArray[0].episodes;
+          let tvName = window.location.href.split("play_")[1];
+          seasonsSelector.onchange = () => {
+            episodesArray.innerHTML =
+              episodesArray[seasonsSelector.value - 1].episodes;
+            sessionStorage.setItem(
+              "series_num",
+              `S${seasonsSelector.value}E${episodesSelector.value}`
+            );
+          };
+          episodesSelector.onchange = () => {
+            sessionStorage.setItem(
+              "series_num",
+              `S${seasonsSelector.value}E${episodesSelector.value}`
+            );
+          };
+          sessionStorage.setItem("series_num", "S01E01");
+          seasonEpisodeShow.onclick = () => {
+            if (sessionStorage.getItem("series_num")) {
+              seriesNum = sessionStorage.getItem("series_num");
+            }
+            fetch(
+              `${torrentSearchApi}/api/torrent/webtor?type=All&query=${
+                window.location.href.split("_")[1] + seriesNum
+              }`
+            )
+              .then((result) => {
+                if (result.status === 200) return result.text();
+                else {
+                  const message = new bootstrap.Toast(toast);
+                  let i = 0;
+                  if (lang === "ru") i = 1;
+                  toastMsg.innerText = result.status;
+                  message.show();
+                }
+              })
+              .then((result) => {
+                output.srcdoc = result;
+              });
+          };
+        }
+      });
+  } else {
+    let i = 0;
+    if (lang === "ru") i = 1;
+    container.innerHTML = `
+      <section>
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                <div class="col-md-6">
+                    <img class="card-img-top mb-5 mb-md-0" src="${noContent}">
+                </div>
+                <div class="col-md-6">
+                    <h1 class="display-5 fw-bolder">
+                        404
+                    </h1>
+                    <div class="fs-5 mb-2">
+                        <span id="itemTag">
+                            ${translate[i].data[19]}
+                        </span>
+                    </div>
+                    <div class="fs-5 mb-2">
+                        <button style="width: 128px;" type="button" class="btn btn-success m-0 p-0">
+                            <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#trending_all_week_1">
+                                ${translate[i].data[8]}
+                            </a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+    `;
+  }
 };
 
 // Nav links & tabs
