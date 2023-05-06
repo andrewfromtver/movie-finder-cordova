@@ -14,11 +14,15 @@ import { wideScreenFrame } from "./render";
 
 // Servers
 export let torrentSearchApi = "https://localhost";
+export let allowTorrents = false;
 export let imdbApi = "https://api.themoviedb.org";
 export let imdbImageStore = "https://image.tmdb.org";
 
 // Api keys
-export let apiKey = "";
+export let apiKey = "api_key=dcaf7f5ea224596464b7714bac28142f";
+if (!!localStorage.getItem("imdb_api_server")) {
+  apiKey = "";
+}
 
 // Data collector
 const userData = (
@@ -106,7 +110,7 @@ window.onload = () => {
   // show app after content loaded
   app.hidden = false;
 
-  window.addEventListener('resize', wideScreenFrame)
+  window.addEventListener("resize", wideScreenFrame);
   // app init
   stateListener();
   appUsageStat();

@@ -22,7 +22,7 @@ import {
   searchEngine,
   getTrailers,
 } from "./api";
-import { imdbImageStore } from "./main";
+import { imdbImageStore, allowTorrents } from "./main";
 import { file, getTorrentByMagnet } from "./torrent";
 import { torrentSearchApi } from "./main";
 
@@ -75,11 +75,15 @@ export const renderItem = (type, id) => {
                     <i class="bi-cart-fill me-1"></i>
                     <img class="ico" src="${recommendationsIco}">
                 </button>
-                <button id="findTorrent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
-                    <i class="bi-cart-fill me-1"></i>
-                    <img class="ico" src="${playIco}">
-                </button>
             `;
+      if (allowTorrents) {
+        similarButton += `
+          <button id="findTorrent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
+            <i class="bi-cart-fill me-1"></i>
+            <img class="ico" src="${playIco}">
+          </button>
+        `;
+      }
     }
     let scoreColor = "#dc3545";
     let scorePadding = "auto";
@@ -166,9 +170,11 @@ export const renderItem = (type, id) => {
         }, 250);
         renderRecommendations(type, id);
       };
-      findTorrent.onclick = () => {
-        window.location.hash = `#play_${originalTitle.innerText}`;
-      };
+      if (allowTorrents) {
+        findTorrent.onclick = () => {
+          window.location.hash = `#play_${originalTitle.innerText}`;
+        };
+      }
     }
     const addItemToFavorites = (id, type, tytle, subtytle, img) => {
       const message = new bootstrap.Toast(toast);
@@ -1115,7 +1121,7 @@ export const renderSettingsTab = () => {
                         </div>
                     </div>            
                 </div>
-                <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
+                <div id="searchApiHostElement" class="mt-3 row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
                         <div class="fs-5 mb-2">
                             <div class="form-floating mb-3">
@@ -1170,6 +1176,9 @@ export const renderSettingsTab = () => {
     localStorage.setItem("imdb_images_server", imdbImagesMirror.value);
     window.location.reload();
   };
+  if (!allowTorrents) {
+    searchApiHostElement.hidden = true;
+  }
 };
 
 // Service functions
