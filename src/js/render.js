@@ -83,6 +83,22 @@ export const renderItem = (type, id) => {
             <img class="ico" src="${playIco}">
           </button>
         `;
+      } else {
+        let searchQuery = data.title || data.name;
+        if (type === "movie") {
+          searchQuery += " " + data.release_date.split("-")[0];
+        } else {
+          searchQuery += " " + data.last_air_date.split("-")[0];
+        }
+        if (lang === "ru") searchQuery += "&as_sitesearch=vk.com";
+        similarButton += `
+        <a href="https://www.google.com/search?q=${searchQuery}&tbm=vid&tbs=dur:l" target=”_blank”>
+          <button id="findTorrent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
+            <i class="bi-cart-fill me-1"></i>
+            <img class="ico" src="${playIco}">
+          </button>
+        </a>
+        `;
       }
     }
     let scoreColor = "#dc3545";
