@@ -89,8 +89,8 @@ window.onload = () => {
   // toggles control
   langSwitch.onchange = () => {
     langSwitch.checked
-      ? sessionStorage.setItem("lang", 1)
-      : sessionStorage.setItem("lang", 0);
+      ? localStorage.setItem("lang", 1)
+      : localStorage.setItem("lang", 0);
     window.location.reload();
   };
 

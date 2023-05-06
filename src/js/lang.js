@@ -6,7 +6,7 @@ import usaIco from "../assets/usa.png";
 export let lang = "en";
 
 // Read lang settings
-if (sessionStorage.getItem("lang") == 1) {
+if (localStorage.getItem("lang") == 1) {
   lang = "ru";
   langIcon.src = ruIco;
   langSwitch.checked = true;
