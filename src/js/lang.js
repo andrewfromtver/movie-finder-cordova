@@ -41,6 +41,8 @@ export const translate = [
       "Metrics",
       "We do not collect your data",
       "Please setup search API server first",
+      "Seasons",
+      "Series",
     ],
   },
   {
@@ -66,6 +68,8 @@ export const translate = [
       "Метрики",
       "Мы не собираем ваши данные",
       "Search API сервер не настроен",
+      "Сезоны",
+      "Кол-во серий",
     ],
   },
 ];

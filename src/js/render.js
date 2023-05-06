@@ -29,21 +29,42 @@ import { torrentSearchApi } from "./main";
 // Data render
 export const renderItem = (type, id) => {
   container.innerHTML = `
-        <div class="d-flex justify-content-center" style="margin-top: 40vh;">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-    `;
+    <div class="d-flex justify-content-center" style="margin-top: 40vh;">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  `;
   getFullInfo(type, id, (data) => {
     let episodeCount = [];
+    let episodeCountInner = "";
     if (type === "tv") {
       data.seasons.forEach((element) => {
         episodeCount.push({ name: element.name, qty: element.episode_count });
       });
+      let i = 0;
+      if (lang === "ru") i = 1;
+      episodeCountInner = `
+        <thead>
+          <tr>
+            <th>${translate[i].data[20]}</th>
+            <th>${translate[i].data[21]}</th>
+          </tr>
+        </thead>
+      `;
     } else {
       episodeCount = [];
     }
+    episodeCount.forEach((element) => {
+      episodeCountInner += `
+        <tbody>
+          <tr>
+            <td>${element.name}</td>
+            <td>${element.qty}</td>
+          </tr>
+        </tbody>
+      `;
+    });
     sessionStorage.setItem("seasons", JSON.stringify(episodeCount));
     let showButtonText = `<img class="ico" src="${recommendationsIco}">`;
     let similarButton = "";
@@ -66,10 +87,11 @@ export const renderItem = (type, id) => {
     if (data.vote_average > 7.5) scoreColor = "#13795b";
     if (data.vote_average || data.birthday) scorePadding = "8px";
     let genList = "";
-    if (type !== "person")
+    if (type !== "person") {
       data.genres.forEach((element) => {
         genList += `${element.name} `;
       });
+    }
     let imgSrc = noImage;
     if (data.poster_path || data.profile_path) {
       imgSrc = `${imdbImageStore}/t/p/w500/${
@@ -106,9 +128,10 @@ export const renderItem = (type, id) => {
                             <p class="lead">${
                               data.overview || data.biography || ""
                             }</p>
-                            <div  style="color: #dc3545;" class="pb-4">${
+                            <div  style="color: #dc3545;" class="pb-2">${
                               data.release_date || data.last_air_date || ""
                             }</div>
+                            <table class="mb-4" style="width: 100%;" id="seasonsTable">${episodeCountInner}</table>
                             <div class="d-flex">
                                 <button id="showRecommendations" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
                                     <i class="bi-cart-fill me-1"></i>
@@ -128,7 +151,7 @@ export const renderItem = (type, id) => {
             </section>
             <section style="width: 100%;" id="recommendations"></section>
             <section style="width: 100%;" id="trailers"></section>
-        `;
+    `;
     container.innerHTML = inner;
     showRecommendations.onclick = () => {
       setTimeout(() => {
