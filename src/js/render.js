@@ -188,7 +188,7 @@ export const renderItem = (type, id) => {
       };
       if (allowTorrents) {
         findTorrent.onclick = () => {
-          window.location.hash = `#play_${originalTitle.innerText}`;
+          window.location.hash = `#play_|_${originalTitle.innerText}`;
         };
       }
     }
@@ -226,11 +226,11 @@ export const renderItem = (type, id) => {
     document.querySelectorAll(".addToFavorites").forEach((element) => {
       element.onclick = () => {
         let tag = itemTag.innerText;
-        if (window.location.href.split("_")[1] === "person")
+        if (window.location.href.split("_|_")[1] === "person")
           tag = itemDate.innerText;
         addItemToFavorites(
           element.id,
-          window.location.href.split("_")[1],
+          window.location.href.split("_|_")[1],
           itemTitle.innerText,
           tag,
           itemImg.src
@@ -346,7 +346,7 @@ const renderAddons = (type, id) => {
           }
           inner += `
                 <div id="${id}" class="carousel-item ${itemState} movierec" data-bs-interval="10000">
-                <a href="#show_movie_${id}">
+                <a href="#show_|_movie_|_${id}">
                     <img id="loadingTrigger" src="${imgSrc}" class="d-block w-100" alt="${
             element.original_title || element.name
           }">
@@ -471,7 +471,7 @@ const renderRecommendations = (type, id) => {
         }
         inner += `
                 <div id="${id}" class="carousel-item ${itemState} movierec" data-bs-interval="10000">
-                <a href="#show_${type}_${id}">
+                <a href="#show_|_${type}_|_${id}">
                     <img id="loadingTrigger" src="${imgSrc}" class="d-block w-100" alt="${
           element.original_title || element.name
         }">
@@ -570,7 +570,7 @@ export const renderSearchResults = (query) => {
         }
         inner += `
                 <div class="card shadow-sm" style="max-width: 320px; width: calc(100% - 16px); margin: 48px 8px 0 8px;">
-                    <a href="#show_${element.media_type || type}_${id}">
+                    <a href="#show_|_${element.media_type || type}_|_${id}">
                         <img style="min-height: 480px;" src="${imgSrc}" class="card-img-top" alt="${
           element.original_title
         }">
@@ -609,7 +609,7 @@ export const renderSearchResults = (query) => {
                             </div>
                             <div class="fs-5 mb-2">
                                 <button style="width: 128px;" type="button" class="btn btn-success m-0 p-0">
-                                    <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#trending_all_week_1">
+                                    <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#trending_|_all_|_week_|_1">
                                         ${translate[i].data[8]}
                                     </a>
                                 </button>
@@ -637,7 +637,7 @@ export const renderTorrentLiveVideo = () => {
     }
     fetch(
       `${torrentSearchApi}/api/torrent/webtor?type=All&query=${
-        window.location.href.split("_")[1] + seriesNum
+        window.location.href.split("_|_")[1] + seriesNum
       }`
     )
       .then((result) => {
@@ -655,7 +655,7 @@ export const renderTorrentLiveVideo = () => {
         output.srcdoc = result;
         wideScreenFrame();
         torrentPlayerTitle.innerText = decodeURI(
-          window.location.href.split("_")[1]
+          window.location.href.split("_|_")[1]
         );
         let seasons = JSON.parse(sessionStorage.getItem("seasons"));
         if (seasons.length > 0) {
@@ -685,7 +685,7 @@ export const renderTorrentLiveVideo = () => {
           `;
           seasonsSelector.innerHTML = seasonsInner;
           episodesSelector.innerHTML = episodesArray[0].episodes;
-          let tvName = window.location.href.split("play_")[1];
+          let tvName = window.location.href.split("play_|_")[1];
           seasonsSelector.onchange = () => {
             episodesArray.innerHTML =
               episodesArray[seasonsSelector.value - 1].episodes;
@@ -707,7 +707,7 @@ export const renderTorrentLiveVideo = () => {
             }
             fetch(
               `${torrentSearchApi}/api/torrent/webtor?type=All&query=${
-                window.location.href.split("_")[1] + seriesNum
+                window.location.href.split("_|_")[1] + seriesNum
               }`
             )
               .then((result) => {
@@ -747,7 +747,7 @@ export const renderTorrentLiveVideo = () => {
                     </div>
                     <div class="fs-5 mb-2">
                         <button style="width: 128px;" type="button" class="btn btn-success m-0 p-0">
-                            <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#trending_all_week_1">
+                            <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#trending_|_all_|_week_|_1">
                                 ${translate[i].data[8]}
                             </a>
                         </button>
@@ -786,7 +786,7 @@ export const renderTrendingCards = (type, time, page) => {
       }
       inner += `
                 <div class="card shadow-sm" style="max-width: 320px; width: calc(100% - 16px); margin: 48px 8px 0 8px;">
-                    <a href="#show_${element.media_type || type}_${id}">
+                    <a href="#show_|_${element.media_type || type}_|_${id}">
                         <img style="min-height: 480px;" src="${imgSrc}" class="card-img-top" alt="${
         element.original_title
       }">
@@ -804,7 +804,7 @@ export const renderTrendingCards = (type, time, page) => {
     });
     if (Number(page) < 1000) {
       inner += `
-      <a style="width: 100%; text-align: center;" href="#trending_${type}_${time}_${
+      <a style="width: 100%; text-align: center;" href="#trending_|_${type}_|_${time}_|_${
         Number(page) + 1
       }">
         <button style="background: none; border: none;"class=" mt-5">
@@ -865,7 +865,7 @@ export const renderNativeTorrentPlayer = () => {
   input.id = "magnetUrl";
   let userAgent = window.navigator.userAgent;
   let iphoneIpad = false;
-  input.accept = ".torrent";
+  input.accept = "application/x-bittorrent";
   if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
     iphoneIpad = true;
   }
@@ -978,7 +978,7 @@ export const renderFavorites = (data) => {
                         </td>
                         <td>
                             <div>
-                                <a href="#show_${element.type}_${element.id}">
+                                <a href="#show_|_${element.type}_|_${element.id}">
                                     <span>${element.title}</span>
                                     <br>
                                     <span>${element.subtitle}</span>

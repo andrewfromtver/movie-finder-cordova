@@ -14,9 +14,9 @@ export const stateListener = () => {
   closeSideBarBtn.click();
   let href = window.location.href;
   if (href.includes("trending")) {
-    let type = href.split("_")[1];
-    let time = href.split("_")[2];
-    let page = href.split("_")[3];
+    let type = href.split("_|_")[1];
+    let time = href.split("_|_")[2];
+    let page = href.split("_|_")[3];
     renderTrendingCards(type, time, page);
 
     homeLink.classList = "nav-link active";
@@ -24,8 +24,8 @@ export const stateListener = () => {
     favoritesLink.classList = "nav-link";
     settingsLink.classList = "nav-link";
   } else if (href.includes("show")) {
-    let type = href.split("_")[1];
-    let id = href.split("_")[2];
+    let type = href.split("_|_")[1];
+    let id = href.split("_|_")[2];
     renderItem(type, id);
 
     homeLink.classList = "nav-link";
@@ -33,7 +33,7 @@ export const stateListener = () => {
     favoritesLink.classList = "nav-link";
     settingsLink.classList = "nav-link";
   } else if (href.includes("search")) {
-    let query = href.split("_")[1];
+    let query = href.split("_|_")[1];
     renderSearchResults(query);
 
     homeLink.classList = "nav-link";
@@ -69,7 +69,7 @@ export const stateListener = () => {
     favoritesLink.classList = "nav-link";
     settingsLink.classList = "nav-link active";
   } else {
-    window.location.href = "#trending_all_week_1";
+    window.location.href = "#trending_|_all_|_week_|_1";
 
     homeLink.classList = "nav-link";
     randomfindmachineLink.classList = "nav-link";

@@ -101,7 +101,7 @@ window.onload = () => {
   // search init
   searchForm.onsubmit = () => {
     event.preventDefault();
-    window.location.href = `#search_${queryString.value}`;
+    window.location.href = `#search_|_${queryString.value}`;
   };
 
   // router init
