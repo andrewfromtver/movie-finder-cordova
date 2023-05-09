@@ -274,7 +274,6 @@ const renderAddons = (type, id) => {
                             <div id="panelsStayOpen-collapse-${counter}" class="accordion-collapse collapse ${showToggle}">
                             <div>
                                 <iframe 
-                                  sandbox="allow-scripts allow-same-origin" 
                                   class="trailerIframe" 
                                   src="https://www.youtube.com/embed/${element.key}" 
                                   frameborder="0"
