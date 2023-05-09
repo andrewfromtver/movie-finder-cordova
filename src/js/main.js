@@ -1,3 +1,6 @@
+// webmanifest import
+import manifest from "../manifest.webmanifest";
+
 // Assets
 import logo from "../assets/logo.jpeg";
 import searchIco from "../assets/search.svg";
@@ -56,6 +59,11 @@ const appUsageStat = () => {
 
 // Init
 window.onload = () => {
+  // webmanifest
+  document
+    .querySelector("#my-manifest-placeholder")
+    .setAttribute("href", manifest);
+
   // text content
   let i = 0;
   if (lang === "ru") i = 1;
