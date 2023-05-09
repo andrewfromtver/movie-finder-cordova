@@ -14,7 +14,7 @@ import { wideScreenFrame } from "./render";
 
 // Servers
 export let torrentSearchApi = "https://localhost";
-export let allowTorrents = false;
+export let allowTorrents = true;
 export let imdbApi = "https://api.themoviedb.org";
 export let imdbImageStore = "https://image.tmdb.org";
 
