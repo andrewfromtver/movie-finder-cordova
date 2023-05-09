@@ -631,6 +631,7 @@ export const renderTorrentLiveVideo = () => {
     </div>
   `;
   if (localStorage.getItem("search_api_server")) {
+    sessionStorage.setItem("series_num", "");
     let seriesNum = "";
     if (sessionStorage.getItem("series_num")) {
       seriesNum = sessionStorage.getItem("series_num");
@@ -685,7 +686,6 @@ export const renderTorrentLiveVideo = () => {
           `;
           seasonsSelector.innerHTML = seasonsInner;
           episodesSelector.innerHTML = episodesArray[0].episodes;
-          let tvName = window.location.href.split("play_|_")[1];
           seasonsSelector.onchange = () => {
             episodesArray.innerHTML =
               episodesArray[seasonsSelector.value - 1].episodes;
