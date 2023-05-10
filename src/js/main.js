@@ -21,6 +21,11 @@ export let allowTorrents = false;
 if (localStorage.getItem("use_webtor") && localStorage.getItem("use_webtor") == 1) {
   allowTorrents = true;
 }
+export let searchSiteDomain = ""
+if (localStorage.getItem("search_domain")) {
+  searchSiteDomain = localStorage.getItem("search_domain");
+}
+export let searchSite = `&as_sitesearch=${searchSiteDomain}`;
 export let imdbApi = "https://api.themoviedb.org";
 export let imdbImageStore = "https://image.tmdb.org";
 

@@ -22,7 +22,7 @@ import {
   searchEngine,
   getTrailers,
 } from "./api";
-import { imdbImageStore, allowTorrents } from "./main";
+import { imdbImageStore, allowTorrents, searchSite } from "./main";
 import { file, getTorrentByMagnet } from "./torrent";
 import { torrentSearchApi } from "./main";
 
@@ -90,7 +90,7 @@ export const renderItem = (type, id) => {
         } else {
           searchQuery += " " + data.last_air_date.split("-")[0];
         }
-        if (lang === "ru") searchQuery += "&as_sitesearch=vk.com";
+        searchQuery += searchSite;
         similarButton += `
         <a href="https://www.google.com/search?q=${searchQuery}&tbm=vid&tbs=dur:l" target=”_blank”>
           <button id="findTorrent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
@@ -746,8 +746,8 @@ export const renderTorrentLiveVideo = () => {
                     </div>
                     <div class="fs-5 mb-2">
                         <button style="width: 128px;" type="button" class="btn btn-success m-0 p-0">
-                            <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#trending_|_all_|_week_|_1">
-                                ${translate[i].data[8]}
+                            <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#settings">
+                                ${translate[i].data[22]}
                             </a>
                         </button>
                     </div>
@@ -1156,7 +1156,7 @@ export const renderSettingsTab = () => {
                     id="webtorSwitch"
                   />
                   <label class="form-check-label m-1" for="webtorSwitch">
-                    Use webtor.io for content search
+                    Use WebTor player (pre alpha feature)
                   </label>
                 </div>
                 <div id="searchApiHostElement" class="mt-3 row gx-4 gx-lg-5 align-items-center">
@@ -1164,7 +1164,17 @@ export const renderSettingsTab = () => {
                         <div class="fs-5 mb-2">
                             <div class="form-floating mb-3">
                                 <input style="height: 64px;" id="searchApiHost" type="text" class="form-control" id="floatingInput" placeholder="Search API host">
-                                <label for="floatingInput">Search API host</label>
+                                <label for="floatingInput">Torrent search API</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="searchDomainInput" class="mt-3 row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <div class="fs-5 mb-2">
+                            <div class="form-floating mb-3">
+                                <input style="height: 64px;" id="searchDomain" type="text" class="form-control" id="floatingInput" placeholder="Search API host">
+                                <label for="searchSiteDomainInput">Search site domain</label>
                             </div>
                         </div>
                     </div>
@@ -1202,6 +1212,9 @@ export const renderSettingsTab = () => {
   if (localStorage.getItem("search_api_server")) {
     searchApiHost.value = localStorage.getItem("search_api_server");
   }
+  if (localStorage.getItem("search_domain")) {
+    searchDomain.value = localStorage.getItem("search_domain");
+  }
   if (localStorage.getItem("imdb_api_server")) {
     imdbApiMirror.value = localStorage.getItem("imdb_api_server");
   }
@@ -1214,8 +1227,10 @@ export const renderSettingsTab = () => {
   webtorSwitch.onchange = () => {
     if (webtorSwitch.checked) {
       searchApiHostElement.hidden = false
+      searchDomainInput.hidden = true
     } else {
       searchApiHostElement.hidden = true
+      searchDomainInput.hidden = false
     }
   }
   saveServer.onclick = () => {
@@ -1227,10 +1242,13 @@ export const renderSettingsTab = () => {
     localStorage.setItem("search_api_server", searchApiHost.value);
     localStorage.setItem("imdb_api_server", imdbApiMirror.value);
     localStorage.setItem("imdb_images_server", imdbImagesMirror.value);
+    localStorage.setItem("search_domain", searchDomain.value)
     window.location.reload();
   };
   if (!allowTorrents) {
     searchApiHostElement.hidden = true;
+  } else {
+    searchDomainInput.hidden = true
   }
 };
 
