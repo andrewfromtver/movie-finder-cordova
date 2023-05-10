@@ -1,5 +1,5 @@
 {
-    "name": "Movie Finder",
+    "name": "Movie Finder - watch movies & TV series for free",
     "short_name": "Movie Finder",
     "start_url": "https://andrewfromtver.github.io/movie-finder/",
     "background_color": "#333333",
@@ -20,7 +20,7 @@
     ],
     "shortcuts": [
       {
-        "name": "Movie Finder",
+        "name": "Movie Finder - watch movies & TV series for free",
         "short_name": "Movie Finder",
         "description": "Movie Finder - fast and simple way to watch favorite movies and tv series online for free",
         "url": "https://andrewfromtver.github.io/movie-finder/",
