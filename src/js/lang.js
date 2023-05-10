@@ -43,6 +43,8 @@ export const translate = [
       "Please setup search API server first",
       "Seasons",
       "Series",
+      "Settings",
+      "Remember to save your settings before you leave this page"
     ],
   },
   {
@@ -70,6 +72,8 @@ export const translate = [
       "Search API сервер не настроен",
       "Сезоны",
       "Кол-во серий",
+      "Настройки",
+      "Не забывайте сохранять настройки перед выходом"
     ],
   },
 ];

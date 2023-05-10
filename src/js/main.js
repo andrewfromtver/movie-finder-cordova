@@ -17,7 +17,10 @@ import { wideScreenFrame } from "./render";
 
 // Servers
 export let torrentSearchApi = "https://localhost";
-export let allowTorrents = true;
+export let allowTorrents = false;
+if (localStorage.getItem("use_webtor") && localStorage.getItem("use_webtor") == 1) {
+  allowTorrents = true;
+}
 export let imdbApi = "https://api.themoviedb.org";
 export let imdbImageStore = "https://image.tmdb.org";
 

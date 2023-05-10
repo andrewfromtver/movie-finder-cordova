@@ -1136,6 +1136,29 @@ export const renderSettingsTab = () => {
                         </div>
                     </div>            
                 </div>
+                <div class="row gx-4 gx-lg-5 align-items-center mt-5 mb-5">
+                    <div class="col-md-12">
+                        <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
+                            ${translate[i].data[22]}
+                        </h1>
+                        <div class="fs-5 mb-2">
+                            <span id="torrentPlayerDescription">
+                                ${translate[i].data[23]}
+                            </span>
+                        </div>
+                    </div>            
+                </div>
+                <div class="form-check form-switch mb-4">
+                  <input
+                    class="form-check-input mt-2 mb-2"
+                    type="checkbox"
+                    role="switch"
+                    id="webtorSwitch"
+                  />
+                  <label class="form-check-label m-1" for="webtorSwitch">
+                    Use webtor.io for content search
+                  </label>
+                </div>
                 <div id="searchApiHostElement" class="mt-3 row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
                         <div class="fs-5 mb-2">
@@ -1185,7 +1208,22 @@ export const renderSettingsTab = () => {
   if (localStorage.getItem("imdb_images_server")) {
     imdbImagesMirror.value = localStorage.getItem("imdb_images_server");
   }
+  if (localStorage.getItem("use_webtor") && localStorage.getItem("use_webtor") == 1) {
+    webtorSwitch.checked = true;
+  }
+  webtorSwitch.onchange = () => {
+    if (webtorSwitch.checked) {
+      searchApiHostElement.hidden = false
+    } else {
+      searchApiHostElement.hidden = true
+    }
+  }
   saveServer.onclick = () => {
+    if (webtorSwitch.checked) {
+      localStorage.setItem("use_webtor", 1)
+    } else {
+      localStorage.setItem("use_webtor", 0)
+    }
     localStorage.setItem("search_api_server", searchApiHost.value);
     localStorage.setItem("imdb_api_server", imdbApiMirror.value);
     localStorage.setItem("imdb_images_server", imdbImagesMirror.value);
