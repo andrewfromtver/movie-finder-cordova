@@ -22,7 +22,7 @@ import {
   searchEngine,
   getTrailers,
 } from "./api";
-import { imdbImageStore, allowTorrents, searchSite } from "./main";
+import { imdbImageStore, allowTorrents, searchSite, longVideosSearchParam } from "./main";
 import { file, getTorrentByMagnet } from "./torrent";
 import { torrentSearchApi } from "./main";
 
@@ -91,8 +91,10 @@ export const renderItem = (type, id) => {
           searchQuery += " " + data.last_air_date.split("-")[0];
         }
         searchQuery += searchSite;
+        let searchParam = ""
+        if (longVideosSearchParam == 1) searchParam = "&tbm=vid&tbs=dur:l"
         similarButton += `
-        <a href="https://www.google.com/search?q=${searchQuery}&tbm=vid&tbs=dur:l" target=”_blank”>
+        <a href="https://www.google.com/search?q=${searchQuery}${searchParam}" target=”_blank”>
           <button id="findTorrent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
             <i class="bi-cart-fill me-1"></i>
             <img class="ico" src="${playIco}">
@@ -1156,7 +1158,7 @@ export const renderSettingsTab = () => {
                     id="webtorSwitch"
                   />
                   <label class="form-check-label m-1" for="webtorSwitch">
-                    Use WebTor player (pre alpha feature)
+                    Use Torrent search API (experimental feature)
                   </label>
                 </div>
                 <div id="searchApiHostElement" class="mt-3 row gx-4 gx-lg-5 align-items-center">
@@ -1178,6 +1180,17 @@ export const renderSettingsTab = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div id="onlyVideoSearchDiv" class="form-check form-switch mb-4">
+                  <input
+                    class="form-check-input mt-2 mb-2"
+                    type="checkbox"
+                    role="switch"
+                    id="onlyVideoSearch"
+                  />
+                  <label class="form-check-label m-1" for="onlyVideoSearch">
+                    Only long video search
+                  </label>
                 </div>
                 <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
@@ -1221,34 +1234,51 @@ export const renderSettingsTab = () => {
   if (localStorage.getItem("imdb_images_server")) {
     imdbImagesMirror.value = localStorage.getItem("imdb_images_server");
   }
-  if (localStorage.getItem("use_webtor") && localStorage.getItem("use_webtor") == 1) {
+  if (
+    localStorage.getItem("use_webtor") &&
+    localStorage.getItem("use_webtor") == 1
+  ) {
     webtorSwitch.checked = true;
+    onlyVideoSearchDiv.hidden = true;
+  }
+  if (
+    localStorage.getItem("long_videos") &&
+    localStorage.getItem("long_videos") == 1
+  ) {
+    onlyVideoSearch.checked = true;
   }
   webtorSwitch.onchange = () => {
     if (webtorSwitch.checked) {
-      searchApiHostElement.hidden = false
-      searchDomainInput.hidden = true
+      searchApiHostElement.hidden = false;
+      searchDomainInput.hidden = true;
+      onlyVideoSearchDiv.hidden = true;
     } else {
-      searchApiHostElement.hidden = true
-      searchDomainInput.hidden = false
+      searchApiHostElement.hidden = true;
+      searchDomainInput.hidden = false;
+      onlyVideoSearchDiv.hidden = false;
     }
-  }
+  };
   saveServer.onclick = () => {
     if (webtorSwitch.checked) {
-      localStorage.setItem("use_webtor", 1)
+      localStorage.setItem("use_webtor", 1);
     } else {
-      localStorage.setItem("use_webtor", 0)
+      localStorage.setItem("use_webtor", 0);
+    }
+    if (onlyVideoSearch.checked) {
+      localStorage.setItem("long_videos", 1);
+    } else {
+      localStorage.setItem("long_videos", 0);
     }
     localStorage.setItem("search_api_server", searchApiHost.value);
     localStorage.setItem("imdb_api_server", imdbApiMirror.value);
     localStorage.setItem("imdb_images_server", imdbImagesMirror.value);
-    localStorage.setItem("search_domain", searchDomain.value)
+    localStorage.setItem("search_domain", searchDomain.value);
     window.location.reload();
   };
   if (!allowTorrents) {
     searchApiHostElement.hidden = true;
   } else {
-    searchDomainInput.hidden = true
+    searchDomainInput.hidden = true;
   }
 };
 

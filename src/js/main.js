@@ -18,12 +18,22 @@ import { wideScreenFrame } from "./render";
 // Servers
 export let torrentSearchApi = "https://localhost";
 export let allowTorrents = false;
-if (localStorage.getItem("use_webtor") && localStorage.getItem("use_webtor") == 1) {
+if (
+  localStorage.getItem("use_webtor") &&
+  localStorage.getItem("use_webtor") == 1
+) {
   allowTorrents = true;
 }
-export let searchSiteDomain = ""
+export let searchSiteDomain = "";
 if (localStorage.getItem("search_domain")) {
   searchSiteDomain = localStorage.getItem("search_domain");
+}
+export let longVideosSearchParam = "0";
+if (
+  localStorage.getItem("long_videos") &&
+  localStorage.getItem("long_videos") == 1
+) {
+  longVideosSearchParam = localStorage.getItem("long_videos");
 }
 export let searchSite = `&as_sitesearch=${searchSiteDomain}`;
 export let imdbApi = "https://api.themoviedb.org";

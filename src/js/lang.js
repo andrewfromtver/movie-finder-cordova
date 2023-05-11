@@ -32,7 +32,7 @@ export const translate = [
       "Home page",
       'No "wss://" support',
       "Web Torrent player",
-      "Pre alpha feature",
+      "Experimental feature",
       "Load",
       "Favorites",
       'Item added to "Favorites" list',
