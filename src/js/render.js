@@ -10,6 +10,7 @@ import expandIco from "../assets/expand.svg";
 import recommendationsIco from "../assets/recommendations.svg";
 import deleteIco from "../assets/delete.svg";
 import playIco from "../assets/play.svg";
+import searchIco from "../assets/search.svg";
 import favoritesIco from "../assets/favorites.svg";
 
 // App imports
@@ -22,7 +23,12 @@ import {
   searchEngine,
   getTrailers,
 } from "./api";
-import { imdbImageStore, allowTorrents, searchSite, longVideosSearchParam } from "./main";
+import {
+  imdbImageStore,
+  allowTorrents,
+  searchSite,
+  longVideosSearchParam,
+} from "./main";
 import { file, getTorrentByMagnet } from "./torrent";
 import { torrentSearchApi } from "./main";
 
@@ -91,13 +97,13 @@ export const renderItem = (type, id) => {
           searchQuery += " " + data.last_air_date.split("-")[0];
         }
         searchQuery += searchSite;
-        let searchParam = ""
-        if (longVideosSearchParam == 1) searchParam = "&tbm=vid&tbs=dur:l"
+        let searchParam = "";
+        if (longVideosSearchParam == 1) searchParam = "&tbm=vid&tbs=dur:l";
         similarButton += `
         <a href="https://www.google.com/search?q=${searchQuery}${searchParam}" target=”_blank”>
           <button id="findTorrent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
             <i class="bi-cart-fill me-1"></i>
-            <img class="ico" src="${playIco}">
+            <img class="ico" src="${searchIco}">
           </button>
         </a>
         `;

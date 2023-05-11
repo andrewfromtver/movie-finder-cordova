@@ -44,7 +44,7 @@ export const translate = [
       "Seasons",
       "Series",
       "Settings",
-      "Remember to save your settings before you leave this page"
+      "Remember to save your settings before you leave this page",
     ],
   },
   {
@@ -73,7 +73,7 @@ export const translate = [
       "Сезоны",
       "Кол-во серий",
       "Настройки",
-      "Не забывайте сохранять настройки перед выходом"
+      "Не забывайте сохранять настройки перед выходом",
     ],
   },
 ];

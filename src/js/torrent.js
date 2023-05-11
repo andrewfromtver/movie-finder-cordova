@@ -10,7 +10,7 @@ let interval;
 
 // Torrent search API
 export const getTorrentByMagnet = async (torFile) => {
-  if (file) file
+  if (file) file;
   if (interval) clearInterval(interval);
   if (client) client.destroy();
   outputVideo.src = "";
