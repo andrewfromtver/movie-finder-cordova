@@ -162,6 +162,7 @@ export const searchEngine = (
       callback(output.results);
     })
     .catch((e) => {
+      errorHandler();
       console.error(e);
     });
 };
