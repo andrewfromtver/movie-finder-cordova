@@ -11,6 +11,9 @@ export const getTrending = (
   page = 1,
   callback = (data) => {
     console.log(data);
+  },
+  errorHandler = (errorMsg) => {
+    console.log(errorMsg);
   }
 ) => {
   fetch(
@@ -18,6 +21,7 @@ export const getTrending = (
   )
     .then((value) => {
       if (value.status !== 200) {
+        errorHandler(value);
         return Promise.reject(new Error("Internal API error."));
       }
       return value.json();
@@ -29,7 +33,7 @@ export const getTrending = (
       callback(output.results);
     })
     .catch((e) => {
-      console.error(e);
+      errorHandler(e);
     });
 };
 // type = ['movie', 'tv', 'person']

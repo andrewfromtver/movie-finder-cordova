@@ -5,6 +5,7 @@ import * as bootstrap from "bootstrap";
 // Assets
 import noContent from "../assets/404.gif";
 import noImage from "../assets/no-image.png";
+import errorMsg from "../assets/error.png";
 import trailerIco from "../assets/trailer.svg";
 import expandIco from "../assets/expand.svg";
 import recommendationsIco from "../assets/recommendations.svg";
@@ -776,31 +777,35 @@ export const renderTrendingCards = (type, time, page) => {
             </div>
         </div>
     `;
-  getTrending(type, time, page, (data) => {
-    let inner = "";
-    data.forEach((element) => {
-      let id = element.id;
-      let scoreColor = "#dc3545";
-      let scoreWidth = "auto";
-      if (element.vote_average > 5) scoreColor = "#fd7e14";
-      if (element.vote_average > 7.5) scoreColor = "#13795b";
-      if (element.vote_average) scoreWidth = "64px";
-      let imgSrc = noImage;
-      if (element.poster_path || element.profile_path) {
-        imgSrc = `${imdbImageStore}/t/p/w500/${
-          element.poster_path || element.profile_path
-        }`;
-      }
-      inner += `
+  getTrending(
+    type,
+    time,
+    page,
+    (data) => {
+      let inner = "";
+      data.forEach((element) => {
+        let id = element.id;
+        let scoreColor = "#dc3545";
+        let scoreWidth = "auto";
+        if (element.vote_average > 5) scoreColor = "#fd7e14";
+        if (element.vote_average > 7.5) scoreColor = "#13795b";
+        if (element.vote_average) scoreWidth = "64px";
+        let imgSrc = noImage;
+        if (element.poster_path || element.profile_path) {
+          imgSrc = `${imdbImageStore}/t/p/w500/${
+            element.poster_path || element.profile_path
+          }`;
+        }
+        inner += `
                 <div class="card shadow-sm" style="max-width: 320px; width: calc(100% - 16px); margin: 48px 8px 0 8px;">
                     <a href="#show_|_${element.media_type || type}_|_${id}">
                         <img style="min-height: 480px;" src="${imgSrc}" class="card-img-top" alt="${
-        element.original_title
-      }">
+          element.original_title
+        }">
                     </a>
                     <p class="score" style="background-color: ${scoreColor}; width: ${scoreWidth};">${
-        element.vote_average || ""
-      }</p>
+          element.vote_average || ""
+        }</p>
                     <div class="card-body">
                         <h5 class="card-title" style="text-align: center; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${
                           element.title || element.name
@@ -808,20 +813,56 @@ export const renderTrendingCards = (type, time, page) => {
                     </div>
                 </div>
             `;
-    });
-    if (Number(page) < 1000) {
-      inner += `
+      });
+      if (Number(page) < 1000) {
+        inner += `
       <a style="width: 100%; text-align: center;" href="#trending_|_${type}_|_${time}_|_${
-        Number(page) + 1
-      }">
+          Number(page) + 1
+        }">
         <button style="background: none; border: none;"class=" mt-5">
           <img src="${expandIco}" alt="expand">
         </button>
       </a>
     `;
+      }
+      container.innerHTML = inner;
+    },
+    (error) => {
+      const message = new bootstrap.Toast(toast);
+      toastMsg.innerText = error;
+      message.show();
+      let i = 0;
+      if (lang === "ru") i = 1;
+      container.innerHTML = `
+        <section>
+          <div class="container px-4 px-lg-5 my-5">
+              <div class="row gx-4 gx-lg-5 align-items-center">
+                  <div class="col-md-6">
+                      <img class="card-img-top mb-5 mb-md-0" src="${errorMsg}">
+                  </div>
+                  <div class="col-md-6">
+                      <h1 class="display-5 fw-bolder">
+                        ¯\\_(ツ)_/¯
+                      </h1>
+                      <div class="fs-5 mb-2">
+                          <span id="itemTag">
+                              ${translate[i].data[24]}
+                          </span>
+                      </div>
+                      <div class="fs-5 mb-2">
+                          <button style="width: 128px;" type="button" class="btn btn-success m-0 p-0">
+                              <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#settings">
+                                  ${translate[i].data[22]}
+                              </a>
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </section>
+      `;
     }
-    container.innerHTML = inner;
-  });
+  );
 };
 export const renderNativeTorrentPlayer = () => {
   let i = 0;
