@@ -1258,13 +1258,15 @@ export const renderSettingsTab = () => {
                         </div>
                     </div>
                 </div>
+                <label for="uiScale" class="form-label">UI scale</label>
+                <input type="range" class="form-range" min="0.5" max="1.5" step="0.1" id="uiScale">
                 <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
                         <div class="fs-5 mb-2">
                           <button class="btn btn-secondary" id="saveServer">Save</button>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
         </section>
     `;
@@ -1293,6 +1295,14 @@ export const renderSettingsTab = () => {
   ) {
     onlyVideoSearch.checked = true;
   }
+  if (localStorage.getItem("ui_scale")) {
+    uiScale.value = localStorage.getItem("ui_scale");
+  }
+  uiScale.onchange = () => {
+    console.log(uiScale.value);
+    localStorage.setItem("ui_scale", uiScale.value);
+    app.style = `zoom: ${uiScale.value}; -moz-transform: scale(${uiScale.value}); -moz-transform-origin: 0 0;`;
+  };
   webtorSwitch.onchange = () => {
     if (webtorSwitch.checked) {
       searchApiHostElement.hidden = false;

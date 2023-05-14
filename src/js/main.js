@@ -101,6 +101,10 @@ window.onload = () => {
   brand.src = logo;
 
   // read saved servers
+  if (localStorage.getItem("ui_scale")) {
+    let scale = localStorage.getItem("ui_scale");
+    app.style = `zoom: ${scale}; -moz-transform: scale(${scale}); -moz-transform-origin: 0 0;`;
+  }
   if (localStorage.getItem("search_api_server")) {
     torrentSearchApi = localStorage.getItem("search_api_server");
   }
