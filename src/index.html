@@ -20,6 +20,11 @@
     <div hidden id="app">
       <nav
         class="m-0 p-0 shadow-sm navbar navbar-expand-lg bg-body-tertiary fixed-top"
+        style="
+          max-width: 1072px;
+          margin: 0 auto !important;
+          border-radius: 0 0 8px 8px;
+        "
       >
         <div class="container-fluid">
           <a href="#trending_|_all_|_week_|_1">
@@ -27,7 +32,7 @@
               style="
                 height: 38px;
                 width: 48px;
-                border-radius: 0;
+                border-radius: 8px;
                 margin-right: 8px;
               "
               id="brand"
@@ -38,8 +43,8 @@
             class="navbar-toggler"
             style="border: none; background: none"
             data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasDarkNavbar"
-            aria-controls="offcanvasDarkNavbar"
+            data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar"
             aria-label="Toggle navigation"
           >
             <img style="height: 38px" id="menuImg" alt="menu" />
@@ -47,11 +52,11 @@
           <div
             class="offcanvas offcanvas-end"
             tabindex="-1"
-            id="offcanvasDarkNavbar"
-            aria-labelledby="offcanvasDarkNavbarLabel"
+            id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel"
           >
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
                 Movie Finder Menu
               </h5>
               <button
@@ -66,9 +71,9 @@
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item m-2">
                   <button
-                    style="width: -webkit-fill-available; min-width: 128px;"
+                    style="width: -webkit-fill-available; min-width: 128px"
                     type="button"
-                    class="btn btn-secondary m-0 p-0"
+                    class="btn btn-success m-0 p-0"
                   >
                     <a
                       class="m-0 p-1 nav-link text-light"
@@ -81,9 +86,9 @@
                 </li>
                 <li class="nav-item m-2">
                   <button
-                    style="width: -webkit-fill-available; min-width: 128px;"
+                    style="width: -webkit-fill-available; min-width: 128px"
                     type="button"
-                    class="btn btn-secondary m-0 p-0"
+                    class="btn btn-success m-0 p-0"
                   >
                     <a
                       class="m-0 p-1 nav-link text-light"
@@ -95,9 +100,9 @@
                 </li>
                 <li class="nav-item m-2">
                   <button
-                    style="width: -webkit-fill-available; min-width: 128px;"
+                    style="width: -webkit-fill-available; min-width: 128px"
                     type="button"
-                    class="btn btn-secondary m-0 p-0"
+                    class="btn btn-success m-0 p-0"
                   >
                     <a
                       class="m-0 p-1 nav-link text-light"
@@ -109,9 +114,9 @@
                 </li>
                 <li class="nav-item m-2">
                   <button
-                    style="width: -webkit-fill-available; min-width: 128px;"
+                    style="width: -webkit-fill-available; min-width: 128px"
                     type="button"
-                    class="btn btn-secondary m-0 p-0"
+                    class="btn btn-success m-0 p-0"
                   >
                     <a
                       class="m-0 p-1 nav-link text-light"
@@ -164,9 +169,9 @@
       <div id="container"></div>
 
       <div
-        style="max-width: 280px"
+        style="max-width: 280px; margin-top: 68px; margin-right: 16px;"
         id="toast"
-        class="toast align-items-center text-bg-primary position-fixed top-0 end-0 mt-5 m-2"
+        class="toast align-items-center text-bg-primary position-fixed top-0 end-0"
         role="alert"
         aria-live="assertive"
         aria-atomic="true"
@@ -183,7 +188,7 @@
       </div>
 
       <footer
-        style="max-width: 992px; margin: 0 auto"
+        style="max-width: 1072px; margin: 0 auto"
         class="shadow-lg nav nav-underline fixed-bottom nav-fill"
       >
         <li class="nav-item mb-2">

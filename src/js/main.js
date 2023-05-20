@@ -9,6 +9,7 @@ import homeIco from "../assets/home.svg";
 import favoritesIco from "../assets/favorites.svg";
 import settingsIco from "../assets/settings.svg";
 import playIco from "../assets/play.svg";
+import bgVideo from "../assets/bg.mp4";
 
 // App import
 import { lang, translate } from "./lang";
@@ -77,6 +78,20 @@ const appUsageStat = () => {
 
 // Init
 window.onload = () => {
+  let inner = `
+    <video
+      id="background-video"
+      autoplay
+      loop
+      muted
+    >
+      <source id="bgVideoSource"
+        src="${bgVideo}"
+        type="video/mp4"
+      />
+    </video>
+  `;
+  app.innerHTML += inner;
   // webmanifest
   document
     .querySelector("#my-manifest-placeholder")
@@ -100,10 +115,17 @@ window.onload = () => {
   searchImg.src = searchIco;
   brand.src = logo;
 
+  // Read lang settings
+  if (localStorage.getItem("lang") && localStorage.getItem("lang") == 1) {
+    langSwitch.checked = true;
+  } else {
+    langSwitch.checked = false;
+  }
   // read saved servers
   if (localStorage.getItem("ui_scale")) {
     let scale = localStorage.getItem("ui_scale");
     app.style = `zoom: ${scale}; -moz-transform: scale(${scale}); -moz-transform-origin: 0 0;`;
+    document.documentElement.style.setProperty("--zoom", scale);
   }
   if (localStorage.getItem("search_api_server")) {
     torrentSearchApi = localStorage.getItem("search_api_server");

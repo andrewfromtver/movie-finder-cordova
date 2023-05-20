@@ -36,8 +36,8 @@ import { torrentSearchApi } from "./main";
 // Data render
 export const renderItem = (type, id) => {
   container.innerHTML = `
-    <div class="d-flex justify-content-center" style="margin-top: 40vh;">
-      <div class="spinner-border" role="status">
+    <div class="d-flex justify-content-center">
+      <div style="color: #fff;" class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
@@ -79,14 +79,14 @@ export const renderItem = (type, id) => {
       showButtonText = `<img class="ico" src="${trailerIco}">`;
       similarButton = `
                 <button id="showSimilar" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
-                    <i class="bi-cart-fill me-1"></i>
+                    
                     <img class="ico" src="${recommendationsIco}">
                 </button>
             `;
       if (allowTorrents) {
         similarButton += `
           <button id="findTorrent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
-            <i class="bi-cart-fill me-1"></i>
+            
             <img class="ico" src="${playIco}">
           </button>
         `;
@@ -103,7 +103,7 @@ export const renderItem = (type, id) => {
         similarButton += `
         <a href="https://www.google.com/search?q=${searchQuery}${searchParam}" target=”_blank”>
           <button id="findTorrent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
-            <i class="bi-cart-fill me-1"></i>
+            
             <img class="ico" src="${searchIco}">
           </button>
         </a>
@@ -131,9 +131,9 @@ export const renderItem = (type, id) => {
     if (data.release_date) searchDate = data.release_date.split("-")[0];
     let inner = `
             <section>
-                <div class="container px-4 px-lg-5 my-5">
+                <div class="container">
                     <div class="row gx-4 gx-lg-5 align-items-center">
-                        <div class="col-md-6"><img id="itemImg"class="shadow-sm card-img-top mb-5 mb-md-0" src="${imgSrc}" alt="" /></div>
+                        <div class="col-md-6"><img id="itemImg"class="shadow-sm card-img-top mb-5 mb-md-0" style="border-radius: 8px;" src="${imgSrc}" alt="" /></div>
                         <div class="col-md-6">
                             <p hidden id="originalTitle">${
                               data.original_title || data.original_name
@@ -163,14 +163,14 @@ export const renderItem = (type, id) => {
                             <table class="mb-4" style="width: 100%;" id="seasonsTable">${episodeCountInner}</table>
                             <div class="d-flex">
                                 <button id="showRecommendations" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
-                                    <i class="bi-cart-fill me-1"></i>
+                                    
                                     ${showButtonText}
                                 </button>
                                 ${similarButton}
                                 <button id="${
                                   data.id
                                 }" class="addToFavorites m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
-                                    <i class="bi-cart-fill me-1"></i>
+                                    
                                     <img class="ico" src="${favoritesIco}">
                                 </button>
                             </div>
@@ -255,7 +255,7 @@ const renderAddons = (type, id) => {
       id,
       (data) => {
         let inner = `
-            <div class="container px-4 px-lg-5 my-5">
+            <div class="container">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12 accordion" id="accordionTrailers">
         `;
@@ -326,7 +326,7 @@ const renderAddons = (type, id) => {
         let itemState = "";
         let buttonsInner = "";
         let inner = `
-            <div class="container px-4 px-lg-5 my-5">
+            <div class="container">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-8">
                     <div id="recommendationsMovieDate" style="color: #dc3545;" class="pb-1"></div>
@@ -451,7 +451,7 @@ const renderRecommendations = (type, id) => {
       let itemState = "";
       let buttonsInner = "";
       let inner = `
-            <div class="container px-4 px-lg-5 my-5">
+            <div class="container">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-8">
                         <div id="recommendationsMovieDate" style="color: #dc3545;" class="pb-1"></div>
@@ -577,9 +577,9 @@ export const renderSearchResults = (query) => {
           }`;
         }
         inner += `
-                <div class="card shadow-sm" style="max-width: 320px; width: calc(100% - 16px); margin: 48px 8px 0 8px;">
+                <div class="card shadow-lg" style="max-width: 256px; width: calc(100% - 16px); margin: 48px 8px 0 8px; border-radius: 8px; overflow: hidden;">
                     <a href="#show_|_${element.media_type || type}_|_${id}">
-                        <img style="min-height: 480px;" src="${imgSrc}" class="card-img-top" alt="${
+                        <img style="min-height: 320px;" src="${imgSrc}" class="card-img-top" alt="${
           element.original_title
         }">
                     </a>
@@ -601,7 +601,7 @@ export const renderSearchResults = (query) => {
       if (lang === "ru") i = 1;
       container.innerHTML = `
             <section>
-                <div class="container px-4 px-lg-5 my-5">
+                <div class="container">
                     <div class="row gx-4 gx-lg-5 align-items-center">
                         <div class="col-md-6">
                             <img class="card-img-top mb-5 mb-md-0" src="${noContent}">
@@ -632,8 +632,8 @@ export const renderSearchResults = (query) => {
 };
 export const renderTorrentLiveVideo = () => {
   container.innerHTML = `
-    <div class="d-flex justify-content-center" style="margin-top: 40vh;">
-        <div class="spinner-border" role="status">
+    <div class="d-flex justify-content-center">
+        <div style="color: #fff;" class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
@@ -739,7 +739,7 @@ export const renderTorrentLiveVideo = () => {
     if (lang === "ru") i = 1;
     container.innerHTML = `
       <section>
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container">
             <div class="row gx-4 gx-lg-5 align-items-center">
                 <div class="col-md-6">
                     <img class="card-img-top mb-5 mb-md-0" src="${noContent}">
@@ -771,8 +771,8 @@ export const renderTorrentLiveVideo = () => {
 // Nav links & tabs
 export const renderTrendingCards = (type, time, page) => {
   container.innerHTML = `
-        <div class="d-flex justify-content-center" style="margin-top: 40vh;">
-            <div class="spinner-border" role="status">
+        <div class="d-flex justify-content-center">
+            <div style="color: #fff;" class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
@@ -797,9 +797,9 @@ export const renderTrendingCards = (type, time, page) => {
           }`;
         }
         inner += `
-                <div class="card shadow-sm" style="max-width: 320px; width: calc(100% - 16px); margin: 48px 8px 0 8px;">
+                <div class="card shadow-lg" style="max-width: 256px; width: calc(100% - 16px); margin: 48px 8px 0 8px; border-radius: 8px; overflow: hidden;">
                     <a href="#show_|_${element.media_type || type}_|_${id}">
-                        <img style="min-height: 480px;" src="${imgSrc}" class="card-img-top" alt="${
+                        <img style="min-height: 320px;" src="${imgSrc}" class="card-img-top" alt="${
           element.original_title
         }">
                     </a>
@@ -819,7 +819,7 @@ export const renderTrendingCards = (type, time, page) => {
       <a style="width: 100%; text-align: center;" href="#trending_|_${type}_|_${time}_|_${
           Number(page) + 1
         }">
-        <button style="background: none; border: none;"class=" mt-5">
+        <button style="background: #fff; border: none;"class=" mt-4 mb-4">
           <img src="${expandIco}" alt="expand">
         </button>
       </a>
@@ -835,7 +835,7 @@ export const renderTrendingCards = (type, time, page) => {
       if (lang === "ru") i = 1;
       container.innerHTML = `
         <section>
-          <div class="container px-4 px-lg-5 my-5">
+          <div class="container">
               <div class="row gx-4 gx-lg-5 align-items-center">
                   <div class="col-md-6">
                       <img class="card-img-top mb-5 mb-md-0" src="${errorMsg}">
@@ -869,7 +869,7 @@ export const renderNativeTorrentPlayer = () => {
   if (lang === "ru") i = 1;
   container.innerHTML = `
         <section>
-            <div class="container px-4 px-lg-5 my-5">
+            <div class="container">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
                         <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
@@ -981,7 +981,7 @@ export const renderFavorites = (data) => {
   if (lang === "ru") i = 1;
   container.innerHTML = `
         <section>
-            <div class="container px-4 px-lg-5 my-5">
+            <div class="container">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
                         <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
@@ -1003,7 +1003,7 @@ export const renderFavorites = (data) => {
                             <tbody id="favoritesInner">
                                 <tr class="alert" role="alert">
                                     <td colspan="4">
-                                        <h1 style="text-align: center;">
+                                        <h1 style="text-align: center; color: #fff;">
                                             ¯\\_(ツ)_/¯
                                         </h1>
                                     </td>
@@ -1111,7 +1111,7 @@ export const renderSettingsTab = () => {
   if (lang === "ru") i = 1;
   container.innerHTML = `
         <section>
-            <div class="container px-4 px-lg-5 my-5">
+            <div class="container">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
                         <h1 id="torrentPlayerTitle" class="display-5 fw-bolder">
@@ -1302,6 +1302,7 @@ export const renderSettingsTab = () => {
     console.log(uiScale.value);
     localStorage.setItem("ui_scale", uiScale.value);
     app.style = `zoom: ${uiScale.value}; -moz-transform: scale(${uiScale.value}); -moz-transform-origin: 0 0;`;
+    document.documentElement.style.setProperty("--zoom", uiScale.value);
   };
   webtorSwitch.onchange = () => {
     if (webtorSwitch.checked) {
