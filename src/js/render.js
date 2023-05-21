@@ -1335,9 +1335,8 @@ export const renderSettingsTab = () => {
     uiScale.value = localStorage.getItem("ui_scale");
   }
   uiScale.onchange = () => {
-    console.log(uiScale.value);
     localStorage.setItem("ui_scale", uiScale.value);
-    app.style = `zoom: ${uiScale.value}; -moz-transform: scale(${uiScale.value}); -moz-transform-origin: 0 0;`;
+    document.querySelector('html').style = `zoom: ${uiScale.value}; -moz-transform: scale(${uiScale.value}); -moz-transform-origin: 0 0;`;
     document.documentElement.style.setProperty("--zoom", uiScale.value);
   };
   webtorSwitch.onchange = () => {
