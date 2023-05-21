@@ -142,6 +142,13 @@ window.onload = () => {
     localStorage.setItem("favorites", "[]");
   }
 
+  if (
+    localStorage.getItem("videa_background") &&
+    localStorage.getItem("videa_background") == 0
+  ) {
+    backgroundVideo.hidden = true;
+  }
+
   // toggles control
   langSwitch.onchange = () => {
     langSwitch.checked
