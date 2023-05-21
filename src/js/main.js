@@ -82,6 +82,7 @@ window.onload = () => {
     <video
       id="backgroundVideo"
       loop
+      autoplay
       muted
     >
       <source id="bgVideoSource"
