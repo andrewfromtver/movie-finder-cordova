@@ -578,7 +578,7 @@ export const renderSearchResults = (query) => {
           }`;
         }
         inner += `
-                <div class="card shadow-lg" style="max-width: 256px; width: calc(100% - 16px); margin: 16px 8px 8px 8px; border-radius: 8px; overflow: hidden;">
+                <div class="card shadow-lg" style="max-width: 256px; width: calc(100% - 16px); margin: 16px 8px 0 8px; border-radius: 8px; overflow: hidden;">
                     <a href="#show_|_${element.media_type || type}_|_${id}">
                         <img style="min-height: 365px;" src="${imgSrc}" class="card-img-top" alt="${
           element.original_title
@@ -595,7 +595,7 @@ export const renderSearchResults = (query) => {
                 </div>
             `;
       });
-      container.innerHTML = inner;
+      container.innerHTML = inner + '<div style="width: 100%; height: 16px;"></div>';
       document.title = query;
     },
     () => {
@@ -800,7 +800,7 @@ export const renderTrendingCards = (type, time, page) => {
           }`;
         }
         inner += `
-                <div class="card shadow-lg" style="max-width: 256px; width: calc(100% - 16px); margin: 16px 8px 8px 8px; border-radius: 8px; overflow: hidden;">
+                <div class="card shadow-lg" style="max-width: 256px; width: calc(100% - 16px); margin: 16px 8px 0 8px; border-radius: 8px; overflow: hidden;">
                     <a href="#show_|_${element.media_type || type}_|_${id}">
                         <img style="min-height: 365px;" src="${imgSrc}" class="card-img-top" alt="${
           element.original_title
@@ -827,6 +827,9 @@ export const renderTrendingCards = (type, time, page) => {
         </button>
       </a>
     `;
+      }
+      else {
+        inner += `<div style="width: 100%; height: 16px;"></div>`
       }
       container.innerHTML = inner;
       let i = 0;
