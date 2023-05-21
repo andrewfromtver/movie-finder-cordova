@@ -80,8 +80,7 @@ const appUsageStat = () => {
 window.onload = () => {
   let inner = `
     <video
-      id="background-video"
-      autoplay
+      id="backgroundVideo"
       loop
       muted
     >
@@ -92,6 +91,7 @@ window.onload = () => {
     </video>
   `;
   app.innerHTML += inner;
+  backgroundVideo.play();
   // webmanifest
   document
     .querySelector("#my-manifest-placeholder")

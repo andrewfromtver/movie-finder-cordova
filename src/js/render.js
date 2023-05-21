@@ -1260,6 +1260,17 @@ export const renderSettingsTab = () => {
                 </div>
                 <label for="uiScale" class="form-label">UI scale</label>
                 <input type="range" class="form-range" min="0.5" max="1.5" step="0.1" id="uiScale">
+                <div class="form-check form-switch mb-4">
+                  <input
+                    class="form-check-input mt-2 mb-2"
+                    type="checkbox"
+                    role="switch"
+                    id="backgroundSwitch"
+                  />
+                  <label class="form-check-label m-1" for="backgroundSwitch">
+                    Disable video background
+                  </label>
+                </div>
                 <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
                         <div class="fs-5 mb-2">
@@ -1295,6 +1306,13 @@ export const renderSettingsTab = () => {
   ) {
     onlyVideoSearch.checked = true;
   }
+  if (
+    localStorage.getItem("videa_background") &&
+    localStorage.getItem("videa_background") == 0
+  ) {
+    backgroundSwitch.checked = true;
+    backgroundVideo.hidden = true;
+  }
   if (localStorage.getItem("ui_scale")) {
     uiScale.value = localStorage.getItem("ui_scale");
   }
@@ -1313,6 +1331,15 @@ export const renderSettingsTab = () => {
       searchApiHostElement.hidden = true;
       searchDomainInput.hidden = false;
       onlyVideoSearchDiv.hidden = false;
+    }
+  };
+  backgroundSwitch.onchange = () => {
+    if (backgroundSwitch.checked) {
+      backgroundVideo.hidden = true;
+      localStorage.setItem("videa_background", 0)
+    } else {
+      backgroundVideo.hidden = false;
+      localStorage.setItem("videa_background", 1)
     }
   };
   saveServer.onclick = () => {
