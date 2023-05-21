@@ -129,6 +129,7 @@ export const renderItem = (type, id) => {
     }
     let searchDate = "";
     if (data.release_date) searchDate = data.release_date.split("-")[0];
+    document.title = data.title || data.name;
     let inner = `
             <section>
                 <div class="container">
@@ -577,9 +578,9 @@ export const renderSearchResults = (query) => {
           }`;
         }
         inner += `
-                <div class="card shadow-lg" style="max-width: 256px; width: calc(100% - 16px); margin: 48px 8px 0 8px; border-radius: 8px; overflow: hidden;">
+                <div class="card shadow-lg" style="max-width: 256px; width: calc(100% - 16px); margin: 16px 8px 8px 8px; border-radius: 8px; overflow: hidden;">
                     <a href="#show_|_${element.media_type || type}_|_${id}">
-                        <img style="min-height: 320px;" src="${imgSrc}" class="card-img-top" alt="${
+                        <img style="min-height: 365px;" src="${imgSrc}" class="card-img-top" alt="${
           element.original_title
         }">
                     </a>
@@ -595,10 +596,12 @@ export const renderSearchResults = (query) => {
             `;
       });
       container.innerHTML = inner;
+      document.title = query;
     },
     () => {
       let i = 0;
       if (lang === "ru") i = 1;
+      document.title = 404;
       container.innerHTML = `
             <section>
                 <div class="container">
@@ -789,7 +792,7 @@ export const renderTrendingCards = (type, time, page) => {
         let scoreWidth = "auto";
         if (element.vote_average > 5) scoreColor = "#fd7e14";
         if (element.vote_average > 7.5) scoreColor = "#13795b";
-        if (element.vote_average) scoreWidth = "64px";
+        if (element.vote_average) scoreWidth = "82px";
         let imgSrc = noImage;
         if (element.poster_path || element.profile_path) {
           imgSrc = `${imdbImageStore}/t/p/w500/${
@@ -797,9 +800,9 @@ export const renderTrendingCards = (type, time, page) => {
           }`;
         }
         inner += `
-                <div class="card shadow-lg" style="max-width: 256px; width: calc(100% - 16px); margin: 48px 8px 0 8px; border-radius: 8px; overflow: hidden;">
+                <div class="card shadow-lg" style="max-width: 256px; width: calc(100% - 16px); margin: 16px 8px 8px 8px; border-radius: 8px; overflow: hidden;">
                     <a href="#show_|_${element.media_type || type}_|_${id}">
-                        <img style="min-height: 320px;" src="${imgSrc}" class="card-img-top" alt="${
+                        <img style="min-height: 365px;" src="${imgSrc}" class="card-img-top" alt="${
           element.original_title
         }">
                     </a>
@@ -826,6 +829,14 @@ export const renderTrendingCards = (type, time, page) => {
     `;
       }
       container.innerHTML = inner;
+      let i = 0;
+      if (lang === "ru") i = 1;
+      let docTitle = "";
+      if (type === "movie") docTitle = document.title = translate[i].data[0];
+      if (type === "tv") docTitle = document.title = translate[i].data[1];
+      if (type === "person") docTitle = document.title = translate[i].data[3];
+      if (type === "all") docTitle = document.title = translate[i].data[2];
+      document.title = docTitle;
     },
     (error) => {
       const message = new bootstrap.Toast(toast);
@@ -867,6 +878,7 @@ export const renderTrendingCards = (type, time, page) => {
 export const renderNativeTorrentPlayer = () => {
   let i = 0;
   if (lang === "ru") i = 1;
+  document.title = translate[i].data[10];
   container.innerHTML = `
         <section>
             <div class="container">
@@ -951,6 +963,7 @@ export const renderNativeTorrentPlayer = () => {
 export const renderWebTorPlayer = () => {
   let i = 0;
   if (lang === "ru") i = 1;
+  document.title = translate[i].data[10];
   container.innerHTML = `
         <section>
             <div class="container px-4 px-lg-5 my-5">
@@ -979,6 +992,7 @@ export const renderWebTorPlayer = () => {
 export const renderFavorites = (data) => {
   let i = 0;
   if (lang === "ru") i = 1;
+  document.title = translate[i].data[13];
   container.innerHTML = `
         <section>
             <div class="container">
@@ -1109,6 +1123,7 @@ export const renderSettingsTab = () => {
   }
   let i = 0;
   if (lang === "ru") i = 1;
+  document.title = translate[i].data[22];
   container.innerHTML = `
         <section>
             <div class="container">
@@ -1336,10 +1351,10 @@ export const renderSettingsTab = () => {
   backgroundSwitch.onchange = () => {
     if (backgroundSwitch.checked) {
       backgroundVideo.hidden = true;
-      localStorage.setItem("videa_background", 0)
+      localStorage.setItem("videa_background", 0);
     } else {
       backgroundVideo.hidden = false;
-      localStorage.setItem("videa_background", 1)
+      localStorage.setItem("videa_background", 1);
     }
   };
   saveServer.onclick = () => {
