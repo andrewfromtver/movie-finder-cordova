@@ -39,6 +39,8 @@ test-code-job:
     - >
       if [ $CI_JOB_STATUS == 'success' ]; then
         curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20✅%20%5B$CI_PROJECT_NAME%5D%20All%20tests%20passed%20successfuly"
+        curl -F document=@"$CI_PROJECT_NAME-sast-report.json" https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendDocument?chat_id=$TELEGRAM_CHAT_ID
+        sleep 5
       else
         curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20❌%20%5B$CI_PROJECT_NAME%5D%20Tests%20failed%20$CI_PIPELINE_URL"
       fi
