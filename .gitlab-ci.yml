@@ -29,7 +29,7 @@ test-code-job:
     - docker
   script:
     - doas docker image ls | grep "$CI_PROJECT_NAME"
-    - doas docker run --rm -v "src:/src" returntocorp/semgrep --help
+    - doas docker run --rm -v returntocorp/semgrep --help
   after_script:
     - >
       if [ $CI_JOB_STATUS == 'success' ]; then
