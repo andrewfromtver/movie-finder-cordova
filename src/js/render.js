@@ -42,247 +42,249 @@ export const renderItem = (type, id) => {
       </div>
     </div>
   `;
-  getFullInfo(type, id, (data) => {
-    let episodeCount = [];
-    let episodeCountInner = "";
-    if (type === "tv") {
-      data.seasons.forEach((element) => {
-        episodeCount.push({ name: element.name, qty: element.episode_count });
-      });
-      let i = 0;
-      if (lang === "ru") i = 1;
-      episodeCountInner = `
-        <thead>
-          <tr>
-            <th>${translate[i].data[20]}</th>
-            <th>${translate[i].data[21]}</th>
-          </tr>
-        </thead>
-      `;
-    } else {
-      episodeCount = [];
-    }
-    episodeCount.forEach((element) => {
-      episodeCountInner += `
-        <tbody>
-          <tr>
-            <td>${element.name}</td>
-            <td>${element.qty}</td>
-          </tr>
-        </tbody>
-      `;
-    });
-    sessionStorage.setItem("seasons", JSON.stringify(episodeCount));
-    let showButtonText = `<img class="ico" src="${recommendationsIco}">`;
-    let similarButton = "";
-    if (type !== "person") {
-      showButtonText = `<img class="ico" src="${trailerIco}">`;
-      similarButton = `
-                <button id="showSimilar" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
-                    
-                    <img class="ico" src="${recommendationsIco}">
-                </button>
-            `;
-      if (allowTorrents) {
-        similarButton += `
-          <button id="findTorrent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
-            
-            <img class="ico" src="${playIco}">
-          </button>
-        `;
-      } else {
-        let searchQuery = data.title || data.name;
-        if (type === "movie") {
-          searchQuery += " " + data.release_date.split("-")[0];
-        } else {
-          searchQuery += " " + data.last_air_date.split("-")[0];
-        }
-        searchQuery += searchSite;
-        let searchParam = "";
-        if (longVideosSearchParam == 1) searchParam = "&tbm=vid&tbs=dur:l";
-        similarButton += `
-        <a href="https://www.google.com/search?q=${searchQuery}${searchParam}" target=”_blank”>
-          <button id="findTorrent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
-            
-            <img class="ico" src="${searchIco}">
-          </button>
-        </a>
-        `;
-      }
-    }
-    let scoreColor = "#dc3545";
-    let scorePadding = "auto";
-    if (data.vote_average > 5) scoreColor = "#fd7e14";
-    if (data.vote_average > 7.5) scoreColor = "#13795b";
-    if (data.vote_average || data.birthday) scorePadding = "8px";
-    let genList = "";
-    if (type !== "person") {
-      data.genres.forEach((element) => {
-        genList += `${element.name} `;
-      });
-    }
-    let imgSrc = noImage;
-    if (data.poster_path || data.profile_path) {
-      imgSrc = `${imdbImageStore}/t/p/w500/${
-        data.poster_path || data.profile_path
-      }`;
-    }
-    let searchDate = "";
-    if (data.release_date) searchDate = data.release_date.split("-")[0];
-    document.title = data.title || data.name;
-    let inner = `
-            <section>
-                <div class="container">
-                    <div class="row gx-4 gx-lg-5 align-items-center">
-                        <div class="col-md-6"><img id="itemImg"class="shadow-sm card-img-top mb-5 mb-md-0" style="border-radius: 8px;" src="${imgSrc}" alt="" /></div>
-                        <div class="col-md-6">
-                            <p hidden id="originalTitle">${
-                              data.original_title || data.original_name
-                            } ${searchDate}</p>
-                            <h1 id="itemTitle" class="display-5 fw-bolder">${
-                              data.title || data.name
-                            }</h1>
-                            <div class="fs-5 mb-2">
-                                <span id="itemTag">${data.tagline || ""}</span>
-                            </div>
-                            <div class="fs-5 mb-3">
-                                <span style="color: #13795b;" class="fw-bolder" id="itemGenres">${
-                                  genList || ""
-                                }</span>
-                            </div>
-                            <div class="fs-5 mb-4">
-                                <span id="itemDate" style="padding: ${scorePadding}; color: #fff; background-color: ${scoreColor};">${
-      data.vote_average || data.birthday || ""
-    }</span>
-                            </div>
-                            <p class="lead">${
-                              data.overview || data.biography || ""
-                            }</p>
-                            <div  style="color: #dc3545;" class="pb-2">${
-                              data.release_date || data.last_air_date || ""
-                            }</div>
-                            <table class="mb-4" style="width: 100%;" id="seasonsTable">${episodeCountInner}</table>
-                            <div class="d-flex">
-                                <button id="showRecommendations" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
-                                    
-                                    ${showButtonText}
-                                </button>
-                                ${similarButton}
-                                <button id="${
-                                  data.id
-                                }" class="addToFavorites m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
-                                    
-                                    <img class="ico" src="${favoritesIco}">
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section style="width: 100%;" id="recommendations"></section>
-            <section style="width: 100%;" id="trailers"></section>
-    `;
-    container.innerHTML = inner;
-    showRecommendations.onclick = () => {
-      setTimeout(() => {
-        showRecommendations.hidden = true;
-      }, 500);
-      renderAddons(type, id);
-    };
-    if (type !== "person") {
-      showSimilar.onclick = () => {
-        setTimeout(() => {
-          showSimilar.hidden = true;
-        }, 250);
-        renderRecommendations(type, id);
-      };
-      if (allowTorrents) {
-        findTorrent.onclick = () => {
-          window.location.hash = `#play_|_${originalTitle.innerText}`;
-        };
-      }
-    }
-    const addItemToFavorites = (id, type, tytle, subtytle, img) => {
-      const message = new bootstrap.Toast(toast);
-      let i = 0;
-      if (lang === "ru") i = 1;
-      if (localStorage.getItem("favorites")) {
-        let userData = JSON.parse(localStorage.getItem("favorites"));
-        let newObj = {
-          id: id,
-          type: type,
-          title: tytle,
-          subtitle: subtytle,
-          img_path: img,
-        };
-        let unique = true;
-        userData.forEach((element) => {
-          if (element.id + element.type == id + type) {
-            unique = false;
-          }
+  getFullInfo(type, id, 
+    (data) => {
+      let episodeCount = [];
+      let episodeCountInner = "";
+      if (type === "tv") {
+        data.seasons.forEach((element) => {
+          episodeCount.push({ name: element.name, qty: element.episode_count });
         });
-        if (unique) {
-          userData.push(newObj);
-          localStorage.setItem("favorites", JSON.stringify(userData));
-          toastMsg.innerText = translate[i].data[14];
-        } else {
-          toastMsg.innerText = translate[i].data[15];
-        }
+        let i = 0;
+        if (lang === "ru") i = 1;
+        episodeCountInner = `
+          <thead>
+            <tr>
+              <th>${translate[i].data[20]}</th>
+              <th>${translate[i].data[21]}</th>
+            </tr>
+          </thead>
+        `;
       } else {
-        toastMsg.innerText = translate[i].data[16];
+        episodeCount = [];
       }
-      message.show();
-    };
-    document.querySelectorAll(".addToFavorites").forEach((element) => {
-      element.onclick = () => {
-        let tag = itemTag.innerText;
-        if (window.location.href.split("_|_")[1] === "person")
-          tag = itemDate.innerText;
-        addItemToFavorites(
-          element.id,
-          window.location.href.split("_|_")[1],
-          itemTitle.innerText,
-          tag,
-          itemImg.src
-        );
+      episodeCount.forEach((element) => {
+        episodeCountInner += `
+          <tbody>
+            <tr>
+              <td>${element.name}</td>
+              <td>${element.qty}</td>
+            </tr>
+          </tbody>
+        `;
+      });
+      sessionStorage.setItem("seasons", JSON.stringify(episodeCount));
+      let showButtonText = `<img class="ico" src="${recommendationsIco}">`;
+      let similarButton = "";
+      if (type !== "person") {
+        showButtonText = `<img class="ico" src="${trailerIco}">`;
+        similarButton = `
+                  <button id="showSimilar" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
+                      
+                      <img class="ico" src="${recommendationsIco}">
+                  </button>
+              `;
+        if (allowTorrents) {
+          similarButton += `
+            <button id="findTorrent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
+              
+              <img class="ico" src="${playIco}">
+            </button>
+          `;
+        } else {
+          let searchQuery = data.title || data.name;
+          if (type === "movie") {
+            searchQuery += " " + data.release_date.split("-")[0];
+          } else {
+            searchQuery += " " + data.last_air_date.split("-")[0];
+          }
+          searchQuery += searchSite;
+          let searchParam = "";
+          if (longVideosSearchParam == 1) searchParam = "&tbm=vid&tbs=dur:l";
+          similarButton += `
+          <a href="https://www.google.com/search?q=${searchQuery}${searchParam}" target=”_blank”>
+            <button id="findTorrent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
+              
+              <img class="ico" src="${searchIco}">
+            </button>
+          </a>
+          `;
+        }
+      }
+      let scoreColor = "#dc3545";
+      let scorePadding = "auto";
+      if (data.vote_average > 5) scoreColor = "#fd7e14";
+      if (data.vote_average > 7.5) scoreColor = "#13795b";
+      if (data.vote_average || data.birthday) scorePadding = "8px";
+      let genList = "";
+      if (type !== "person") {
+        data.genres.forEach((element) => {
+          genList += `${element.name} `;
+        });
+      }
+      let imgSrc = noImage;
+      if (data.poster_path || data.profile_path) {
+        imgSrc = `${imdbImageStore}/t/p/w500/${
+          data.poster_path || data.profile_path
+        }`;
+      }
+      let searchDate = "";
+      if (data.release_date) searchDate = data.release_date.split("-")[0];
+      document.title = data.title || data.name;
+      let inner = `
+              <section>
+                  <div class="container">
+                      <div class="row gx-4 gx-lg-5 align-items-center">
+                          <div class="col-md-6"><img id="itemImg"class="shadow-sm card-img-top mb-5 mb-md-0" style="border-radius: 8px;" src="${imgSrc}" alt="" /></div>
+                          <div class="col-md-6">
+                              <p hidden id="originalTitle">${
+                                data.original_title || data.original_name
+                              } ${searchDate}</p>
+                              <h1 id="itemTitle" class="display-5 fw-bolder">${
+                                data.title || data.name
+                              }</h1>
+                              <div class="fs-5 mb-2">
+                                  <span id="itemTag">${data.tagline || ""}</span>
+                              </div>
+                              <div class="fs-5 mb-3">
+                                  <span style="color: #13795b;" class="fw-bolder" id="itemGenres">${
+                                    genList || ""
+                                  }</span>
+                              </div>
+                              <div class="fs-5 mb-4">
+                                  <span id="itemDate" style="padding: ${scorePadding}; color: #fff; background-color: ${scoreColor};">${
+        data.vote_average || data.birthday || ""
+      }</span>
+                              </div>
+                              <p class="lead">${
+                                data.overview || data.biography || ""
+                              }</p>
+                              <div  style="color: #dc3545;" class="pb-2">${
+                                data.release_date || data.last_air_date || ""
+                              }</div>
+                              <table class="mb-4" style="width: 100%;" id="seasonsTable">${episodeCountInner}</table>
+                              <div class="d-flex">
+                                  <button id="showRecommendations" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
+                                      
+                                      ${showButtonText}
+                                  </button>
+                                  ${similarButton}
+                                  <button id="${
+                                    data.id
+                                  }" class="addToFavorites m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
+                                      
+                                      <img class="ico" src="${favoritesIco}">
+                                  </button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </section>
+              <section style="width: 100%;" id="recommendations"></section>
+              <section style="width: 100%;" id="trailers"></section>
+      `;
+      container.innerHTML = inner;
+      showRecommendations.onclick = () => {
+        setTimeout(() => {
+          showRecommendations.hidden = true;
+        }, 500);
+        renderAddons(type, id);
       };
-    });
-  },
-  (error) => {
-    const message = new bootstrap.Toast(toast);
-    toastMsg.innerText = error;
-    message.show();
-    let i = 0;
-    if (lang === "ru") i = 1;
-    container.innerHTML = `
-      <section>
-        <div class="container">
-            <div class="row gx-4 gx-lg-5 align-items-center">
-                <div class="col-md-6">
-                    <img class="card-img-top mb-5 mb-md-0" src="${errorMsg}">
-                </div>
-                <div class="col-md-6">
-                    <h1 class="display-5 fw-bolder">
-                      ${translate[i].data[25]}
-                    </h1>
-                    <div class="fs-5 mb-2">
-                        <span id="itemTag">
-                            ${translate[i].data[24]}
-                        </span>
-                    </div>
-                    <div class="fs-5 mb-2">
-                        <button style="width: 128px;" type="button" class="btn btn-success m-0 p-0">
-                            <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#settings">
-                                ${translate[i].data[22]}
-                            </a>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </section>
-    `;
-  }
+      if (type !== "person") {
+        showSimilar.onclick = () => {
+          setTimeout(() => {
+            showSimilar.hidden = true;
+          }, 250);
+          renderRecommendations(type, id);
+        };
+        if (allowTorrents) {
+          findTorrent.onclick = () => {
+            window.location.hash = `#play_|_${originalTitle.innerText}`;
+          };
+        }
+      }
+      const addItemToFavorites = (id, type, tytle, subtytle, img) => {
+        const message = new bootstrap.Toast(toast);
+        let i = 0;
+        if (lang === "ru") i = 1;
+        if (localStorage.getItem("favorites")) {
+          let userData = JSON.parse(localStorage.getItem("favorites"));
+          let newObj = {
+            id: id,
+            type: type,
+            title: tytle,
+            subtitle: subtytle,
+            img_path: img,
+          };
+          let unique = true;
+          userData.forEach((element) => {
+            if (element.id + element.type == id + type) {
+              unique = false;
+            }
+          });
+          if (unique) {
+            userData.push(newObj);
+            localStorage.setItem("favorites", JSON.stringify(userData));
+            toastMsg.innerText = translate[i].data[14];
+          } else {
+            toastMsg.innerText = translate[i].data[15];
+          }
+        } else {
+          toastMsg.innerText = translate[i].data[16];
+        }
+        message.show();
+      };
+      document.querySelectorAll(".addToFavorites").forEach((element) => {
+        element.onclick = () => {
+          let tag = itemTag.innerText;
+          if (window.location.href.split("_|_")[1] === "person")
+            tag = itemDate.innerText;
+          addItemToFavorites(
+            element.id,
+            window.location.href.split("_|_")[1],
+            itemTitle.innerText,
+            tag,
+            itemImg.src
+          );
+        };
+      });
+    },
+    (error) => {
+      console.log("test");
+      const message = new bootstrap.Toast(toast);
+      toastMsg.innerText = error;
+      message.show();
+      let i = 0;
+      if (lang === "ru") i = 1;
+      container.innerHTML = `
+        <section>
+          <div class="container">
+              <div class="row gx-4 gx-lg-5 align-items-center">
+                  <div class="col-md-6">
+                      <img class="card-img-top mb-5 mb-md-0" src="${errorMsg}">
+                  </div>
+                  <div class="col-md-6">
+                      <h1 class="display-5 fw-bolder">
+                        ${translate[i].data[25]}
+                      </h1>
+                      <div class="fs-5 mb-2">
+                          <span id="itemTag">
+                              ${translate[i].data[24]}
+                          </span>
+                      </div>
+                      <div class="fs-5 mb-2">
+                          <button style="width: 128px;" type="button" class="btn btn-success m-0 p-0">
+                              <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#settings">
+                                  ${translate[i].data[22]}
+                              </a>
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </section>
+      `;
+    }
   );
 };
 const renderAddons = (type, id) => {
