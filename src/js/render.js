@@ -1373,7 +1373,6 @@ export const renderSettingsTab = () => {
     uiScale.value = localStorage.getItem("ui_scale");
   }
   uiScale.onchange = () => {
-    localStorage.setItem("ui_scale", uiScale.value);
     document.querySelector('html').style = `zoom: ${uiScale.value}; -moz-transform: scale(${uiScale.value}); -moz-transform-origin: 0 0;`;
     document.documentElement.style.setProperty("--zoom", uiScale.value);
   };
@@ -1391,13 +1390,17 @@ export const renderSettingsTab = () => {
   backgroundSwitch.onchange = () => {
     if (backgroundSwitch.checked) {
       backgroundVideo.hidden = true;
-      localStorage.setItem("videa_background", 0);
     } else {
       backgroundVideo.hidden = false;
-      localStorage.setItem("videa_background", 1);
     }
   };
   saveServer.onclick = () => {
+    localStorage.setItem("ui_scale", uiScale.value);
+    if (backgroundSwitch.checked) {
+      localStorage.setItem("videa_background", 0);
+    } else {
+      localStorage.setItem("videa_background", 1);
+    }
     if (webtorSwitch.checked) {
       localStorage.setItem("use_webtor", 1);
     } else {
