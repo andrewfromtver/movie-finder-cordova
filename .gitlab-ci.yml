@@ -8,18 +8,19 @@ build-code-job:
   tags:
     - build
     - docker
+  before_script:
+    - curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20🛠%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20started%20$CI_PIPELINE_URL"
   script:
     - printenv
-    - curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20🛠%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20started%20$CI_PIPELINE_URL" &
     - npm i
     - npm run build
     - doas docker build -t $CI_PROJECT_NAME .
   after_script:
     - >
       if [ $CI_JOB_STATUS == 'success' ]; then
-        curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20✅%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20completed%20$CI_PIPELINE_URL" &
+        curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20✅%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20completed"
       else
-        curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20❌%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20failed%20$CI_PIPELINE_URL" &
+        curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20❌%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20failed%20$CI_PIPELINE_URL"
       fi
 
 test-code-job:
@@ -30,7 +31,13 @@ test-code-job:
   script:
     - doas docker image ls | grep "$CI_PROJECT_NAME"
     - echo "Tests ..."
-    - curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20✅%20%5B$CI_PROJECT_NAME%5D%20All%20tests%20passed%20successfuly%20$CI_PIPELINE_URL"
+  after_script:
+    - >
+      if [ $CI_JOB_STATUS == 'success' ]; then
+        curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20✅%20%5B$CI_PROJECT_NAME%5D%20All%20tests%20passed%20successfuly"
+      else
+        curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20❌%20%5B$CI_PROJECT_NAME%5D%20Tests%20failed%20$CI_PIPELINE_URL"
+      fi
 
 deploy-code-job:
   stage: deploy
@@ -41,4 +48,10 @@ deploy-code-job:
     - doas docker-compose -v
     - doas docker stop $CI_PROJECT_NAME || true && doas docker rm $CI_PROJECT_NAME || true
     - doas docker run -d --name $CI_PROJECT_NAME -p 9080:80 $CI_PROJECT_NAME
-    - curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20🚀%20%5B$CI_PROJECT_NAME%5D%20Deploy%20job%20completed%20$CI_PIPELINE_URL"
+  after_script:
+    - >
+      if [ $CI_JOB_STATUS == 'success' ]; then
+        curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20🚀%20%5B$CI_PROJECT_NAME%5D%20Deploy%20job%20completed"
+      else
+        curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20❌%20%5B$CI_PROJECT_NAME%5D%20Deploy%20job%20failed%20$CI_PIPELINE_URL"
+      fi
