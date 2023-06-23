@@ -29,7 +29,7 @@ test-code-job:
     - test
     - docker
   script:
-    - doas docker image ls | grep "$CI_PROJECT_NAME"
+    - doasf docker image ls | grep "$CI_PROJECT_NAME"
     - echo "Tests ..."
   after_script:
     - >
@@ -45,7 +45,7 @@ deploy-code-job:
     - deploy
     - docker
   script:
-    - doasf docker-compose -v
+    - doas docker-compose -v
     - doas docker stop $CI_PROJECT_NAME || true && doas docker rm $CI_PROJECT_NAME || true
     - doas docker run -d --name $CI_PROJECT_NAME -p 9080:80 $CI_PROJECT_NAME
   after_script:
