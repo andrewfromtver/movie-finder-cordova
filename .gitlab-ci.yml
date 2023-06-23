@@ -10,11 +10,17 @@ build-code-job:
     - docker
   script:
     - printenv
-    - curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20🛠%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20started%20$CI_PIPELINE_URL"
+    - curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20🛠%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20started%20$CI_PIPELINE_URL" &
     - npm i
     - npm run build
     - doas docker build -t $CI_PROJECT_NAME .
-    - curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20✅%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20completed%20$CI_PIPELINE_URL"
+  after_script:
+    - >
+      if [ $CI_JOB_STATUS == 'success' ]; then
+        curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20✅%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20completed%20$CI_PIPELINE_URL" &
+      else
+        curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20❌%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20failed%20$CI_PIPELINE_URL" &
+      fi
 
 test-code-job:
   stage: test
