@@ -44,11 +44,15 @@ export const getFullInfo = (
   id,
   callback = (data) => {
     console.log(data);
+  },
+  errorHandler = (errorMsg) => {
+    console.log(errorMsg);
   }
 ) => {
   fetch(`${imdbApi}/3/${type}/${id}?${apiKey}&language=${lang}`)
     .then((value) => {
       if (value.status !== 200) {
+        errorHandler(value);
         return Promise.reject(new Error("Internal API error."));
       }
       return value.json();
@@ -60,7 +64,7 @@ export const getFullInfo = (
       callback(output);
     })
     .catch((e) => {
-      console.error(e);
+      errorHandler(e);
     });
 };
 // type = ['movie', 'tv']

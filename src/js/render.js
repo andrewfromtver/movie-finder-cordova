@@ -247,7 +247,43 @@ export const renderItem = (type, id) => {
         );
       };
     });
-  });
+  },
+  (error) => {
+    const message = new bootstrap.Toast(toast);
+    toastMsg.innerText = error;
+    message.show();
+    let i = 0;
+    if (lang === "ru") i = 1;
+    container.innerHTML = `
+      <section>
+        <div class="container">
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                <div class="col-md-6">
+                    <img class="card-img-top mb-5 mb-md-0" src="${errorMsg}">
+                </div>
+                <div class="col-md-6">
+                    <h1 class="display-5 fw-bolder">
+                      ${translate[i].data[25]}
+                    </h1>
+                    <div class="fs-5 mb-2">
+                        <span id="itemTag">
+                            ${translate[i].data[24]}
+                        </span>
+                    </div>
+                    <div class="fs-5 mb-2">
+                        <button style="width: 128px;" type="button" class="btn btn-success m-0 p-0">
+                            <a class="m-0 p-1 nav-link text-light" aria-current="page" href="#settings">
+                                ${translate[i].data[22]}
+                            </a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+    `;
+  }
+  );
 };
 const renderAddons = (type, id) => {
   if (["movie", "tv", "all"].includes(type))
