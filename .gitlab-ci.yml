@@ -11,8 +11,6 @@ build-code-job:
   before_script:
     - curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20🛠%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20started"
   script:
-    - echo ($CI_PROJECT_DIR | cut -d "0" -f 1)
-    - doas docker run --rm -v "${CI_PROJECT_DIR}:/src" returntocorp/semgrep semgrep scan --config auto
     - npm i
     - npm run build
     - doas docker build -t $CI_PROJECT_NAME .
@@ -31,6 +29,8 @@ test-code-job:
     - docker
   script:
     - doas docker image ls | grep "$CI_PROJECT_NAME"
+    - export PWD_FOR_SAST=pwd
+    - doas docker run --rm -v "$PWD_FOR_SAST:/src" returntocorp/semgrep semgrep scan --config auto
   after_script:
     - >
       if [ $CI_JOB_STATUS == 'success' ]; then
