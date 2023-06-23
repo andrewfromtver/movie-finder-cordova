@@ -30,7 +30,7 @@ test-code-job:
   script:
     - doas docker image ls | grep "$CI_PROJECT_NAME"
     - semgrep scan --config auto --output scan_results.json --json
-    - cat scan_results.json --json
+    - cat scan_results.json
   after_script:
     - >
       if [ $CI_JOB_STATUS == 'success' ]; then
