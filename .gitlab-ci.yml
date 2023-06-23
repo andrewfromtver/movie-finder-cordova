@@ -1,3 +1,8 @@
+include:
+  - template: Security/SAST.gitlab-ci.yml
+variables:
+  SAST_DEFAULT_ANALYZERS: "eslint,nodejs-scan"
+
 stages:
   - build
   - test
