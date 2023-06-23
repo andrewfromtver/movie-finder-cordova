@@ -44,7 +44,7 @@ export const translate = [
       "Seasons",
       "Series",
       "Settings",
-      "Remember to save your settings before you leave this page",
+      "Remember to save new settings before leave this page",
       "It seems that IMDB API is blocked in your country, try to specify IMDB API mirror address in the settings",
       "Oops, something went wrong...",
     ],
