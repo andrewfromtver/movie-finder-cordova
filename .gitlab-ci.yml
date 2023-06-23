@@ -29,12 +29,12 @@ test-code-job:
     - docker
   script:
     - doas docker image ls | grep "$CI_PROJECT_NAME"
-    - semgrep scan --config auto --output $CI_PROJECT_NAME-SAST.json --json
+    - semgrep scan --config auto --output $CI_PROJECT_NAME-sast-report.json --json
   artifacts:
     paths:
-      - $CI_PROJECT_NAME-SAST.json
+      - $CI_PROJECT_NAME-sast-report.json
     expire_in: 4 week
-    name: ${APP_OUTPUT_NAME}_${CI_JOB_ID}_SAST_REPORT
+    name: ${CI_PROJECT_NAME}_${CI_JOB_ID}_sast_report
   after_script:
     - >
       if [ $CI_JOB_STATUS == 'success' ]; then
