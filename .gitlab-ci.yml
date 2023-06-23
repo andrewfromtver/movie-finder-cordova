@@ -11,8 +11,7 @@ build-code-job:
   before_script:
     - curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20🛠%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20started"
   script:
-    - printenv
-    - npm i
+    - npmf i
     - npm run build
     - doas docker build -t $CI_PROJECT_NAME .
   after_script:
@@ -29,7 +28,7 @@ test-code-job:
     - test
     - docker
   script:
-    - doasf docker image ls | grep "$CI_PROJECT_NAME"
+    - doas docker image ls | grep "$CI_PROJECT_NAME"
     - echo "Tests ..."
   after_script:
     - >
