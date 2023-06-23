@@ -29,8 +29,7 @@ test-code-job:
     - docker
   script:
     - doas docker image ls | grep "$CI_PROJECT_NAME"
-    - export PWD_FOR_SAST=$(pwd)/src/js
-    - doas docker run --rm -v "$PWD_FOR_SAST:/src" returntocorp/semgrep semgrep scan --config auto
+    - semgrep scan --config auto
   after_script:
     - >
       if [ $CI_JOB_STATUS == 'success' ]; then
