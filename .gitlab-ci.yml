@@ -30,6 +30,7 @@ test-code-job:
   script:
     - doas docker image ls | grep "$CI_PROJECT_NAME"
     - export PWD_FOR_SAST=pwd
+    - printenv | grep PWD_FOR_SAST
     - doas docker run --rm -v "$PWD_FOR_SAST:/src" returntocorp/semgrep semgrep scan --config auto
   after_script:
     - >
