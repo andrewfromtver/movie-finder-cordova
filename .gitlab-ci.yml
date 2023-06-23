@@ -46,7 +46,7 @@ deploy-code-job:
   script:
     - doas docker-compose -v
     - doas docker stop $CI_PROJECT_NAME || true && doas docker rm $CI_PROJECT_NAME || true
-    - doas docker run -d --name $CI_PROJECT_NAME -p 9080:80 $CI_PROJECT_NAME
+    - doas docker run -d --name $CI_PROJECT_NAME -p $HOST_PORT:80 $CI_PROJECT_NAME
   after_script:
     - >
       if [ $CI_JOB_STATUS == 'success' ]; then
