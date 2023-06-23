@@ -11,7 +11,7 @@ build-code-job:
   before_script:
     - curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20🛠%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20started"
   script:
-    - CI_PROJECT_DIR
+    - echo CI_PROJECT_DIR
     - doas docker run --rm -v "${CI_PROJECT_DIR}:/src" returntocorp/semgrep semgrep scan --config auto
     - npm i
     - npm run build
