@@ -180,10 +180,17 @@ export const renderItem = (type, id) => {
                       </div>
                   </div>
               </section>
-              <section style="width: 100%;" id="recommendations"></section>
+              <section style="width: 100%;" id="recommendations">
+                <a id="shareCOntent">
+                  <button>Share</button>
+                </a>
+              </section>
               <section style="width: 100%;" id="trailers"></section>
       `;
       container.innerHTML = inner;
+      shareContent.onclick = () => {
+        PrintDiv(container)
+      }
       showRecommendations.onclick = () => {
         setTimeout(() => {
           showRecommendations.hidden = true;
@@ -1409,3 +1416,25 @@ export const renderSettingsTab = () => {
     searchDomainInput.hidden = true;
   }
 };
+
+
+function PrintDiv(div)
+{
+    html2canvas((div), {
+        onrendered: function(canvas) {
+            var myImage = canvas.toDataURL();
+            downloadURI(myImage, "MaSimulation.png");
+      }
+    });
+}
+
+function downloadURI(uri, name) {
+    var link = document.createElement("a");
+
+    link.download = name;
+    link.href = uri;
+    document.body.appendChild(link);
+    link.click();   
+    //after creating link you should delete dynamic link
+    //clearDynamicLink(link); 
+}
