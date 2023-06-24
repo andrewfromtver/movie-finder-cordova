@@ -189,7 +189,7 @@ export const renderItem = (type, id) => {
       `;
       container.innerHTML = inner;
       shareContent.onclick = () => {
-        PrintDiv(document.querySelector(".container"))
+        printDiv(document.querySelector(".container"))
       }
       showRecommendations.onclick = () => {
         setTimeout(() => {
@@ -1417,9 +1417,11 @@ export const renderSettingsTab = () => {
 };
 
 
-function PrintDiv(div)
-{
-  html2canvas(div).then(function(canvas) {
-    document.body.appendChild(canvas);
+const printDiv = (div) => {
+  html2canvas(div).then((canvas) => {
+    let anchor = document.createElement("a");
+    anchor.href = canvas.toDataURL("image/png");
+    anchor.download = "share.png";
+    anchor.click();
   });
 }
