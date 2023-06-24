@@ -176,7 +176,7 @@ export const renderItem = (type, id) => {
                                   }" class="addToFavorites m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
                                       <img class="ico" src="${favoritesIco}">
                                   </button>
-                                  <button id="shareContent">
+                                  <button id="shareContent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
                                       <img class="ico" src="${shareIco}">
                                   </button>
                               </div>
