@@ -1421,8 +1421,8 @@ function PrintDiv(div)
 {
     html2canvas((div), {
         onrendered: function(canvas) {
-            var img = canvas.toDataURL("image/png");
-            document.write('<img src="'+img+'"/>');
+            var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            window.location.href=image;
       }
     });
 }
