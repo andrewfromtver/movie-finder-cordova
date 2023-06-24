@@ -138,7 +138,7 @@ export const renderItem = (type, id) => {
                   <div class="container">
                       <div class="row gx-4 gx-lg-5 align-items-center">
                           <div class="col-md-6"><img id="itemImg"class="shadow-sm card-img-top mb-5 mb-md-0" style="border-radius: 8px;" src="${imgSrc}" alt="" /></div>
-                          <div class="col-md-6">
+                          <div class="col-md-6" id="itemDescriptionForShare">
                               <p hidden id="originalTitle">${
                                 data.original_title || data.original_name
                               } ${searchDate}</p>
@@ -189,7 +189,7 @@ export const renderItem = (type, id) => {
       `;
       container.innerHTML = inner;
       shareContent.onclick = () => {
-        printDiv(document.querySelector(".container"))
+        printDiv(itemDescriptionForShare)
       }
       showRecommendations.onclick = () => {
         setTimeout(() => {
