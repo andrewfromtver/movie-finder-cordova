@@ -1417,7 +1417,7 @@ export const renderSettingsTab = () => {
 
 const printDiv = (div) => {
   itemDescriptionForShare.style.backgroundColor = "#333"
-  itemDescriptionForShare.style.padding ="32px auto"
+  itemDescriptionForShare.style.padding = "32px auto"
   itemControllButtons.hidden = true
   html2canvas(div).then((canvas) => {
     let anchor = document.createElement("a");
