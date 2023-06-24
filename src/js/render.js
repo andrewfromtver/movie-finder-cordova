@@ -184,7 +184,7 @@ export const renderItem = (type, id) => {
               </section>
               <section style="width: 100%;" id="recommendations">
                 <a id="shareContent">
-                  <button>Share</button>
+                  Share
                 </a>
               </section>
               <section style="width: 100%;" id="trailers"></section>
