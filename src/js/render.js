@@ -181,7 +181,7 @@ export const renderItem = (type, id) => {
                   </div>
               </section>
               <section style="width: 100%;" id="recommendations">
-                <a id="shareCOntent">
+                <a id="shareContent">
                   <button>Share</button>
                 </a>
               </section>
@@ -257,7 +257,6 @@ export const renderItem = (type, id) => {
       });
     },
     (error) => {
-      console.log("test");
       const message = new bootstrap.Toast(toast);
       toastMsg.innerText = error;
       message.show();
