@@ -164,8 +164,8 @@ export const renderItem = (type, id) => {
                               <div  style="color: #dc3545;" class="pb-2">${
                                 data.release_date || data.last_air_date || ""
                               }</div>
-                              <table class="mb-4" style="width: 100%;" id="seasonsTable">${episodeCountInner}</table>
-                              <div class="d-flex" id="itemControllButtons">
+                              <table style="width: 100%;" id="seasonsTable">${episodeCountInner}</table>
+                              <div class="mt-4 d-flex" id="itemControllButtons">
                                   <button id="showRecommendations" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
                                       ${showButtonText}
                                   </button>
