@@ -148,15 +148,18 @@ input {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  max-width: 1088px;
   min-height: 100%;
 }
 
 section {
   width: 100%;
+  max-width: 1072px;
 }
 
 .table-wrap {
   width: 100%;
+  max-width: 992px;
 }
 
 #output video {
