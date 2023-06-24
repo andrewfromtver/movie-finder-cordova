@@ -337,7 +337,6 @@ const renderAddons = (type, id) => {
           });
         inner += "</div></div></div>";
         trailers.innerHTML = inner;
-        wideScreenFrame();
         if (document.getElementById("panelsStayOpen-collapse-1")) {
           setTimeout(() => {
             document
@@ -703,7 +702,6 @@ export const renderTorrentLiveVideo = () => {
       .then((result) => {
         renderWebTorPlayer();
         output.srcdoc = result;
-        wideScreenFrame();
         torrentPlayerTitle.innerText = decodeURI(
           window.location.href.split("_|_")[1]
         );
@@ -1028,7 +1026,6 @@ export const renderWebTorPlayer = () => {
             </div>
         </section>
     `;
-  wideScreenFrame();
 };
 export const renderFavorites = (data) => {
   let i = 0;
@@ -1410,14 +1407,5 @@ export const renderSettingsTab = () => {
     searchApiHostElement.hidden = true;
   } else {
     searchDomainInput.hidden = true;
-  }
-};
-
-// Service functions
-export const wideScreenFrame = () => {
-  if (document.querySelectorAll(".movieFrame")) {
-    document.querySelectorAll(".movieFrame").forEach((element) => {
-      element.style.height = "auto";
-    });
   }
 };
