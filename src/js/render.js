@@ -15,6 +15,7 @@ import deleteIco from "../assets/delete.svg";
 import playIco from "../assets/play.svg";
 import searchIco from "../assets/search.svg";
 import favoritesIco from "../assets/favorites.svg";
+import shareIco from "../assets/share.svg";
 
 // App imports
 import { lang, translate } from "./lang";
@@ -175,14 +176,15 @@ export const renderItem = (type, id) => {
                                   }" class="addToFavorites m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
                                       <img class="ico" src="${favoritesIco}">
                                   </button>
+                                  <button id="shareContent">
+                                      <img class="ico" src="${shareIco}">
+                                  </button>
                               </div>
                           </div>
                       </div>
                   </div>
               </section>
-              <section style="width: 100%;" id="recommendations">
-                <button id="shareContent">Share</button>
-              </section>
+              <section style="width: 100%;" id="recommendations"></section>
               <section style="width: 100%;" id="trailers"></section>
       `;
       container.innerHTML = inner;
