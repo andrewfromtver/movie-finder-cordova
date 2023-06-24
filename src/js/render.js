@@ -1,3 +1,5 @@
+import html2canvas from 'html2canvas';
+
 // Bootstrap
 import "../scss/styles.scss";
 import * as bootstrap from "bootstrap";
