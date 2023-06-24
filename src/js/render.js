@@ -1362,6 +1362,13 @@ export const renderSettingsTab = () => {
   ) {
     onlyVideoSearch.checked = true;
   }
+  if (
+    localStorage.getItem("videa_background") &&
+    localStorage.getItem("videa_background") == 0
+  ) {
+    backgroundSwitch.checked = true;
+    backgroundVideo.hidden = true;
+  }
   if (localStorage.getItem("ui_scale")) {
     uiScale.value = localStorage.getItem("ui_scale");
   }
@@ -1374,13 +1381,6 @@ export const renderSettingsTab = () => {
       searchApiHostElement.hidden = true;
       searchDomainInput.hidden = false;
       onlyVideoSearchDiv.hidden = false;
-    }
-  };
-  backgroundSwitch.onchange = () => {
-    if (backgroundSwitch.checked) {
-      backgroundVideo.hidden = true;
-    } else {
-      backgroundVideo.hidden = false;
     }
   };
   saveServer.onclick = () => {
