@@ -1417,13 +1417,13 @@ export const renderSettingsTab = () => {
 
 const printDiv = (div) => {
   itemDescriptionForShare.style.backgroundColor = "#333"
-  itemControllButtons.hidden = true
+  itemControllButtons.style = "display: none !important"
   html2canvas(div).then((canvas) => {
     let anchor = document.createElement("a");
     anchor.href = canvas.toDataURL("image/png");
     anchor.download = "share.png";
     anchor.click();
     itemDescriptionForShare.style.backgroundColor = ""
-    itemControllButtons.hidden = false
+    itemControllButtons.style = ""
   });
 }
