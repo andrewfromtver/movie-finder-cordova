@@ -1417,12 +1417,7 @@ export const renderSettingsTab = () => {
 export const wideScreenFrame = () => {
   if (document.querySelectorAll(".movieFrame")) {
     document.querySelectorAll(".movieFrame").forEach((element) => {
-      element.style.height =
-        Math.floor(
-          element.contentWindow.document.documentElement.scrollWidth / 1.778
-        ) +
-        16 +
-        "px";
+      element.style.aspectRatio = "16/9";
     });
   }
 };
