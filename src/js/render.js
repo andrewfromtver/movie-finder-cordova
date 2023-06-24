@@ -1417,7 +1417,7 @@ export const renderSettingsTab = () => {
 export const wideScreenFrame = () => {
   if (document.querySelectorAll(".movieFrame")) {
     document.querySelectorAll(".movieFrame").forEach((element) => {
-      element.style.aspectRatio = "16/9";
+      element.style = "aspect-ratio: 16/9;";
     });
   }
 };
