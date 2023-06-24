@@ -1418,10 +1418,12 @@ export const renderSettingsTab = () => {
 
 
 const printDiv = (div) => {
+  itemDescriptionForShare.style.backgroundColor = "#333"
   html2canvas(div).then((canvas) => {
     let anchor = document.createElement("a");
     anchor.href = canvas.toDataURL("image/png");
     anchor.download = "share.png";
     anchor.click();
+    itemDescriptionForShare.style.backgroundColor = ""
   });
 }
