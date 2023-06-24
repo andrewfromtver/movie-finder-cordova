@@ -1425,6 +1425,7 @@ const printDiv = (div) => {
     anchor.download = "share.png";
     anchor.click();
     itemDescriptionForShare.style.backgroundColor = ""
+    itemDescriptionForShare.style.padding = ""
     itemControllButtons.hidden = false
   });
 }
