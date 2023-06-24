@@ -189,7 +189,7 @@ export const renderItem = (type, id) => {
       `;
       container.innerHTML = inner;
       shareContent.onclick = () => {
-        PrintDiv(container)
+        PrintDiv(document.querySelector(".container"))
       }
       showRecommendations.onclick = () => {
         setTimeout(() => {
