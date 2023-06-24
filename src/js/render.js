@@ -1419,10 +1419,7 @@ export const renderSettingsTab = () => {
 
 function PrintDiv(div)
 {
-    html2canvas((div), {
-        onrendered: function(canvas) {
-            var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-            window.location.href=image;
-      }
-    });
+  html2canvas(div).then(function(canvas) {
+    document.body.appendChild(canvas);
+  });
 }
