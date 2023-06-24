@@ -1362,20 +1362,9 @@ export const renderSettingsTab = () => {
   ) {
     onlyVideoSearch.checked = true;
   }
-  if (
-    localStorage.getItem("videa_background") &&
-    localStorage.getItem("videa_background") == 0
-  ) {
-    backgroundSwitch.checked = true;
-    backgroundVideo.hidden = true;
-  }
   if (localStorage.getItem("ui_scale")) {
     uiScale.value = localStorage.getItem("ui_scale");
   }
-  uiScale.onchange = () => {
-    document.querySelector('html').style = `zoom: ${uiScale.value}; -moz-transform: scale(${uiScale.value}); -moz-transform-origin: 0 0;`;
-    document.documentElement.style.setProperty("--zoom", uiScale.value);
-  };
   webtorSwitch.onchange = () => {
     if (webtorSwitch.checked) {
       searchApiHostElement.hidden = false;
