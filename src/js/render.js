@@ -1416,14 +1416,14 @@ export const renderSettingsTab = () => {
 
 
 const printDiv = (div) => {
-  itemControllButtons.style.display = "none"
   itemDescriptionForShare.style.backgroundColor = "#333"
+  itemControllButtons.hidden = true
   html2canvas(div).then((canvas) => {
     let anchor = document.createElement("a");
     anchor.href = canvas.toDataURL("image/png");
     anchor.download = "share.png";
     anchor.click();
     itemDescriptionForShare.style.backgroundColor = ""
-    itemControllButtons.style.display = ""
+    itemControllButtons.hidden = false
   });
 }
