@@ -1423,13 +1423,15 @@ const printDiv = (div) => {
     try {
       itemDescriptionForShare.style.backgroundColor = "";
       itemControllButtons.style = "";
-      const blob = (fetch(anchor.href)).blob();
-      const file = new File([blob], `${document.title}.png`, { type: blob.type });
-      navigator.share({
-        title: 'Hello',
-        text: 'Check out this image!',
-        files: [file],
-      })
+      fetch(anchor.href)
+        .then(result => {
+          const file = new File([result.blob()], `${document.title}.png`, { type: blob.type });
+          navigator.share({
+            title: 'Hello',
+            text: 'Check out this image!',
+            files: [file],
+          })
+        })
     } catch (e) {
       console.error(e);
       anchor.click();
