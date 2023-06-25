@@ -4,17 +4,14 @@ import { imdbApi, apiKey } from "./main";
 
 // type = ['movie', 'tv', 'person', 'all']
 // time = ['day', 'week']
+// page = Integer
 // output = Array
 export const getTrending = (
   type,
   time,
   page = 1,
-  callback = (data) => {
-    console.log(data);
-  },
-  errorHandler = (errorMsg) => {
-    console.log(errorMsg);
-  }
+  callback = (data) => {},
+  errorHandler = (errorMsg) => {}
 ) => {
   fetch(
     `${imdbApi}/3/trending/${type}/${time}?${apiKey}&language=${lang}&page=${page}`
@@ -28,6 +25,7 @@ export const getTrending = (
     })
     .then((output) => {
       if (output.results.length === 0) {
+        errorHandler("Empty API response.");
         return Promise.reject(new Error("Empty API response."));
       }
       callback(output.results);
@@ -42,12 +40,8 @@ export const getTrending = (
 export const getFullInfo = (
   type,
   id,
-  callback = (data) => {
-    console.log(data);
-  },
-  errorHandler = (errorMsg) => {
-    console.log(errorMsg);
-  }
+  callback = (data) => {},
+  errorHandler = (errorMsg) => {}
 ) => {
   fetch(`${imdbApi}/3/${type}/${id}?${apiKey}&language=${lang}`)
     .then((value) => {
@@ -59,6 +53,7 @@ export const getFullInfo = (
     })
     .then((output) => {
       if (!output) {
+        errorHandler("Empty API response.");
         return Promise.reject(new Error("Empty API response."));
       }
       callback(output);
@@ -75,30 +70,28 @@ export const getRecommendations = (
   type,
   id,
   page = 1,
-  callback = (data) => {
-    console.log(data);
-  },
-  errorHandler = () => {}
+  callback = (data) => {},
+  errorHandler = (errorMsg) => {}
 ) => {
   fetch(
     `${imdbApi}/3/${type}/${id}/recommendations?${apiKey}&language=${lang}&page=${page}`
   )
     .then((value) => {
       if (value.status !== 200) {
-        errorHandler();
+        errorHandler(value);
         return Promise.reject(new Error("Internal API error."));
       }
       return value.json();
     })
     .then((output) => {
       if (output.results.length === 0) {
-        errorHandler();
+        errorHandler("Empty API response.");
         return Promise.reject(new Error("Empty API response."));
       }
       callback(output.results);
     })
     .catch((e) => {
-      console.error(e);
+      errorHandler(e);
     });
 };
 // type = ['movie', 'tv']
@@ -109,30 +102,28 @@ export const getItemsByPerson = (
   type,
   id,
   page = 1,
-  callback = (data) => {
-    console.log(data);
-  },
-  errorHandler = () => {}
+  callback = (data) => {},
+  errorHandler = (errorMsg) => {}
 ) => {
   fetch(
     `${imdbApi}/3/discover/${type}?${apiKey}&language=${lang}&page=${page}&with_people=${id}&sort_by=popularity.desc`
   )
     .then((value) => {
       if (value.status !== 200) {
-        errorHandler();
+        errorHandler(value);
         return Promise.reject(new Error("Internal API error."));
       }
       return value.json();
     })
     .then((output) => {
       if (output.results.length === 0) {
-        errorHandler();
+        errorHandler("Empty API response.");
         return Promise.reject(new Error("Empty API response."));
       }
       callback(output.results);
     })
     .catch((e) => {
-      console.error(e);
+      errorHandler(e);
     });
 };
 // type = ['movie', 'tv', 'multi']
@@ -143,31 +134,28 @@ export const searchEngine = (
   type,
   query,
   page,
-  callback = (data) => {
-    console.log(data);
-  },
-  errorHandler = () => {}
+  callback = (data) => {},
+  errorHandler = (errorMsg) => {}
 ) => {
   fetch(
     `${imdbApi}/3/search/${type}?${apiKey}&language=${lang}&page=${page}&query=${query}&sort_by=popularity.desc`
   )
     .then((value) => {
       if (value.status !== 200) {
-        errorHandler();
+        errorHandler(value);
         return Promise.reject(new Error("Internal API error."));
       }
       return value.json();
     })
     .then((output) => {
       if (output.results.length === 0) {
-        errorHandler();
+        errorHandler("Empty API response.");
         return Promise.reject(new Error("Empty API response."));
       }
       callback(output.results);
     })
     .catch((e) => {
-      errorHandler();
-      console.error(e);
+      errorHandler(e);
     });
 };
 // type = ['movie', 'tv']
@@ -176,27 +164,25 @@ export const searchEngine = (
 export const getTrailers = (
   type,
   id,
-  callback = (data) => {
-    console.log(data);
-  },
-  errorHandler = () => {}
+  callback = (data) => {},
+  errorHandler = (errorMsg) => {}
 ) => {
   fetch(`${imdbApi}/3/${type}/${id}/videos?${apiKey}&language=${lang}`)
     .then((value) => {
       if (value.status !== 200) {
-        errorHandler();
+        errorHandler(value);
         return Promise.reject(new Error("Internal API error."));
       }
       return value.json();
     })
     .then((output) => {
       if (output.results.length === 0) {
-        errorHandler();
+        errorHandler("Empty API response.");
         return Promise.reject(new Error("Empty API response."));
       }
       callback(output.results);
     })
     .catch((e) => {
-      console.error(e);
+      errorHandler(e);
     });
 };
