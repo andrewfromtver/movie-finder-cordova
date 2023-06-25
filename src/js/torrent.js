@@ -7,7 +7,7 @@ import { lang, translate } from "./lang";
 export let file;
 let client;
 let interval;
-// Watch torrent engine
+// Web torrent engine
 export const getTorrentByMagnet = async (torFile) => {
   if (file) file;
   if (interval) clearInterval(interval);
