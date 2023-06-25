@@ -1423,8 +1423,8 @@ const printDiv = (div) => {
     try {
       itemDescriptionForShare.style.backgroundColor = "";
       itemControllButtons.style = "";
-      const base64url = anchor.href
-      const blob = (fetch(base64url)).blob();
+      const base64url = anchor.href;
+      const blob = await ( await fetch(base64url)).blob();
       const file = new File([blob], `${document.title}.png`, { type: blob.type });
       navigator.share({
         title: 'Hello',
