@@ -71,7 +71,7 @@ const appUsageStat = () => {
 // Init
 window.onload = () => {
   let inner = `
-    <video id="backgroundVideo" loop autoplay muted >
+    <video id="backgroundVideo" loop autoPlay muted playsinline="true" disablePictureInPicture="true">
       <source id="bgVideoSource" src="${bgVideo}" type="video/mp4" />
     </video>
   `;
