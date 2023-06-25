@@ -1432,6 +1432,9 @@ const printDiv = (div) => {
             files: [file],
           })
         })
+        .catch(e => {
+          console.error(e);
+        })
     } catch (e) {
       console.error(e);
       anchor.click();
