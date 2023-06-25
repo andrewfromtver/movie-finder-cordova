@@ -1432,12 +1432,16 @@ const printDiv = (div) => {
             files: [file],
           })
         })
-        .catch(e => {
-          alert(e);
+        .catch(error => {
+          const message = new bootstrap.Toast(toast);
+          toastMsg.innerText = error;
+          message.show();
           anchor.click();
         })
-    } catch (e) {
-      alert(e);
+    } catch (error) {
+      const message = new bootstrap.Toast(toast);
+      toastMsg.innerText = error;
+      message.show();
       anchor.click();
     }
   });
