@@ -1423,21 +1423,16 @@ const printDiv = (div) => {
     try {
       itemDescriptionForShare.style.backgroundColor = "";
       itemControllButtons.style = "";
-      fetch(anchor.href)
-        .then(result => {
-          const file = new File([result.blob()], `${document.title}.png`, { type: "image/png" });
-          navigator.share({
-            title: document.title,
-            text: window.location,
-            files: [file],
-          })
-        })
-        .catch(error => {
-          const message = new bootstrap.Toast(toast);
-          toastMsg.innerText = error;
-          message.show();
-          anchor.click();
-        })
+      let blob = dataURItoBlob(anchor.href);
+      navigator.share({
+        title: document.title,
+        text: "https://play.google.com/store/apps/details?id=com.moviefinder.main",
+        files: [
+          new File([blob], `${document.title}.png`, {
+            type: blob.type,
+          }),
+        ],
+      })
     } catch (error) {
       const message = new bootstrap.Toast(toast);
       toastMsg.innerText = error;
@@ -1445,4 +1440,16 @@ const printDiv = (div) => {
       anchor.click();
     }
   });
+}
+
+const dataURItoBlob = (dataURI) => {
+  let byteString = atob(dataURI.split(',')[1]);
+  let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+  let ab = new ArrayBuffer(byteString.length);
+  let ia = new Uint8Array(ab);
+  for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+  }
+  let blob = new Blob([ab], {type: mimeString});
+  return blob;
 }
