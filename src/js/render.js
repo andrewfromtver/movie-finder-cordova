@@ -1434,6 +1434,7 @@ const printDiv = (div) => {
         })
         .catch(e => {
           console.error(e);
+          anchor.click();
         })
     } catch (e) {
       console.error(e);
