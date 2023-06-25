@@ -1423,7 +1423,7 @@ const printDiv = (div) => {
     try {
       itemDescriptionForShare.style.backgroundColor = "";
       itemControllButtons.style = "";
-      await navigator.share(anchor);
+      navigator.share(anchor);
     } catch (e) {
       console.error(e);
       anchor.click();
