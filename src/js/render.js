@@ -1413,7 +1413,7 @@ export const renderSettingsTab = () => {
   }
 };
 // html2canvas image render
-const printDiv = (div) => {
+const printDiv = async (div) => {
   itemDescriptionForShare.style.backgroundColor = "#333";
   itemControllButtons.style = "display: none !important";
   html2canvas(div).then((canvas) => {
