@@ -215,6 +215,7 @@ iframe {
   margin: 16px 8px 0 8px; 
   border-radius: 8px; 
   overflow: hidden;
+  isolation: isolate;
 }
 
 .card-title {
