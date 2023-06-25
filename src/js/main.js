@@ -1,6 +1,5 @@
 // webmanifest import
 import manifest from "../manifest.webmanifest";
-
 // Assets
 import logo from "../assets/logo.jpeg";
 import searchIco from "../assets/search.svg";
@@ -10,14 +9,12 @@ import favoritesIco from "../assets/favorites.svg";
 import settingsIco from "../assets/settings.svg";
 import playIco from "../assets/play.svg";
 import bgVideo from "../assets/bg.mp4";
-
 // App import
 import { lang, translate } from "./lang";
 import { stateListener } from "./router";
-import { wideScreenFrame } from "./render";
 
 // Servers
-export let torrentSearchApi = "https://localhost";
+export let torrentSearchApi = "";
 export let allowTorrents = false;
 if (
   localStorage.getItem("use_webtor") &&
@@ -39,18 +36,14 @@ if (
 export let searchSite = `&as_sitesearch=${searchSiteDomain}`;
 export let imdbApi = "https://api.themoviedb.org";
 export let imdbImageStore = "https://image.tmdb.org";
-
 // Api keys
-export let apiKey = "api_key=dcaf7f5ea224596464b7714bac28142f";
+export let apiKey = "api_key=dcaf7f5ea224596464b7714bac28142f"; // open public usage
 if (!!localStorage.getItem("imdb_api_server")) {
-  apiKey = "";
+  apiKey = ""; // private api_key injection in imdb_api_server proxy
 }
-
 // Data collector
 const userData = (
-  callbac = (data) => {
-    console.log(data);
-  }
+  callbac = (data) => {}
 ) => {
   let Url = "https://" + "cloudflare.com/cdn-cgi/trace";
   let AjaxUrl = new XMLHttpRequest();
@@ -75,20 +68,11 @@ const appUsageStat = () => {
     localStorage.setItem("user_data", JSON.stringify(data));
   });
 };
-
 // Init
 window.onload = () => {
   let inner = `
-    <video
-      id="backgroundVideo"
-      loop
-      autoplay
-      muted
-    >
-      <source id="bgVideoSource"
-        src="${bgVideo}"
-        type="video/mp4"
-      />
+    <video id="backgroundVideo" loop autoplay muted >
+      <source id="bgVideoSource" src="${bgVideo}" type="video/mp4" />
     </video>
   `;
   app.innerHTML += inner;
@@ -97,7 +81,6 @@ window.onload = () => {
   document
     .querySelector("#my-manifest-placeholder")
     .setAttribute("href", manifest);
-
   // text content
   let i = 0;
   if (lang === "ru") i = 1;
@@ -106,7 +89,6 @@ window.onload = () => {
   mixed.innerText = translate[i].data[2];
   persons.innerText = translate[i].data[3];
   queryString.placeholder = translate[i].data[4];
-
   // assets
   home.src = homeIco;
   play.src = playIco;
@@ -115,7 +97,6 @@ window.onload = () => {
   menuImg.src = menuIco;
   searchImg.src = searchIco;
   brand.src = logo;
-
   // Read lang settings
   if (localStorage.getItem("lang") && localStorage.getItem("lang") == 1) {
     langSwitch.checked = true;
@@ -137,19 +118,16 @@ window.onload = () => {
   if (localStorage.getItem("imdb_images_server")) {
     imdbImageStore = localStorage.getItem("imdb_images_server");
   }
-
   // read saved user data
   if (!localStorage.getItem("favorites")) {
     localStorage.setItem("favorites", "[]");
   }
-
   if (
     localStorage.getItem("videa_background") &&
     localStorage.getItem("videa_background") == 0
   ) {
     backgroundVideo.hidden = true;
   }
-
   // toggles control
   langSwitch.onchange = () => {
     langSwitch.checked
@@ -157,20 +135,15 @@ window.onload = () => {
       : localStorage.setItem("lang", 0);
     window.location.reload();
   };
-
   // search init
   searchForm.onsubmit = () => {
     event.preventDefault();
     window.location.href = `#search_|_${queryString.value}`;
   };
-
   // router init
   window.addEventListener("popstate", stateListener);
-
   // show app after content loaded
   app.hidden = false;
-
-  window.addEventListener("resize", wideScreenFrame);
   // app init
   stateListener();
   appUsageStat();

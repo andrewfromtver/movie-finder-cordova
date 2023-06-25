@@ -7,20 +7,17 @@ import { lang, translate } from "./lang";
 export let file;
 let client;
 let interval;
-
-// Torrent search API
+// Watch torrent engine
 export const getTorrentByMagnet = async (torFile) => {
   if (file) file;
   if (interval) clearInterval(interval);
   if (client) client.destroy();
   outputVideo.src = "";
   client = new WebTorrent();
-
   client.add(torFile, (torrent) => {
     file = torrent.files.find(function (file) {
       return file.name.endsWith(".mp4");
     });
-
     if (file && file._torrent.announce) {
       let isWebTorrent = false;
       file._torrent.announce.forEach((element) => {

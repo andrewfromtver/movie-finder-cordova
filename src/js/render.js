@@ -1,9 +1,8 @@
-import html2canvas from 'html2canvas';
-
 // Bootstrap
 import "../scss/styles.scss";
 import * as bootstrap from "bootstrap";
-
+// html2canvas
+import html2canvas from 'html2canvas';
 // Assets
 import noContent from "../assets/404.gif";
 import noImage from "../assets/no-image.png";
@@ -16,7 +15,6 @@ import playIco from "../assets/play.svg";
 import searchIco from "../assets/search.svg";
 import favoritesIco from "../assets/favorites.svg";
 import shareIco from "../assets/share.svg";
-
 // App imports
 import { lang, translate } from "./lang";
 import {
@@ -812,7 +810,6 @@ export const renderTorrentLiveVideo = () => {
     `;
   }
 };
-
 // Nav links & tabs
 export const renderTrendingCards = (type, time, page) => {
   container.innerHTML = `
@@ -1415,8 +1412,7 @@ export const renderSettingsTab = () => {
     searchDomainInput.hidden = true;
   }
 };
-
-
+// html2canvas image render
 const printDiv = (div) => {
   itemDescriptionForShare.style.backgroundColor = "#333"
   itemControllButtons.style = "display: none !important"
