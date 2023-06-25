@@ -1413,7 +1413,7 @@ export const renderSettingsTab = () => {
   }
 };
 // html2canvas image render
-const printDiv = async (div) => {
+const printDiv = (div) => {
   itemDescriptionForShare.style.backgroundColor = "#333";
   itemControllButtons.style = "display: none !important";
   html2canvas(div).then((canvas) => {
@@ -1424,7 +1424,7 @@ const printDiv = async (div) => {
       itemDescriptionForShare.style.backgroundColor = "";
       itemControllButtons.style = "";
       const base64url = anchor.href;
-      const blob = await ( await fetch(base64url)).blob();
+      const blob = async ( await fetch(base64url)).blob();
       const file = new File([blob], `${document.title}.png`, { type: blob.type });
       navigator.share({
         title: 'Hello',
