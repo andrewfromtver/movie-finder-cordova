@@ -1433,11 +1433,11 @@ const printDiv = (div) => {
           })
         })
         .catch(e => {
-          console.error(e);
+          alert(e);
           anchor.click();
         })
     } catch (e) {
-      console.error(e);
+      alert(e);
       anchor.click();
     }
   });
