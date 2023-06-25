@@ -619,7 +619,7 @@ export const renderSearchResults = (query) => {
           }`;
         }
         inner += `
-                <div class="card shadow-lg" style="max-width: 256px; width: calc(100% - 16px); margin: 16px 8px 0 8px; border-radius: 8px; overflow: hidden;">
+                <div class="card shadow-lg">
                     <a href="#show_|_${element.media_type || type}_|_${id}">
                         <img style="min-height: 365px;" src="${imgSrc}" class="card-img-top" alt="${
           element.original_title
@@ -629,7 +629,7 @@ export const renderSearchResults = (query) => {
           element.vote_average || ""
         }</p>
                     <div class="card-body">
-                        <h5 class="card-title" style="text-align: center; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${
+                        <h5 class="card-title">${
                           element.title || element.name
                         }</h5>
                     </div>
@@ -839,7 +839,7 @@ export const renderTrendingCards = (type, time, page) => {
           }`;
         }
         inner += `
-                <div class="card shadow-lg" style="max-width: 256px; width: calc(100% - 16px); margin: 16px 8px 0 8px; border-radius: 8px; overflow: hidden;">
+                <div class="card shadow-lg">
                     <a href="#show_|_${element.media_type || type}_|_${id}">
                         <img style="min-height: 365px;" src="${imgSrc}" class="card-img-top" alt="${
           element.original_title
@@ -849,7 +849,7 @@ export const renderTrendingCards = (type, time, page) => {
           element.vote_average || ""
         }</p>
                     <div class="card-body">
-                        <h5 class="card-title" style="text-align: center; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${
+                        <h5 class="card-title">${
                           element.title || element.name
                         }</h5>
                     </div>

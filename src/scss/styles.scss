@@ -208,3 +208,18 @@ iframe {
     background-size: 2750px;
   }
 }
+
+.card {
+  max-width: 256px; 
+  width: calc(100% - 16px); 
+  margin: 16px 8px 0 8px; 
+  border-radius: 8px; 
+  overflow: hidden;
+}
+
+.card-title {
+  text-align: center; 
+  text-overflow: ellipsis; 
+  overflow: hidden; 
+  white-space: nowrap;
+}
