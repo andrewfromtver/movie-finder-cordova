@@ -1425,7 +1425,7 @@ const printDiv = (div) => {
       itemControllButtons.style = "";
       fetch(anchor.href)
         .then(result => {
-          const file = new File([result.blob()], `${document.title}.png`, { type: blob.type });
+          const file = new File([result.blob()], `${document.title}.png`, { type: "image/png" });
           navigator.share({
             title: 'Hello',
             text: 'Check out this image!',
