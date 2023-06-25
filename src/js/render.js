@@ -1441,7 +1441,7 @@ const printDiv = (div) => {
     }
   });
 }
-
+// dataURL to blob function
 const dataURItoBlob = (dataURI) => {
   let byteString = atob(dataURI.split(',')[1]);
   let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
