@@ -103,12 +103,13 @@ window.onload = () => {
   } else {
     langSwitch.checked = false;
   }
-  // read saved servers
+  // read scale settings
   if (localStorage.getItem("ui_scale")) {
     let scale = localStorage.getItem("ui_scale");
     document.querySelector('html').style = `zoom: ${scale}; -moz-transform: scale(${scale}); -moz-transform-origin: 0 0;`;
     document.documentElement.style.setProperty("--zoom", scale);
   }
+  // read saved servers
   if (localStorage.getItem("search_api_server")) {
     torrentSearchApi = localStorage.getItem("search_api_server");
   }
