@@ -1414,14 +1414,19 @@ export const renderSettingsTab = () => {
 };
 // html2canvas image render
 const printDiv = (div) => {
-  itemDescriptionForShare.style.backgroundColor = "#333"
-  itemControllButtons.style = "display: none !important"
+  itemDescriptionForShare.style.backgroundColor = "#333";
+  itemControllButtons.style = "display: none !important";
   html2canvas(div).then((canvas) => {
     let anchor = document.createElement("a");
     anchor.href = canvas.toDataURL("image/png");
-    anchor.download = "share.png";
-    anchor.click();
-    itemDescriptionForShare.style.backgroundColor = ""
-    itemControllButtons.style = ""
+    anchor.download = `${document.title}.png`;
+    try {
+      itemDescriptionForShare.style.backgroundColor = "";
+      itemControllButtons.style = "";
+      await navigator.share(anchor);
+    } catch (e) {
+      console.error(e);
+      anchor.click();
+    }
   });
 }
