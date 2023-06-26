@@ -1314,7 +1314,6 @@ export const renderSettingsTab = () => {
                         </div>
                     </div>
                 </div>
-                <label for="uiScale" class="form-label">UI scale</label>
                 <div class="form-check form-switch">
                   <input
                     class="form-check-input mt-2 mb-2"
@@ -1326,6 +1325,7 @@ export const renderSettingsTab = () => {
                     Disable video background
                   </label>
                 </div>
+                <label for="uiScale" class="form-label">UI scale</label>
                 <input type="range" class="form-range" min="0.5" max="1.5" step="0.1" id="uiScale">
                 <div class="form-check form-switch mb-4">
                   <input
@@ -1335,7 +1335,7 @@ export const renderSettingsTab = () => {
                     id="shareWithAppLink"
                   />
                   <label class="form-check-label m-1" for="shareWithAppLink">
-                    Use Torrent search API (experimental feature)
+                    Append Google Play link on share
                   </label>
                 </div>
                 <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
