@@ -1327,13 +1327,6 @@ export const renderSettingsTab = () => {
                     Disable video background
                   </label>
                 </div>
-                <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-md-12">
-                        <div class="fs-5 mb-2">
-                          <button class="btn btn-secondary" id="saveServer">Save</button>
-                        </div>
-                    </div>
-                </div>
                 <div class="form-check form-switch mb-4">
                   <input
                     class="form-check-input mt-2 mb-2"
@@ -1344,6 +1337,13 @@ export const renderSettingsTab = () => {
                   <label class="form-check-label m-1" for="shareWithAppLink">
                     Use Torrent search API (experimental feature)
                   </label>
+                </div>
+                <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-12">
+                        <div class="fs-5 mb-2">
+                          <button class="btn btn-secondary" id="saveServer">Save</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
