@@ -1315,7 +1315,6 @@ export const renderSettingsTab = () => {
                     </div>
                 </div>
                 <label for="uiScale" class="form-label">UI scale</label>
-                <input type="range" class="form-range" min="0.5" max="1.5" step="0.1" id="uiScale">
                 <div class="form-check form-switch mb-4">
                   <input
                     class="form-check-input mt-2 mb-2"
@@ -1327,6 +1326,7 @@ export const renderSettingsTab = () => {
                     Disable video background
                   </label>
                 </div>
+                <input type="range" class="form-range" min="0.5" max="1.5" step="0.1" id="uiScale">
                 <div class="form-check form-switch mb-4">
                   <input
                     class="form-check-input mt-2 mb-2"
