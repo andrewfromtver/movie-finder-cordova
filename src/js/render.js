@@ -1315,9 +1315,9 @@ export const renderSettingsTab = () => {
                     </div>
                 </div>
                 <label for="uiScale" class="form-label">UI scale</label>
-                <div class="form-check form-switch mb-4">
+                <div class="form-check form-switch">
                   <input
-                    class="form-check-input mt-2"
+                    class="form-check-input mt-2 mb-2"
                     type="checkbox"
                     role="switch"
                     id="backgroundSwitch"
