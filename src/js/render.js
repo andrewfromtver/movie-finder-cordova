@@ -1413,9 +1413,9 @@ export const renderSettingsTab = () => {
       localStorage.setItem("use_webtor", 0);
     }
     if (shareWithAppLink.checked) {
-      localStorage.setItem("share_app_link", 0);
-    } else {
       localStorage.setItem("share_app_link", 1);
+    } else {
+      localStorage.setItem("share_app_link", 0);
     }
     if (onlyVideoSearch.checked) {
       localStorage.setItem("long_videos", 1);
