@@ -13,6 +13,14 @@ import bgVideo from "../assets/bg.mp4";
 import { lang, translate } from "./lang";
 import { stateListener } from "./router";
 
+// Sharing settings
+export let shareAppLink = false;
+if (
+  localStorage.getItem("share_app_link") &&
+  localStorage.getItem("share_app_link") == 1
+) {
+  shareAppLink = true;
+}
 // Servers
 export let torrentSearchApi = "";
 export let allowTorrents = false;

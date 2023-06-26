@@ -1334,6 +1334,17 @@ export const renderSettingsTab = () => {
                         </div>
                     </div>
                 </div>
+                <div class="form-check form-switch mb-4">
+                  <input
+                    class="form-check-input mt-2 mb-2"
+                    type="checkbox"
+                    role="switch"
+                    id="shareWithAppLink"
+                  />
+                  <label class="form-check-label m-1" for="shareWithAppLink">
+                    Use Torrent search API (experimental feature)
+                  </label>
+                </div>
             </div>
         </section>
     `;
@@ -1361,6 +1372,12 @@ export const renderSettingsTab = () => {
     localStorage.getItem("long_videos") == 1
   ) {
     onlyVideoSearch.checked = true;
+  }
+  if (
+    localStorage.getItem("share_app_link") &&
+    localStorage.getItem("share_app_link") == 1
+  ) {
+    shareWithAppLink.checked = true;
   }
   if (
     localStorage.getItem("videa_background") &&
@@ -1394,6 +1411,11 @@ export const renderSettingsTab = () => {
       localStorage.setItem("use_webtor", 1);
     } else {
       localStorage.setItem("use_webtor", 0);
+    }
+    if (shareWithAppLink.checked) {
+      localStorage.setItem("share_app_link", 0);
+    } else {
+      localStorage.setItem("share_app_link", 1);
     }
     if (onlyVideoSearch.checked) {
       localStorage.setItem("long_videos", 1);
