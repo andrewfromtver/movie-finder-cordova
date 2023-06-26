@@ -1263,7 +1263,7 @@ export const renderSettingsTab = () => {
                     Use Torrent search API (experimental feature)
                   </label>
                 </div>
-                <div id="searchApiHostElement" class="mt-3 row gx-4 gx-lg-5 align-items-center">
+                <div id="searchApiHostElement" class="mt-3 mb-4 row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
                         <div class="fs-5 mb-2">
                             <div class="form-floating mb-3">
@@ -1273,7 +1273,7 @@ export const renderSettingsTab = () => {
                         </div>
                     </div>
                 </div>
-                <div id="searchDomainInput" class="mt-3 row gx-4 gx-lg-5 align-items-center">
+                <div id="searchDomainInput" class="mt-3 mb-4 row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
                         <div class="fs-5 mb-2">
                             <div class="form-floating mb-3">
@@ -1314,7 +1314,7 @@ export const renderSettingsTab = () => {
                         </div>
                     </div>
                 </div>
-                <div class="form-check form-switch">
+                <div class="mb-4 form-check form-switch">
                   <input
                     class="form-check-input mt-2 mb-2"
                     type="checkbox"
@@ -1326,7 +1326,7 @@ export const renderSettingsTab = () => {
                   </label>
                 </div>
                 <label for="uiScale" class="form-label">UI scale</label>
-                <input type="range" class="form-range" min="0.5" max="1.5" step="0.1" id="uiScale">
+                <input type="range" class="mb-4 form-range" min="0.5" max="1.5" step="0.1" id="uiScale">
                 <div class="form-check form-switch mb-4">
                   <input
                     class="form-check-input mt-2 mb-2"
