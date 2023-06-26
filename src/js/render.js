@@ -32,7 +32,7 @@ import {
   longVideosSearchParam,
 } from "./main";
 import { file, getTorrentByMagnet } from "./torrent";
-import { torrentSearchApi } from "./main";
+import { torrentSearchApi, shareAppLink, googlePlayAppLink } from "./main";
 
 // Data render
 export const renderItem = (type, id) => {
@@ -1442,13 +1442,15 @@ const printDiv = (div) => {
     let anchor = document.createElement("a");
     anchor.href = canvas.toDataURL("image/png");
     anchor.download = `${document.title}.png`;
+    let appLink
+    shareAppLink ? appLink = "https://play.google.com/store/apps/details?id=com.moviefinder.main" : appLink = ""
     try {
       itemDescriptionForShare.style.backgroundColor = "";
       itemControllButtons.style = "";
       let blob = dataURItoBlob(anchor.href);
       navigator.share({
         title: document.title,
-        text: "https://play.google.com/store/apps/details?id=com.moviefinder.main",
+        text: appLink,
         files: [
           new File([blob], `${document.title}.png`, {
             type: blob.type,

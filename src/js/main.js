@@ -21,6 +21,7 @@ if (
 ) {
   shareAppLink = true;
 }
+export let googlePlayAppLink = "https://play.google.com/store/apps/details?id=com.moviefinder.main"
 // Servers
 export let torrentSearchApi = "";
 export let allowTorrents = false;
