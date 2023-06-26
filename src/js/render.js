@@ -1304,7 +1304,7 @@ export const renderSettingsTab = () => {
                         </div>
                     </div>
                 </div>
-                <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
+                <div class="mt-3 mb-4 row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
                         <div class="fs-5 mb-2">
                             <div class="form-floating mb-3">
