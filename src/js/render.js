@@ -931,7 +931,7 @@ export const renderNativeTorrentPlayer = () => {
                         </h1>
                         <div class="fs-5 mb-2">
                             <span id="torrentPlayerDescription">
-                                ${translate[i].data[11]}
+                                ${translate[i].data[26]}
                             </span>
                         </div>
                     </div>            

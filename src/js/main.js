@@ -58,7 +58,6 @@ const userData = (
   let AjaxUrl = new XMLHttpRequest();
   AjaxUrl.open("get", Url);
   AjaxUrl.send();
-
   AjaxUrl.onreadystatechange = function () {
     if (AjaxUrl.readyState === 4 && AjaxUrl.status === 200) {
       let resultUrl = AjaxUrl.responseText;
@@ -77,7 +76,7 @@ const appUsageStat = () => {
     localStorage.setItem("user_data", JSON.stringify(data));
   });
 };
-// Init
+// Init main logic
 window.onload = () => {
   let inner = `
     <video id="backgroundVideo" loop autoPlay muted playsinline="true" disablePictureInPicture="true">
