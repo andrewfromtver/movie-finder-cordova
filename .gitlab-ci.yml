@@ -17,7 +17,7 @@ build-code-job:
     - cordova create ${CI_PROJECT_NAME}
     - cd ${CI_PROJECT_NAME}
     - cordova platform add android
-    - rm -Rf www
+    - rm -Rf www/*
     - cp -r ../www/* ./www/
     - cordova build android
   artifacts:
