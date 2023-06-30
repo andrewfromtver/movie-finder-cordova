@@ -14,6 +14,12 @@ build-code-job:
     - npm i
     - npm run build
     - doas docker build -t $CI_PROJECT_NAME .
+    - cordova create ${CI_PROJECT_NAME}
+    - cd ${CI_PROJECT_NAME}
+    - cordova platform add android
+    - rm -Rf www
+    - cp ../www ./www
+    - cordova build android
   artifacts:
     paths:
       - www
