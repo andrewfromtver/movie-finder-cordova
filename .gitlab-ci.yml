@@ -26,9 +26,9 @@ build-code-job:
     - cordova build android
   artifacts:
     paths:
-      - ./${CI_PROJECT_NAME}/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+      - ./${CI_PROJECT_NAME}/platforms/android
     expire_in: 1 week
-    name: ${CI_PROJECT_NAME}_${CI_JOB_ID}_app
+    name: ${CI_PROJECT_NAME}_${CI_JOB_ID}_android
   after_script:
     - >
       if [ $CI_JOB_STATUS == 'success' ]; then
