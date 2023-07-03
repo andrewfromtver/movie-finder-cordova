@@ -174,9 +174,6 @@ export const renderItem = (type, id) => {
                                   }" class="addToFavorites m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
                                       <img class="ico" src="${favoritesIco}">
                                   </button>
-                                  <button id="shareContent" class="m-2 p-2 btn btn-secondary flex-shrink-0" type="button">
-                                      <img class="ico" src="${shareIco}">
-                                  </button>
                               </div>
                           </div>
                       </div>
@@ -186,9 +183,6 @@ export const renderItem = (type, id) => {
               <section style="width: 100%;" id="trailers"></section>
       `;
       container.innerHTML = inner;
-      shareContent.onclick = () => {
-        printDiv(itemDescriptionForShare)
-      }
       showRecommendations.onclick = () => {
         setTimeout(() => {
           showRecommendations.hidden = true;
@@ -1327,17 +1321,6 @@ export const renderSettingsTab = () => {
                 </div>
                 <label for="uiScale" class="form-label">UI scale</label>
                 <input type="range" class="mb-4 form-range" min="0.5" max="1.5" step="0.1" id="uiScale">
-                <div class="form-check form-switch mb-4">
-                  <input
-                    class="form-check-input mt-2 mb-2"
-                    type="checkbox"
-                    role="switch"
-                    id="shareWithAppLink"
-                  />
-                  <label class="form-check-label m-1" for="shareWithAppLink">
-                    Append Google Play link on share
-                  </label>
-                </div>
                 <div class="mt-3 row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
                         <div class="fs-5 mb-2">
@@ -1374,12 +1357,6 @@ export const renderSettingsTab = () => {
     onlyVideoSearch.checked = true;
   }
   if (
-    localStorage.getItem("share_app_link") &&
-    localStorage.getItem("share_app_link") == 1
-  ) {
-    shareWithAppLink.checked = true;
-  }
-  if (
     localStorage.getItem("videa_background") &&
     localStorage.getItem("videa_background") == 0
   ) {
@@ -1412,11 +1389,6 @@ export const renderSettingsTab = () => {
     } else {
       localStorage.setItem("use_webtor", 0);
     }
-    if (shareWithAppLink.checked) {
-      localStorage.setItem("share_app_link", 1);
-    } else {
-      localStorage.setItem("share_app_link", 0);
-    }
     if (onlyVideoSearch.checked) {
       localStorage.setItem("long_videos", 1);
     } else {
@@ -1434,46 +1406,3 @@ export const renderSettingsTab = () => {
     searchDomainInput.hidden = true;
   }
 };
-// html2canvas image render
-const printDiv = (div) => {
-  itemDescriptionForShare.style.backgroundColor = "#333";
-  itemControllButtons.style = "display: none !important";
-  html2canvas(div).then((canvas) => {
-    let anchor = document.createElement("a");
-    anchor.href = canvas.toDataURL("image/png");
-    anchor.download = `${document.title}.png`;
-    let appLink
-    shareAppLink ? appLink = "https://play.google.com/store/apps/details?id=com.moviefinder.main" : appLink = ""
-    try {
-      itemDescriptionForShare.style.backgroundColor = "";
-      itemControllButtons.style = "";
-      let blob = dataURItoBlob(anchor.href);
-      navigator.share({
-        title: document.title,
-        text: appLink,
-        files: [
-          new File([blob], `${document.title}.png`, {
-            type: blob.type,
-          }),
-        ],
-      })
-    } catch (error) {
-      const message = new bootstrap.Toast(toast);
-      toastMsg.innerText = error;
-      message.show();
-      anchor.click();
-    }
-  });
-}
-// dataURL to blob function
-const dataURItoBlob = (dataURI) => {
-  let byteString = atob(dataURI.split(',')[1]);
-  let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
-  let ab = new ArrayBuffer(byteString.length);
-  let ia = new Uint8Array(ab);
-  for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-  }
-  let blob = new Blob([ab], {type: mimeString});
-  return blob;
-}
