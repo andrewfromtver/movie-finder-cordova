@@ -19,9 +19,11 @@ build-code-job:
     - cordova create ${CI_PROJECT_NAME}
     - cd ${CI_PROJECT_NAME}
     - cordova platform add android
+    - cordova plugin add cordova-plugin-splashscreen
     - rm -Rf ./www/*
     - cp -r ../www/* ./www/
     - cp ../cordova/* ./
+    - cordova prepare
     - cordova build android
   artifacts:
     paths:
