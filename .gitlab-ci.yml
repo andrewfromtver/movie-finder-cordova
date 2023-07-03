@@ -11,7 +11,6 @@ build-code-job:
   before_script:
     - curl "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage?chat_id=$TELEGRAM_CHAT_ID&text=%20🛠%20%5B$CI_PROJECT_NAME%5D%20Build%20job%20started"
   script:
-    - PATH=$PATH:/opt/sdk/gradle/6.5/bin
     - npm i
     - npm run build
     - doas docker build -t $CI_PROJECT_NAME .
@@ -20,7 +19,7 @@ build-code-job:
     - cordova platform add android
     - rm -Rf ./www/*
     - cp -r ../www/* ./www/
-    - cordova build android
+    - doas cordova build android
   artifacts:
     paths:
       - ./www
