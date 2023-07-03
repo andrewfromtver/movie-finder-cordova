@@ -21,6 +21,7 @@ build-code-job:
     - cordova platform add android
     - rm -Rf ./www/*
     - cp -r ../www/* ./www/
+    - cp ../cordova/* ./
     - cordova build android
   artifacts:
     paths:

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.moviefinder.main" version="2.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Movie-Finder</name>
+    <description>Easy movies and tv series search</description>
+    <author email="andrewsarkisyan@gmail.com" href="https://andrewfromtver.github.io/movie-finder/">
+        Andranik Sarkisyan
+    </author>
+    
+    <icon src="logo.png" />
+    
+    <splash src="splash.png" />
+    <preference name="SplashScreenDelay" value="5000" />
+    <preference name="FadeSplashScreenDuration" value="1000" />
+    <preference name="SplashScreenSpinnerColor" value="#FFFFFF" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
+    
+    <preference name="android-targetSdkVersion" value="32" />
+    <preference name="android-minSdkVersion" value="21" />
+    
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+    
+    <preference name="DisallowOverscroll" value="true" />
+    
+    <allow-navigation href="*" />
+    <allow-intent href="*" />
+    <access origin="*" />
+    
+</widget>
