@@ -24,5 +24,11 @@
     <allow-navigation href="*" />
     <allow-intent href="*" />
     <access origin="*" />
-    
+
+    <platform name="android">
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+            <application android:usesCleartextTraffic="true" />
+        </edit-config>
+    </platform>
+
 </widget>
