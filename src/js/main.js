@@ -156,4 +156,5 @@ window.onload = () => {
   // app init
   stateListener();
   appUsageStat();
+  alert(window.location)
 };
