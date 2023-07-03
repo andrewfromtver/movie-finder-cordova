@@ -22,7 +22,7 @@ build-code-job:
     - cp -r ../www/* ./www/
     - cp ../cordova/* ./
     - cordova platform add android
-    - cordova plugin add cordova-plugin-splashscreen cordova-plugin-share-me
+    - cordova plugin add cordova-plugin-splashscreen cordova-plugin-file
     - cordova build android
   artifacts:
     paths:
