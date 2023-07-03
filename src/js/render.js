@@ -961,7 +961,7 @@ export const renderNativeTorrentPlayer = () => {
   input.id = "magnetUrl";
   let userAgent = window.navigator.userAgent;
   let iphoneIpad = false;
-  input.accept = ".torrent";
+  input.accept = "application/x-bittorrent, .torrent";
   if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
     iphoneIpad = true;
   }
