@@ -25,4 +25,8 @@
     <allow-intent href="*" />
     <access origin="*" />
     
+    <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application/activity">
+        <activity android:exported="true"/>
+    </edit-config>  
+    
 </widget>
