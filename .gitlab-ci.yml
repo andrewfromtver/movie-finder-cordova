@@ -49,7 +49,7 @@ test-code-job:
     - docker
   script:
     - doas docker image ls | grep "$CI_PROJECT_NAME"
-    - cd src; semgrep scan --config auto --output $CI_PROJECT_NAME-sast-report.json --json
+    - semgrep scan src --config auto --output $CI_PROJECT_NAME-sast-report.json --json
   artifacts:
     paths:
       - $CI_PROJECT_NAME-sast-report.json
