@@ -47,12 +47,9 @@ test-code-job:
   tags:
     - test
     - docker
-  cache:
-    paths:
-      - www
   script:
     - doas docker image ls | grep "$CI_PROJECT_NAME"
-    - cd www; semgrep scan --config auto --output $CI_PROJECT_NAME-sast-report.json --json
+    - cd src; semgrep scan --config auto --output $CI_PROJECT_NAME-sast-report.json --json
   artifacts:
     paths:
       - $CI_PROJECT_NAME-sast-report.json
