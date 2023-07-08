@@ -24,6 +24,10 @@ build-code-job:
     - cordova platform add android
     - cordova plugin add cordova-plugin-splashscreen
     - cordova build android
+  cache:
+    paths:
+      - node_modules
+      - www
   artifacts:
     paths:
       - ./${CI_PROJECT_NAME}/platforms/android
@@ -43,9 +47,12 @@ test-code-job:
   tags:
     - test
     - docker
+  cache:
+    paths:
+      - www
   script:
     - doas docker image ls | grep "$CI_PROJECT_NAME"
-    - semgrep scan --config auto --output $CI_PROJECT_NAME-sast-report.json --json
+    - semgrep scan www --config auto --output $CI_PROJECT_NAME-sast-report.json --json
   artifacts:
     paths:
       - $CI_PROJECT_NAME-sast-report.json
