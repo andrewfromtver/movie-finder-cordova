@@ -27,7 +27,6 @@ build-code-job:
   cache:
     paths:
       - node_modules
-      - www
   artifacts:
     paths:
       - ./${CI_PROJECT_NAME}/platforms/android
