@@ -236,3 +236,10 @@ iframe {
   height: 100%;
   width: 100%;
 }
+
+.castItem > p {
+  text-align: center; 
+  text-overflow: ellipsis; 
+  overflow: hidden; 
+  white-space: nowrap;
+}
