@@ -2,7 +2,7 @@
 This is a simple web app and a Cordova config of my pet project - `Movie Finder`
 https://play.google.com/store/apps/details?id=com.moviefinder.main
 
-- *current verion* - `2.0.8`
+- *current verion* - `2.0.9`
 - *target SDK* - `34`
 
 # features
