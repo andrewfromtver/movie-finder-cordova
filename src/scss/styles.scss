@@ -224,3 +224,15 @@ iframe {
   overflow: hidden; 
   white-space: nowrap;
 }
+
+.castItem {
+  background-color: #fff;
+  color: #333;
+  height: 128px;
+  width: 72px;
+}
+
+.castItem > img {
+  height: 100%;
+  width: 100%;
+}
