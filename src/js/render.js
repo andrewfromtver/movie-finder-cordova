@@ -203,8 +203,7 @@ export const renderItem = (type, id) => {
             }
             inner += `
               <div class="castItem" id="${e.id}">
-                <img src="${castItemImgSrc}">
-                <p>${e.character} - ${e.name}</p>
+                <img src="${castItemImgSrc}" alt="${e.name}">
               </div>
             `
           });
