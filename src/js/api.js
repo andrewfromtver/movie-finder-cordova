@@ -189,7 +189,7 @@ export const getTrailers = (
 // type = ['movie', 'tv']
 // id = Integer
 // output = Array
-export const getCredits = (
+export const getCast = (
   type,
   id,
   callback = (data) => {},
@@ -204,12 +204,11 @@ export const getCredits = (
       return value.json();
     })
     .then((output) => {
-      console.log(output);
-      if (output.results.length === 0) {
+      if (output.cast.length === 0) {
         errorHandler("Empty API response.");
         return Promise.reject(new Error("Empty API response."));
       }
-      callback(output.results);
+      callback(output.cast);
     })
     .catch((e) => {
       errorHandler(e);

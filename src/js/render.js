@@ -24,7 +24,7 @@ import {
   getItemsByPerson,
   searchEngine,
   getTrailers,
-  getCredits
+  getCast
 } from "./api";
 import {
   imdbImageStore,
@@ -285,7 +285,7 @@ export const renderItem = (type, id) => {
       `;
     }
   );
-  getCredits(type, id, (data) => {
+  getCast(type, id, (data) => {
     console.log(data);
   }, (error) => {})
 };

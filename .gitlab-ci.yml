@@ -27,11 +27,11 @@ build-code-job:
   cache:
     paths:
       - node_modules
-  artifacts:
-    paths:
-      - ./${CI_PROJECT_NAME}/platforms/android
-    expire_in: 1 week
-    name: ${CI_PROJECT_NAME}_${CI_JOB_ID}_android
+  # artifacts:
+  #   paths:
+  #     - ./${CI_PROJECT_NAME}/platforms/android
+  #   expire_in: 1 week
+  #   name: ${CI_PROJECT_NAME}_${CI_JOB_ID}_android
   after_script:
     - >
       if [ $CI_JOB_STATUS == 'success' ]; then
