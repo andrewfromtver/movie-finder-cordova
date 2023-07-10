@@ -286,7 +286,7 @@ export const renderItem = (type, id) => {
       `;
     }
   );
-  if (typ !== "person") getCast(type, id, (data) => {
+  if (type !== "person") getCast(type, id, (data) => {
     let inner = ""
     data.forEach(e => {
       inner += `
