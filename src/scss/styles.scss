@@ -227,12 +227,14 @@ iframe {
 
 #cast {
   display: flex;
+  overflow-x: auto;
 }
 
 .castItem {
   height: 128px;
   width: 96px;
   margin: 8px 8px 32px 8px;
+  cursor: pointer;
 }
 
 .castItem > img {

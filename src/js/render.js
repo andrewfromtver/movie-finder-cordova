@@ -209,6 +209,11 @@ export const renderItem = (type, id) => {
             `
           });
           cast.innerHTML = inner;
+          document.querySelectorAll(".castItem").forEach(e => {
+            e.onclick = () => {
+              window.location.hash = `show_|_person_|_${e.id}`; 
+            }
+          })
         }, (error) => {})
         showSimilar.onclick = () => {
           setTimeout(() => {
