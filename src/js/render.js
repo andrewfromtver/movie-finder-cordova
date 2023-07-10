@@ -192,6 +192,24 @@ export const renderItem = (type, id) => {
         renderAddons(type, id);
       };
       if (type !== "person") {
+        getCast(type, id, (data) => {
+          let inner = ""
+          data.forEach(e => {
+            let castItemImgSrc = noImage;
+            if (e.poster_path || e.profile_path) {
+              castItemImgSrc = `${imdbImageStore}/t/p/w500/${
+                e.poster_path || e.profile_path
+              }`;
+            }
+            inner += `
+              <div class="castItem" id="${e.id}">
+                <img src="${castItemImgSrc}">
+                <p>${e.character} - ${e.name}</p>
+              </div>
+            `
+          });
+          cast.innerHTML = inner;
+        }, (error) => {})
         showSimilar.onclick = () => {
           setTimeout(() => {
             showSimilar.hidden = true;
@@ -286,18 +304,6 @@ export const renderItem = (type, id) => {
       `;
     }
   );
-  if (type !== "person") getCast(type, id, (data) => {
-    let inner = ""
-    data.forEach(e => {
-      inner += `
-        <div class="castItem" id="${e.id}">
-          <img src="${imdbImageStore}/t/p/w500/${e.profile_path}">
-          <p>${e.character} - ${e.name}</p>
-        </div>
-      `
-    });
-    cast.innerHTML = inner;
-  }, (error) => {})
 };
 const renderAddons = (type, id) => {
   if (["movie", "tv", "all"].includes(type))
