@@ -246,4 +246,7 @@ iframe {
   text-overflow: ellipsis; 
   overflow: hidden; 
   white-space: nowrap;
+  color: #fff;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
