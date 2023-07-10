@@ -239,3 +239,10 @@ iframe {
   width: 100%;
   border-radius: 8px;
 }
+
+.castItem > p {
+  text-align: center; 
+  text-overflow: ellipsis; 
+  overflow: hidden; 
+  white-space: nowrap;
+}
