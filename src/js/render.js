@@ -291,7 +291,7 @@ export const renderItem = (type, id) => {
     data.forEach(e => {
       inner += `
         <div class="castItem" id="${e.id}">
-          <img src="${e.profile_path}">
+          <img src="${imdbImageStore}/t/p/w500/${e.profile_path}">
           <p>${e.character} - ${e.name}</p>
         </div>
       `
