@@ -208,7 +208,7 @@ export const getCredits = (
         errorHandler("Empty API response.");
         return Promise.reject(new Error("Empty API response."));
       }
-      console.log(output.results);
+      console.log(output);
       callback(output.results);
     })
     .catch((e) => {
