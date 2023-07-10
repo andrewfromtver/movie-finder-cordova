@@ -186,3 +186,31 @@ export const getTrailers = (
       errorHandler(e);
     });
 };
+// type = ['movie', 'tv']
+// id = Integer
+// output = Array
+export const getCredits = (
+  type,
+  id,
+  callback = (data) => {},
+  errorHandler = (errorMsg) => {}
+) => {
+  fetch(`${imdbApi}/3/${type}/${id}/credits?${apiKey}&language=${lang}`)
+    .then((value) => {
+      if (value.status !== 200) {
+        errorHandler(value);
+        return Promise.reject(new Error("Internal API error."));
+      }
+      return value.json();
+    })
+    .then((output) => {
+      if (output.results.length === 0) {
+        errorHandler("Empty API response.");
+        return Promise.reject(new Error("Empty API response."));
+      }
+      callback(output.results);
+    })
+    .catch((e) => {
+      errorHandler(e);
+    });
+};

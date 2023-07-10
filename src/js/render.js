@@ -24,6 +24,7 @@ import {
   getItemsByPerson,
   searchEngine,
   getTrailers,
+  getCredits
 } from "./api";
 import {
   imdbImageStore,
@@ -284,6 +285,9 @@ export const renderItem = (type, id) => {
       `;
     }
   );
+  getCredits(type, id, (data) => {
+    console.log(data);
+  }, (error) => {})
 };
 const renderAddons = (type, id) => {
   if (["movie", "tv", "all"].includes(type))
