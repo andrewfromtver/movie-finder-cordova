@@ -180,6 +180,7 @@ export const renderItem = (type, id) => {
                       </div>
                   </div>
               </section>
+              <section style="width: 100%;" id="cast"></section>
               <section style="width: 100%;" id="recommendations"></section>
               <section style="width: 100%;" id="trailers"></section>
       `;
@@ -285,8 +286,17 @@ export const renderItem = (type, id) => {
       `;
     }
   );
-  getCast(type, id, (data) => {
-    console.log(data);
+  if (typ !== "person") getCast(type, id, (data) => {
+    let inner = ""
+    data.forEach(e => {
+      inner += `
+        <div class="castItem" id="${e.id}">
+          <img src="${e.profile_path}">
+          <p>${e.character} - ${e.name}</p>
+        </div>
+      `
+    });
+    cast.innerHTML = inner;
   }, (error) => {})
 };
 const renderAddons = (type, id) => {
