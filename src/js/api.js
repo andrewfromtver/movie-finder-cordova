@@ -204,11 +204,11 @@ export const getCredits = (
       return value.json();
     })
     .then((output) => {
+      console.log(output);
       if (output.results.length === 0) {
         errorHandler("Empty API response.");
         return Promise.reject(new Error("Empty API response."));
       }
-      console.log(output);
       callback(output.results);
     })
     .catch((e) => {
