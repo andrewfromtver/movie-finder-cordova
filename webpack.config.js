@@ -18,7 +18,7 @@ module.exports = {
     extensions: ["*", ".js"],
   },
   output: {
-    path: path.resolve(__dirname, "./www"), //change to "public in production"
+    path: path.resolve(__dirname, "./www"),
     filename: "[name].bundle.js",
   },
   module: {
