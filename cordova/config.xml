@@ -15,7 +15,7 @@
     <preference name="SplashMaintainAspectRatio" value="true" />
     
     <preference name="android-targetSdkVersion" value="34" />
-    <preference name="android-minSdkVersion" value="33" />
+    <preference name="android-minSdkVersion" value="21" />
     
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     
