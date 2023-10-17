@@ -1027,7 +1027,7 @@ export const renderWebTorPlayer = () => {
                 </div>
                 <div class="mt-4 row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-12">
-                        <iframe class="shadow-sm movieFrame" height="0px" style="background: #000000;" id="output" sandbox="allow-same-origin"></iframe>
+                        <iframe class="shadow-sm movieFrame" height="0px" style="background: #000000;" id="output" sandbox="allow-scripts allow-same-origin"></iframe>
                     </div>
                 </div>
             </div>
