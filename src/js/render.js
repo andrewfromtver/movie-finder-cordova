@@ -707,95 +707,80 @@ export const renderTorrentLiveVideo = () => {
     if (sessionStorage.getItem("series_num")) {
       seriesNum = sessionStorage.getItem("series_num");
     }
-    fetch(
-      `${torrentSearchApi}/api/torrent/webtor?type=All&query=${
-        window.location.href.split("_|_")[1] + seriesNum
-      }`
-    )
-      .then((result) => {
-        if (result.status === 200) return result.text();
-        else {
-          const message = new bootstrap.Toast(toast);
-          let i = 0;
-          if (lang === "ru") i = 1;
-          toastMsg.innerText = result.status;
-          message.show();
-        }
-      })
-      .then((result) => {
-        renderWebTorPlayer();
-        output.srcdoc = result;
-        torrentPlayerTitle.innerText = decodeURI(
-          window.location.href.split("_|_")[1]
-        );
-        let seasons = JSON.parse(sessionStorage.getItem("seasons"));
-        if (seasons.length > 0) {
-          let seasonsInner = "";
-          let count = 1;
-          let episodesArray = [];
-          seasons.forEach((element) => {
-            let episodesInner = "";
-            seasonsInner += `
-              <option value="${count}">${element.name}</option>
-            `;
-            for (let index = 1; index < element.qty; index++) {
-              episodesInner += `
-                <option value="${index}">${index}</option>
-              `;
-            }
-            episodesArray.push({ season: count, episodes: episodesInner });
-            count++;
-          });
-          console.log(episodesArray);
-          container.innerHTML += `
-            <select id="seasonsSelector"></select>
-            <select id="episodesSelector"></select>
-            <a id="seasonEpisodeShow">
-              <button>Ok</button>
-            </a>
+    renderWebTorPlayer();
+    output.srcdoc = `${torrentSearchApi}/api/torrent/webtor?type=All&query=${
+      window.location.href.split("_|_")[1] + seriesNum
+    }`;
+    torrentPlayerTitle.innerText = decodeURI(
+      window.location.href.split("_|_")[1]
+    );
+    let seasons = JSON.parse(sessionStorage.getItem("seasons"));
+    if (seasons.length > 0) {
+      let seasonsInner = "";
+      let count = 1;
+      let episodesArray = [];
+      seasons.forEach((element) => {
+        let episodesInner = "";
+        seasonsInner += `
+          <option value="${count}">${element.name}</option>
+        `;
+        for (let index = 1; index < element.qty; index++) {
+          episodesInner += `
+            <option value="${index}">${index}</option>
           `;
-          seasonsSelector.innerHTML = seasonsInner;
-          episodesSelector.innerHTML = episodesArray[0].episodes;
-          seasonsSelector.onchange = () => {
-            episodesArray.innerHTML =
-              episodesArray[seasonsSelector.value - 1].episodes;
-            sessionStorage.setItem(
-              "series_num",
-              `S${seasonsSelector.value}E${episodesSelector.value}`
-            );
-          };
-          episodesSelector.onchange = () => {
-            sessionStorage.setItem(
-              "series_num",
-              `S${seasonsSelector.value}E${episodesSelector.value}`
-            );
-          };
-          sessionStorage.setItem("series_num", "S01E01");
-          seasonEpisodeShow.onclick = () => {
-            if (sessionStorage.getItem("series_num")) {
-              seriesNum = sessionStorage.getItem("series_num");
-            }
-            fetch(
-              `${torrentSearchApi}/api/torrent/webtor?type=All&query=${
-                window.location.href.split("_|_")[1] + seriesNum
-              }`
-            )
-              .then((result) => {
-                if (result.status === 200) return result.text();
-                else {
-                  const message = new bootstrap.Toast(toast);
-                  let i = 0;
-                  if (lang === "ru") i = 1;
-                  toastMsg.innerText = result.status;
-                  message.show();
-                }
-              })
-              .then((result) => {
-                output.srcdoc = result;
-              });
-          };
         }
+        episodesArray.push({ season: count, episodes: episodesInner });
+        count++;
       });
+      console.log(episodesArray);
+      container.innerHTML += `
+        <select id="seasonsSelector"></select>
+        <select id="episodesSelector"></select>
+        <a id="seasonEpisodeShow">
+          <button>Ok</button>
+        </a>
+      `;
+      seasonsSelector.innerHTML = seasonsInner;
+      episodesSelector.innerHTML = episodesArray[0].episodes;
+      seasonsSelector.onchange = () => {
+        episodesArray.innerHTML =
+          episodesArray[seasonsSelector.value - 1].episodes;
+        sessionStorage.setItem(
+          "series_num",
+          `S${seasonsSelector.value}E${episodesSelector.value}`
+        );
+      };
+      episodesSelector.onchange = () => {
+        sessionStorage.setItem(
+          "series_num",
+          `S${seasonsSelector.value}E${episodesSelector.value}`
+        );
+      };
+      sessionStorage.setItem("series_num", "S01E01");
+      seasonEpisodeShow.onclick = () => {
+        if (sessionStorage.getItem("series_num")) {
+          seriesNum = sessionStorage.getItem("series_num");
+        }
+        fetch(
+          `${torrentSearchApi}/api/torrent/webtor?type=All&query=${
+            window.location.href.split("_|_")[1] + seriesNum
+          }`
+        )
+          .then((result) => {
+            if (result.status === 200) return result.text();
+            else {
+              const message = new bootstrap.Toast(toast);
+              let i = 0;
+              if (lang === "ru") i = 1;
+              toastMsg.innerText = result.status;
+              message.show();
+            }
+          })
+          .then((result) => {
+            output.srcdoc = result;
+          });
+      };
+    }
   } else {
     let i = 0;
     if (lang === "ru") i = 1;
